@@ -5,6 +5,9 @@ import { Request, Response } from 'express';
 import { Types } from 'mongoose';
 
 export const create = async (req: Request, res: Response) => {
+    if (!req.user) {
+  return res.status(401).json({ error: "Unauthorized" });
+}
   const tea = await Tea.findById(req.params.id);
   if (!tea) {
     req.flash("error", "Tea not found.");
@@ -12,6 +15,7 @@ export const create = async (req: Request, res: Response) => {
   }
 
   const review: IReview = new Review(req.body.review);
+
   review.author = req.user._id;
   review.tea = tea._id as Types.ObjectId;
 
