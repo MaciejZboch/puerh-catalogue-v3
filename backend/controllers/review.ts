@@ -1,7 +1,8 @@
-import {Review, IReview} from '../models/review';
+import Review, {IReview} from '../models/review';
 import Tea from '../models/tea';
 import Activity from '../models/activity';
 import { Request, Response } from 'express';
+import { Types } from 'mongoose';
 
 export const create = async (req: Request, res: Response) => {
   const tea = await Tea.findById(req.params.id);
@@ -12,7 +13,7 @@ export const create = async (req: Request, res: Response) => {
 
   const review: IReview = new Review(req.body.review);
   review.author = req.user._id;
-  review.tea = tea._id;
+  review.tea = tea._id as Types.ObjectId;
 
   await review.save();
 
