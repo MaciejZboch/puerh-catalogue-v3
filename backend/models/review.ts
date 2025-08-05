@@ -1,4 +1,3 @@
-import { required } from 'joi';
 import mongoose, { Document, Types, Model, model} from 'mongoose';
 const Schema = mongoose.Schema;
 

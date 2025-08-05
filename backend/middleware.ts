@@ -66,8 +66,9 @@ export const validateReview = (req: Request, res: Response, next: NextFunction) 
 };
 
 export const isReviewAuthor = async (req: Request, res: Response, next: NextFunction) => {
+  if (!req.user) {return res.status(401).json({ error: "Unauthorized!" })};
   const review = await Review.findById(req.params.reviewId);
-  if (!review.author.equals(req.user._id) && req.user.moderator !== true) {
+  if (review && !review.author.equals(req.user._id) && req.user.moderator !== true) {
     req.flash("error", "No permission to do that!");
     return res.redirect("/tea/" + req.params.id);
   }

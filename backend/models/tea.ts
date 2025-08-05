@@ -1,6 +1,6 @@
 import {Schema, Types, model} from "mongoose";
 import ImageSchema from "./image";
-import { Document, Model, PassportLocalModel, PassportLocalDocument } from 'mongoose';
+import { Document } from 'mongoose';
 
 interface IImage extends Document {
   url: string,

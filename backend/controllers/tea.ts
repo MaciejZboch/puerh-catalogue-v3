@@ -4,7 +4,7 @@ import Producer from "../models/producer";
 import User from "../models/user";
 import Review from "../models/review";
 import Activity from "../models/activity";
-import {cloudinary} from"../cloudinary";
+import {cloudinary} from "../cloudinary/index";
 import checkTeaLength from "../utilities/checkTeaLength";
 import mongoose from "mongoose";
 import { Request, Response } from "express";
@@ -54,6 +54,9 @@ export const newForm = async (req: Request, res: Response) => {
 };
 
 export const create = async (req: Request, res: Response) => {
+      if (!req.user) {
+  return res.status(401).json({ error: "Unauthorized" });
+}
   const tea = req.body.tea;
   const lengthError = checkTeaLength(req, res, tea); //returns null if the tea length is fine
   if (lengthError) {
@@ -152,6 +155,7 @@ export const update = async (req: Request, res: Response) => {
   const foundTea = await Tea.findByIdAndUpdate(req.params.id, {
     ...req.body.tea,
   });
+  if (!foundTea) {return res.status(401).json({ error: "Tea not found!" })};
   foundTea.vendor = await Vendor.findOne({ name: req.body.vendor.name });
   foundTea.producer = await Producer.findOne({ name: req.body.producer.name });
 

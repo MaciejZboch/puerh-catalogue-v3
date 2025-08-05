@@ -1,6 +1,7 @@
-import User  from "../models/user";
+import User, { IUser }  from "../models/user";
 import passport from "passport";
 import { Request, Response, NextFunction } from "express";
+import { Types } from "mongoose";
 
 export const registerForm = (req: Request, res: Response) => {
   const pageTitle = "Register";
@@ -9,7 +10,7 @@ export const registerForm = (req: Request, res: Response) => {
 
 export const register = async (req: Request, res: Response) => {
   //validations
-  function hasWhiteSpace(s) {
+  function hasWhiteSpace(s: string) {
     return s.indexOf(" ") >= 0;
   }
   const { email, username, password } = req.body;
@@ -94,9 +95,17 @@ export const logout = (req: Request, res: Response, next: NextFunction) => {
 };
 
 export const follow = async (req: Request, res: Response, next: NextFunction) => {
-  const currentUserId = req.user._id;
+      if (!req.user) {
+  return res.status(401).json({ error: "Unauthorized!" });
+}
+  const currentUserId: typeof req.user._id = req.user._id;
   const currentUser = await User.findById(currentUserId);
-  const userIdToFollow = req.params.id;
+  const userIdToFollow = req.params.id as unknown as Types.ObjectId;
+  
+  // Null guard
+  if (currentUser == null)
+  {return res.status(401).json({ error: "Unauthorized!" })}
+
   // Avoid duplicates
   if (
     !currentUser.following.includes(userIdToFollow) &&
@@ -112,10 +121,16 @@ export const follow = async (req: Request, res: Response, next: NextFunction) =>
 };
 
 export const unfollow = async (req: Request, res: Response, next: NextFunction) => {
+      if (!req.user) {
+  return res.status(401).json({ error: "Unauthorized!" });
+}
   const currentUserId = req.user._id;
   const currentUser = await User.findById(currentUserId);
-  const userIdToUnfollow = req.params.id;
+  const userIdToUnfollow = req.params.id as unknown as Types.ObjectId;
   // Avoid duplicates
+  if (currentUser == null)
+  {return res.status(401).json({ error: "Unauthorized!" })}
+
   if (
     currentUser.following.includes(userIdToUnfollow) &&
     userIdToUnfollow.toString() != currentUserId.toString()
