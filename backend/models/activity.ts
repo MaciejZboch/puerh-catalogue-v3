@@ -1,5 +1,12 @@
-import mongoose from "mongoose";
+import mongoose, {Document} from "mongoose";
 const Schema = mongoose.Schema;
+
+export interface IActivity extends Document {
+user?: mongoose.Types.ObjectId,
+type: 'review' | 'tea',
+refId: mongoose.Types.ObjectId,
+createdAt: Date;
+}
 
 const activitySchema = new Schema({
   user: { type: Schema.Types.ObjectId, ref: "User" },
@@ -8,5 +15,4 @@ const activitySchema = new Schema({
   createdAt: { type: Date, default: Date.now },
 });
 
-const Activity = mongoose.model("Activity", activitySchema);
-export default Activity;
+export default mongoose.model<IActivity>('Activity', activitySchema);

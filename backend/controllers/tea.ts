@@ -117,7 +117,7 @@ export const show = async (req: Request, res: Response) => {
     average = ratings.reduce((a, b) => a + b, 0) / ratings.length;
   }
 
-  let myRatings = [];
+  let myRatings: any = [];
 
   if (req.user) {
     myRatings = reviews
@@ -252,14 +252,18 @@ export const collection = async (req: Request, res: Response) => {
     .populate("vendor")
     .populate("producer");
   const collector = await User.findById(req.params.id).populate("following");
+
+  if (!collector) {
+  return res.status(401).json({ error: "Unauthorized!" });
+}
   const followedUsers = collector.following;
   const pageTitle = "User's collection";
   res.render("teas/collection", { teas, pageTitle, collector, followedUsers });
 };
 
 export const browse = async (req: Request, res: Response) => {
-  const search = req.query.search;
-  async function searchTea(searchTerm) {
+  const search: any = req.query.search;
+  async function searchTea(searchTerm: string) {
     try {
       if (!searchTerm || searchTerm.trim() === "") {
         console.error("Invalid search term");
