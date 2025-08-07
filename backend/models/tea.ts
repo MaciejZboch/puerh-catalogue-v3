@@ -1,4 +1,4 @@
-import {Schema, Types, model} from "mongoose";
+import {Schema, Types, model, Model} from "mongoose";
 import ImageSchema from "./image";
 import { Document } from 'mongoose';
 
@@ -17,15 +17,18 @@ interface ITea extends Document {
   ageing_location: string;
   ageing_conditions: 'Dry' | 'Natural' | 'Wet' | 'Hong-Kong Traditional' | 'Unknown';
   shape: 'Loose' | 'Cake' | 'Tuo' | 'Brick' | 'Mushroom' | 'Dragon ball' | 'Tube' | 'Melon' | 'Other';
-  producer: Types.ObjectId;
-  vendor: Types.ObjectId;
+  producer: Types.ObjectId | null;
+  vendor: Types.ObjectId | null;
   author: Types.ObjectId;
   owners: Types.Array<Types.ObjectId>;
   sizeInGrams: number;
   price: number;
   createdAt?: Date;
   updatedAt?: Date;
+  pricePerGram: number;
 }
+
+interface ITeaModel extends Model<ITea> {}
 
 
 const TeaSchema = new Schema({
@@ -93,5 +96,5 @@ TeaSchema.index({
 TeaSchema.set("toObject", { virtuals: true });
 TeaSchema.set("toJSON", { virtuals: true });
 
-const Tea = model("Tea", TeaSchema);
-export default Tea;
+
+export default model<ITea, ITeaModel>("Tea", TeaSchema);
