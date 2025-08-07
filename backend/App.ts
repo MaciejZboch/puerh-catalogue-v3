@@ -50,14 +50,7 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser((user: any, done) => {
   done(null, user.id);
 });
-passport.deserializeUser(async (id: string, done) => {
-  try {
-    const user = await User.findById(id);
-    done(null, user);
-  } catch (err) {
-    done(err);
-  }
-});
+passport.deserializeUser(User.deserializeUser());
 
 //Locals setup
 app.use((req: Request, res: Response, next: NextFunction) => {
