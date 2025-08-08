@@ -8,7 +8,7 @@ export const registerForm = (req: Request, res: Response) => {
   res.render("users/register", { pageTitle });
 };
 
-export const register = async (req: Request, res: Response) => {
+export const register = async (req: Request, res: Response, next: NextFunction) => {
   //validations
   function hasWhiteSpace(s: string) {
     return s.indexOf(" ") >= 0;
@@ -37,11 +37,10 @@ export const register = async (req: Request, res: Response) => {
       const registeredUser = await User.register(user, password);
       req.login(registeredUser, (err) => {
         if (err) return next(err);
-
         req.flash("success", "Welcome!");
         res.redirect("/tea");
       });
-    } catch (e) {
+    } catch (e: any) {
       if (e.code === 11000) {
         req.flash(
           "error",
@@ -68,7 +67,7 @@ export const loginForm = (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response, next: NextFunction) => {
   const redirectUrl = req.session.returnTo || "/tea";
 
-  passport.authenticate("local", (err, user, info) => {
+  passport.authenticate("local", (err: Error | null, user: Express.User | false, info: { message?: string } | undefined) => {
     if (err) return next(err);
     if (!user) {
       req.flash("error", "Invalid credentials");
