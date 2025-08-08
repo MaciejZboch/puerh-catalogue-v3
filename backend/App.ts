@@ -39,10 +39,29 @@ app.use(session({
   console.log("session store error!", e);
 })
 }));
+
+app.use((req: Request, res: Response, next: NextFunction) => {
+  if (
+    req.method === "GET" &&
+    req.path !== "/login" &&
+    req.path !== "/logout" &&
+    req.path !== "/favicon.ico" &&
+    !req.path.startsWith("/tea/stylesheets") && //Ignore CSS
+    !req.path.startsWith("/images") && //Ignore images
+    !req.path.startsWith("/scripts") //Ignore scripts
+  ) {
+    req.session.returnTo = req.originalUrl;
+    req.session.save((err) => {
+      if (err) console.log("Session save error:", err);
+    });
+  }
+  next();
+});
+
 app.use(flash()); //Flash setup
 app.use(helmet()); //Helmet setup
 
-//Passpor setup
+//Passport setup
 app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
