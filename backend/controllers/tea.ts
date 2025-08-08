@@ -67,7 +67,7 @@ export const create = async (req: Request, res: Response) => {
   newTea.author = req.user._id;
   newTea.vendor = await Vendor.findOne({ name: req.body.vendor.name });
   newTea.producer = await Producer.findOne({ name: req.body.producer.name });
-if (!newTea.vendor) {
+  if (!newTea.vendor) {
   throw new Error('Vendor not found');
 }
   //search db to check if there is something with the same exact name, vendor and year in the DB
@@ -81,10 +81,14 @@ if (!newTea.vendor) {
     return res.redirect("/tea/new");
   }
 
-  newTea.images = req.files.map((f) => ({
+  if (req.files) {
+    if (Array.isArray(req.files)) {
+    newTea.images = req.files.map((f: any) => ({
     url: f.path,
     filename: f.filename,
-  }));
+  })) as any;
+}
+  }
   await newTea.save();
 
   //logging activity with timestamp
@@ -120,9 +124,10 @@ export const show = async (req: Request, res: Response) => {
   let myRatings: any = [];
 
   if (req.user) {
+    const userId = req.user._id.toString();
     myRatings = reviews
       .filter(
-        (review) => review.author._id.toString() === req.user._id.toString()
+        (review) => review.author._id.toString() === userId
       )
       .map((review) => review.rating);
   } else {
@@ -162,6 +167,7 @@ export const update = async (req: Request, res: Response) => {
   foundTea.producer = await Producer.findOne({ name: req.body.producer.name });
 
   if (req.files) {
+    if (Array.isArray(req.files)) {
     const imgs = req.files.map((f) => ({ url: f.path, filename: f.filename }));
 
     if (req.body.deleteImages) {
@@ -177,7 +183,7 @@ export const update = async (req: Request, res: Response) => {
   }
   req.flash("success", "Succesfully updated!");
   res.redirect(`/tea/${foundTea._id}`);
-};
+}};
 
 export const remove = async (req: Request, res: Response) => {
   await Tea.findByIdAndDelete(req.params.id);
@@ -220,7 +226,7 @@ export const postProducer = async (req: Request, res: Response) => {
 //add or remove from collection
 export const addToCollection = async (req: Request, res: Response) => {
   const t = await Tea.findById(req.params.id);
-  if (!t.owners.includes(req.user._id)) {
+  if (req.user && t && !t.owners.includes(req.user._id)) {
     t.owners.push(req.user._id);
     await t.save();
     req.flash("success", "Tea added to collection!");
@@ -233,7 +239,7 @@ export const addToCollection = async (req: Request, res: Response) => {
 
 export const removeFromCollection = async (req: Request, res: Response) => {
   const t = await Tea.findById(req.params.id);
-  if (t.owners.includes(req.user._id)) {
+  if (req.user && t && t.owners.includes(req.user._id)) {
     await t.updateOne({
       $pull: { owners: req.user._id },
     });

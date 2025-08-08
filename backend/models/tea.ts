@@ -34,7 +34,10 @@ interface ITeaModel extends Model<ITea> {}
 const TeaSchema = new Schema({
   name: String,
   description: String,
-  images: [ImageSchema],
+  images: [{
+    url: String,
+    filename: String
+  }],
   type: { type: String, enum: ["Raw / Sheng", "Ripe / Shu", "blend"] },
   year: Number,
   region: String,
