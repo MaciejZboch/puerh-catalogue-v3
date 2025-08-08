@@ -15,7 +15,7 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
 };
 export const isAuthor = async (req: Request, res: Response, next: NextFunction) => {
   const tea = await Tea.findById(req.params.id);
-  if (!tea.author.equals(req.user._id)) {
+  if (req.user && tea && !tea.author.equals(req.user._id)) {
     req.flash("error", "No permission to do that!");
     return res.redirect("/tea/" + tea.id);
   }
@@ -25,7 +25,7 @@ export const validateTea = (req: Request, res: Response, next: NextFunction) => 
   const { error } = teaSchema.validate(req.body.tea);
   const { error2 } = vendorSchema.validate(req.body.vendor);
   if (error || error2) {
-    const msg = error.details.map((el) => el.message).join(",");
+    const msg = error.details.map((el: any) => el.message).join(",");
     throw new ExpressError(msg, 400);
   } else {
     next();
@@ -58,7 +58,7 @@ export const hasNoSpecialSymbols = (req: Request, res: Response, next: NextFunct
 export const validateReview = (req: Request, res: Response, next: NextFunction) => {
   const { error } = reviewSchema.validate(req.body);
   if (error) {
-    const msg = error.details.map((el) => el.message).join(",");
+    const msg = error.details.map((el: any) => el.message).join(",");
     throw new ExpressError(msg, 400);
   } else {
     next();

@@ -35,7 +35,7 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
         user.image = { url: req.file.path, filename: req.file.filename };
       }
       const registeredUser = await User.register(user, password);
-      req.login(registeredUser, (err) => {
+      req.login(<any>registeredUser, (err) => {
         if (err) return next(err);
         req.flash("success", "Welcome!");
         res.redirect("/tea");
