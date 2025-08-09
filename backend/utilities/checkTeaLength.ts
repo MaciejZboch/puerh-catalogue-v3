@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from "express";
-import Tea from "../models/tea";
-function checkTeaLength(req: Request, res: Response, tea: typeof Tea) {
-  function isProperLength(t: typeof Tea, x: number) {
+import {ITea} from "../models/tea";
+function checkTeaLength(req: Request, res: Response, tea: ITea) {
+  function isProperLength(t: string, x: number) {
     return (t.length > 3 && t.length < x) || !t;
   }
 
@@ -30,7 +30,7 @@ function checkTeaLength(req: Request, res: Response, tea: typeof Tea) {
   ];
 
   for (const field of fields) {
-    if (!isProperLength(tea[field.key], field.max)) {
+    if (!isProperLength(tea[field.key as keyof ITea], field.max)) {
       req.flash("error", field.message);
       return res.redirect("/tea/new");
     }

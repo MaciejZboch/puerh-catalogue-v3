@@ -1,7 +1,7 @@
 import BaseJoi from "joi";
 import sanitizeHtml from 'sanitize-html';
 
-const extension = (joi) => ({
+const extension = (joi: typeof BaseJoi) => ({
   type: "string",
   base: joi.string(),
   messages: {
@@ -9,13 +9,14 @@ const extension = (joi) => ({
   },
   rules: {
     escapeHTML: {
-      validate(value, helpers) {
+      validate(value: string, helpers: BaseJoi.CustomHelpers) {
         const clean = sanitizeHtml(value, {
           allowedTags: [],
           allowedAttributes: {},
         });
-        if (clean !== value)
+        if (clean !== value) {
           return helpers.error("string.escapeHTML", { value });
+        }
         return clean;
       },
     },

@@ -6,7 +6,7 @@ interface IImage extends Document {
   url: string,
   filename: String
 }
-interface ITea extends Document {
+export interface ITea extends Document {
   name: string;
   description: string;
   images: Types.Array<IImage>;
@@ -100,4 +100,5 @@ TeaSchema.set("toObject", { virtuals: true });
 TeaSchema.set("toJSON", { virtuals: true });
 
 
-export default model<ITea, ITeaModel>("Tea", TeaSchema);
+const Tea: ITeaModel = model<ITea, ITeaModel>("Tea", TeaSchema);
+export default Tea;
