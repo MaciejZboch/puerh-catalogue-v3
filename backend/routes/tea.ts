@@ -5,7 +5,7 @@ import { isLoggedIn, isAuthor, validateTea } from '../middleware';
 import multer from 'multer';
 import { storage }  from '../cloudinary';
 const upload = multer({ storage });
-import {newVendor, postVendor, collection, browse, index, newForm, remove, create, newProducer, newVendor, postProducer, postVendor, update, show, addToCollection, removeFromCollection } from '../controllers/tea';
+import {collection, browse, index, newForm, remove, create, newProducer, newVendor, postProducer, postVendor, update, show, addToCollection, removeFromCollection } from '../controllers/tea';
 const { hasNoSpecialSymbols } = require("../middleware");
 
 router
@@ -25,7 +25,7 @@ router
     hasNoSpecialSymbols,
     upload.array("image"),
     validateTea,
-    catchAsync(tea.new)
+    catchAsync(create)
   );
 
 router.get("/new", isLoggedIn, catchAsync(newForm));
