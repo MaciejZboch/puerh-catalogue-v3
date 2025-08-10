@@ -37,7 +37,7 @@ export const index = async (req: Request, res: Response) => {
       })
     )
   ).filter((activity) => activity !== null); // Remove broken entries
-  res.render("teas/index", {
+  res.json({
     vendors,
     producers,
     pageTitle,

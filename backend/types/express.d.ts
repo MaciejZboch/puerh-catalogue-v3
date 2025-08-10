@@ -1,5 +1,5 @@
 import { Types } from 'mongoose';
-import {MulterFiles} from 'multer';
+import {MulterFile} from 'multer';
 import { Session, SessionData } from 'express-session';
 
 declare module 'express-session' {
@@ -20,8 +20,7 @@ declare global {
 
     interface Request {
       user?: User;
-      files?: MulterFiles;
-      session: Session & Partial<SessionData>;
+      files?: MulterFile[];
     }
   }
 }

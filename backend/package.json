@@ -2,7 +2,7 @@
   "name": "puerh-v2",
   "version": "1.0.0",
   "description": "a website about tea",
-  "main": "index.js",
+  "main": "App.ts",
   "scripts": {
     "test": "console.log(\"hello world\")"
   },
@@ -10,7 +10,6 @@
   "license": "ISC",
   "dependencies": {
     "@types/connect-flash": "^0.0.40",
-    "@types/multer": "^2.0.0",
     "connect-flash": "^0.1.1",
     "connect-mongo": "^5.1.0",
     "express": "^5.1.0",
@@ -27,10 +26,12 @@
     "sanitize-html": "^2.17.0"
   },
   "devDependencies": {
+    "@types/connect-mongo": "^3.1.2",
     "@types/express": "^5.0.3",
     "@types/express-session": "^1.18.2",
     "@types/joi": "^17.2.2",
     "@types/mongoose": "^5.11.96",
+    "@types/multer": "^2.0.0",
     "@types/node": "^24.1.0",
     "@types/passport": "^1.0.17",
     "@types/passport-local": "^1.0.38",

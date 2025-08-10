@@ -1,7 +1,7 @@
 //Dependency imports
 import express, {NextFunction, Request, Response} from 'express'
 import mongoose from 'mongoose';
-import session from 'express-session';
+import session, {SessionData} from 'express-session';
 import MongoStore from 'connect-mongo'
 import helmet from 'helmet';
 import passport from 'passport';
@@ -34,11 +34,18 @@ app.use(session({
   crypto: {
     secret: 'c134cY87K43o'
   }
-})
-.on("error", function (e) {
+}),
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    httpOnly: true,
+    // secure: true, // Enable in production with HTTPS
+    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 1 week
+    maxAge: 1000 * 60 * 60 * 24 * 7
+  }
+})).on("error", function (e) {
   console.log("session store error!", e);
-})
-}));
+});
 
 app.use((req: Request, res: Response, next: NextFunction) => {
   if (
@@ -50,7 +57,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     !req.path.startsWith("/images") && //Ignore images
     !req.path.startsWith("/scripts") //Ignore scripts
   ) {
-    req.session.returnTo = req.originalUrl;
+    //req.session.returnTo = req.originalUrl;
     req.session.save((err) => {
       if (err) console.log("Session save error:", err);
     });

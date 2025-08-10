@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import passportLocalMongoose from "passport-local-mongoose";
-import ImageSchema from "./image";
+import Image from "./image";
 import { PassportLocalModel, PassportLocalDocument } from 'mongoose';
 import { Types } from "joi";
 
@@ -10,7 +10,10 @@ const Schema = mongoose.Schema;
 export interface IUser extends PassportLocalDocument {
   email: string;
   moderator?: boolean;
-  image?: any;
+    image?: {
+    url: String,
+    filename: String
+  },
   following: mongoose.Types.Array<mongoose.Types.ObjectId>;
 }
 
@@ -26,7 +29,10 @@ const UserSchema = new Schema({
   moderator: {
     type: Boolean,
   },
-  image: ImageSchema,
+  image: {
+    url: String,
+    filename: String
+  },
   following: [
     {
       type: Schema.Types.ObjectId,
