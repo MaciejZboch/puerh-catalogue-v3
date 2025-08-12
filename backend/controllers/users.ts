@@ -20,41 +20,33 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     hasWhiteSpace(password) ||
     hasWhiteSpace(username)
   ) {
-    req.flash(
-      "error",
-      "Please make sure your username and password are at least 6 characters long and contain no spaces!"
-    );
-    res.redirect("/register");
+return res.status(400).json({ error: "Please make sure your username and password are at least 6 letter long and contain no spaces!" });
   } else {
     //actual user creation
     try {
       const user = new User({ email, username });
       user.moderator = false;
       if (req.file) {
-        user.image = req.file;
         user.image = { url: req.file.path, filename: req.file.filename };
       }
       const registeredUser = await User.register(user, password);
       req.login(<any>registeredUser, (err) => {
         if (err) return next(err);
-        req.flash("success", "Welcome!");
-        res.redirect("/tea");
+        return res.status(201).json({ message: "Welcome!", user: registeredUser });
       });
     } catch (e: any) {
       if (e.code === 11000) {
-        req.flash(
-          "error",
-          "This email is taken! An account with this email already exists."
-        );
+      return res.status(400).json({
+        error: "This email is taken! An account with this email already exists.",
+      });
       } else if (e.name === "UserExistsError") {
-        req.flash(
-          "error",
-          "This username is taken! An account with this username already exists."
-        );
+return res.status(400).json({
+       error:
+          "This username is taken! An account with this username already exists.",
+      });
       } else {
-        req.flash("error", e.message);
+        return res.status(500).json({ error: e.message || "Registration failed" });
       }
-      res.redirect("/register");
     }
   }
 };
@@ -70,15 +62,12 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
   passport.authenticate("local", (err: Error | null, user: Express.User | false, info: { message?: string } | undefined) => {
     if (err) return next(err);
     if (!user) {
-      req.flash("error", "Invalid credentials");
-      return res.redirect("/login");
+  return res.status(401).json({ error: "Invalid credentials!" });
     }
 
     req.logIn(user, (err) => {
       if (err) return next(err);
-      req.flash("success", "Welcome back!");
-      delete req.session.returnTo;
-      res.redirect(redirectUrl);
+      return res.status(200).json({ message: "Welcome!", user});
     });
   })(req, res, next); // Execute passport.authenticate
 };
@@ -88,8 +77,7 @@ export const logout = (req: Request, res: Response, next: NextFunction) => {
     if (err) {
       return next(err);
     }
-    req.flash("success", "Goodbye!");
-    res.redirect("/tea");
+    res.status(200).json({ message: "Goodbye!" });
   });
 };
 
@@ -112,11 +100,10 @@ export const follow = async (req: Request, res: Response, next: NextFunction) =>
   ) {
     currentUser.following.push(userIdToFollow);
     await currentUser.save();
-    req.flash("success", "Following user!");
+    return res.status(200).json({ message: "Following user!" });
   } else {
-    req.flash("error", "You're already following this user!");
+    return res.status(400).json({ error: "You're already following this user!" });
   }
-  res.redirect("/tea/collection/" + userIdToFollow);
 };
 
 export const unfollow = async (req: Request, res: Response, next: NextFunction) => {
@@ -136,9 +123,8 @@ export const unfollow = async (req: Request, res: Response, next: NextFunction) 
   ) {
     currentUser.following.pull(userIdToUnfollow);
     await currentUser.save();
-    req.flash("success", "Unfollowing user!");
+    return res.status(200).json({ message: "Producer unfollowed!"});
   } else {
-    req.flash("error", "You're already following this user!");
+    return res.status(400).json({ error: "You're already following this user!" });
   }
-  res.redirect("/tea/collection/" + userIdToUnfollow);
 };

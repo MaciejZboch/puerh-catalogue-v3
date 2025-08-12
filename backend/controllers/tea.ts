@@ -50,25 +50,24 @@ export const newForm = async (req: Request, res: Response) => {
   const pageTitle = "New tea";
   const vendors = await Vendor.find();
   const producers = await Producer.find();
-  res.render("teas/new", { currentYear, vendors, producers, pageTitle });
+  res.json({ currentYear, vendors, producers, pageTitle });
 };
 
 export const create = async (req: Request, res: Response) => {
       if (!req.user) {
-  return res.status(401).json({ error: "Unauthorized" });
+  return res.status(401).json({ error: "Unauthorized!" });
 }
   const tea = req.body.tea;
   const lengthError = checkTeaLength(req, res, tea); //returns null if the tea length is fine
   if (lengthError) {
-    req.flash("error", "This tea has already been added!");
-    return res.redirect("/tea/new");
+    return res.status(401).json({ error: "Invalid length!" });
   }
   const newTea = new Tea(tea);
   newTea.author = req.user._id;
   newTea.vendor = await Vendor.findOne({ name: req.body.vendor.name });
   newTea.producer = await Producer.findOne({ name: req.body.producer.name });
   if (!newTea.vendor) {
-  throw new Error('Vendor not found');
+  throw new Error('Vendor not found!');
 }
   //search db to check if there is something with the same exact name, vendor and year in the DB
   const sameTea = await Tea.find({
@@ -77,8 +76,7 @@ export const create = async (req: Request, res: Response) => {
     year: newTea.year,
   });
   if (sameTea.length > 0) {
-    req.flash("error", "This tea has already been added!");
-    return res.redirect("/tea/new");
+   return res.status(400).json({ error: "This tea has already been added!" });
   }
 
   if (req.files) {
@@ -98,7 +96,7 @@ export const create = async (req: Request, res: Response) => {
     refId: newTea._id,
   });
   await activity.save();
-  res.redirect("/tea/" + newTea._id);
+  return res.status(201).json({ message: "Tea created successfully!", tea: newTea });
 };
 
 //:id
@@ -108,8 +106,7 @@ export const show = async (req: Request, res: Response) => {
     .populate("vendor");
 
   if (!tea) {
-    req.flash("error", "Cannot find that tea!");
-    return res.redirect("/tea");
+    return res.status(404).json({ error: "Tea not found!" });
   }
 
   const reviews = await Review.find({ tea: tea._id }).populate("author");
@@ -135,7 +132,7 @@ export const show = async (req: Request, res: Response) => {
   }
 
   const pageTitle = tea.name;
-  res.render("teas/show2", { tea, pageTitle, reviews, myRatings, average });
+  res.json({ tea, pageTitle, reviews, myRatings, average });
 };
 
 export const editForm = async (req: Request, res: Response) => {
@@ -143,21 +140,19 @@ export const editForm = async (req: Request, res: Response) => {
     .populate("vendor")
     .populate("producer");
   if (!t) {
-    req.flash("error", "Cannot find that tea!");
-    return res.redirect("/tea");
+    return res.status(404).json({ error: "Tea not found!" });
   }
   const vendors = await Vendor.find();
   const producers = await Producer.find();
   const pageTitle = "Edit " + t.name;
-  res.render("teas/edit", { t, currentYear, vendors, producers, pageTitle });
+  res.json({ t, currentYear, vendors, producers, pageTitle });
 };
 
 export const update = async (req: Request, res: Response) => {
   const tea = req.body.tea;
   const lengthError = checkTeaLength(req, res, tea); //returns null if the tea length is fine
   if (lengthError) {
-    req.flash("error", "This tea has already been added!");
-    return res.redirect("/tea/new");
+  return res.status(500).json({ error: "Invalid length!" });
   }
   const foundTea = await Tea.findByIdAndUpdate(req.params.id, {
     ...req.body.tea,
@@ -181,8 +176,7 @@ export const update = async (req: Request, res: Response) => {
     });
     await foundTea.save();
   }
-  req.flash("success", "Succesfully updated!");
-  res.redirect(`/tea/${foundTea._id}`);
+return res.status(201).json({ message: "Tea updated!", tea: tea });
 }};
 
 export const remove = async (req: Request, res: Response) => {
@@ -190,37 +184,34 @@ export const remove = async (req: Request, res: Response) => {
   await Activity.deleteMany({
     refId: new mongoose.Types.ObjectId(req.params.id),
   });
-  req.flash("success", "Succesfully deleted!");
-  res.redirect("/tea");
+return res.status(201).json({ message: "Tea removed!"});
 };
 
 // vendor/producer controllers
 export const newVendor = async (req: Request, res: Response) => {
   const pageTitle = "New Vendor";
   const vendors = await Vendor.find();
-  res.render("teas/newVendor", { vendors, pageTitle });
+  res.json({ vendors, pageTitle });
 };
 
 export const postVendor = async (req: Request, res: Response) => {
   const v = new Vendor({ name: req.body.vendor });
 
   await v.save();
-  req.flash("success", "Vendor submitted for approval!");
-  res.redirect("/tea/newVendor");
+return res.status(201).json({ message: "Vendor submitted for approval!"});
 };
 
 export const newProducer = async (req: Request, res: Response) => {
   const pageTitle = "New Producer";
   const producers = await Producer.find();
-  res.render("teas/newProducer", { producers, pageTitle });
+  res.json({ producers, pageTitle });
 };
 
 export const postProducer = async (req: Request, res: Response) => {
   const p = await new Producer({ name: req.body.producer });
 
   await p.save();
-  req.flash("success", "Producer submitted for approval!");
-  res.redirect("/tea/newProducer");
+return res.status(201).json({ message: "Producer submitted for approval!"});
 };
 
 //add or remove from collection
@@ -229,11 +220,9 @@ export const addToCollection = async (req: Request, res: Response) => {
   if (req.user && t && !t.owners.includes(req.user._id)) {
     t.owners.push(req.user._id);
     await t.save();
-    req.flash("success", "Tea added to collection!");
-    res.redirect("back");
+  return res.json({ message: "Tea added to collection!" });
   } else {
-    req.flash("failure", "This tea is already in your collection!");
-    res.redirect("back");
+    return res.status(400).json({ error: "This tea is already in your collection!" });
   }
 };
 
@@ -244,11 +233,9 @@ export const removeFromCollection = async (req: Request, res: Response) => {
       $pull: { owners: req.user._id },
     });
     await t.save();
-    req.flash("success", "Tea removed from collection!");
-    res.redirect("back");
+  return res.json({ message: "Tea removed from collection!" });
   } else {
-    req.flash("failure", "This tea is not in your collection!");
-    res.redirect("back");
+return res.status(400).json({ error: "This tea is not in your collection!" });
   }
 };
 
@@ -264,7 +251,7 @@ export const collection = async (req: Request, res: Response) => {
 }
   const followedUsers = collector.following;
   const pageTitle = "User's collection";
-  res.render("teas/collection", { teas, pageTitle, collector, followedUsers });
+  res.json({ teas, pageTitle, collector, followedUsers });
 };
 
 export const browse = async (req: Request, res: Response) => {
@@ -364,5 +351,5 @@ export const browse = async (req: Request, res: Response) => {
   //searching for vendors / producers to populate datalist
   const vendors = await Vendor.find();
   const producers = await Producer.find();
-  res.render("teas/browse", { teas, search, pageTitle, vendors, producers });
+  res.json({ teas, search, pageTitle, vendors, producers });
 };
