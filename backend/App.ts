@@ -8,10 +8,10 @@ import passport from 'passport';
 import flash from 'connect-flash';
 const LocalStrategy = require("passport-local");
 const app = express();
+import cors from 'cors';
 
 //Other imports
 import User from './models/user';
-import { IUser } from './models/user';
 
 //MongoDB setup
 const dbUrl = 'mongodb://localhost:27017/test';
@@ -24,6 +24,12 @@ mongoose
     console.log('Mongo error!');
     console.log(err);
   });
+
+//Cors setup
+app.use(cors({
+  origin: "http://localhost:3000",
+  credentials: true //allow cookies/auth headers
+})); 
 
 //Session setup
 app.use(session({

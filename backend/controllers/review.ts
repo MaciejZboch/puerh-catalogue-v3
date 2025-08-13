@@ -10,8 +10,7 @@ export const create = async (req: Request, res: Response) => {
 }
   const tea = await Tea.findById(req.params.id);
   if (!tea) {
-    req.flash("error", "Tea not found.");
-    return res.redirect("/tea");
+return res.status(404).json({ error: "Tea not found!" });
   }
 
   const review: IReview = new Review(req.body.review);
@@ -28,12 +27,10 @@ export const create = async (req: Request, res: Response) => {
     refId: review._id,
   });
   await activity.save();
-  req.flash("success", "Succesfully made a new review!");
-  res.redirect(`/tea/${tea._id}`);
+  return res.status(201).json({ message: "Review created!"});
 };
 
 export const remove = async (req: Request, res: Response) => {
   await Review.findByIdAndDelete(req.params.reviewId);
-  req.flash("success", "Succesfully deleted a review!");
-  res.redirect(`/tea/${req.params.id}`);
+ return res.status(200).json({ message: "Review deleted!"});
 };

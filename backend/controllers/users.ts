@@ -4,8 +4,8 @@ import { Request, Response, NextFunction } from "express";
 import { Types } from "mongoose";
 
 export const registerForm = (req: Request, res: Response) => {
-  const pageTitle = "Register";
-  res.render("users/register", { pageTitle });
+ 
+  res.render("users/register");
 };
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
