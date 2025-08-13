@@ -12,6 +12,11 @@ import cors from 'cors';
 
 //Other imports
 import User from './models/user';
+import userRoutes from "./routes/users";
+import teaRoutes from "./routes/tea";
+import reviewRoutes from "./routes/review";
+import editRoutes from "./routes/edit"
+import moderateRoutes from "./routes/moderate"
 
 //MongoDB setup
 const dbUrl = 'mongodb://localhost:27017/test';
@@ -93,6 +98,13 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   res.locals.filters = req.query;
   next();
 });
+
+//Routes setup
+app.use("/", userRoutes);
+app.use("/api/teas", teaRoutes);
+app.use("/api/teas", reviewRoutes);
+app.use("/api/edit", editRoutes);
+app.use("/api/moderate", moderateRoutes);
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World')
