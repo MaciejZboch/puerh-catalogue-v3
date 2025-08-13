@@ -3,11 +3,6 @@ import passport from "passport";
 import { Request, Response, NextFunction } from "express";
 import { Types } from "mongoose";
 
-export const registerForm = (req: Request, res: Response) => {
- 
-  res.render("users/register");
-};
-
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   //validations
   function hasWhiteSpace(s: string) {
@@ -49,11 +44,6 @@ return res.status(400).json({
       }
     }
   }
-};
-
-export const loginForm = (req: Request, res: Response) => {
-  const pageTitle = "Login";
-  res.render("users/login", { pageTitle });
 };
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
