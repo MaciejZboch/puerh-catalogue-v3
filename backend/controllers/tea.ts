@@ -12,10 +12,8 @@ const currentYear = new Date().getFullYear();
 
 //index
 export const index = async (req: Request, res: Response) => {
-  const pageTitle = "Pu-erh catalogue";
   const vendors = await Vendor.find();
   const producers = await Producer.find();
-
   const activities = await Activity.find({})
     .sort({ createdAt: -1 })
     .limit(20)
@@ -40,17 +38,15 @@ export const index = async (req: Request, res: Response) => {
   res.json({
     vendors,
     producers,
-    pageTitle,
     populatedActivities,
   });
 };
 
 //new
 export const newForm = async (req: Request, res: Response) => {
-  const pageTitle = "New tea";
   const vendors = await Vendor.find();
   const producers = await Producer.find();
-  res.json({ currentYear, vendors, producers, pageTitle });
+  res.json({ currentYear, vendors, producers});
 };
 
 export const create = async (req: Request, res: Response) => {
@@ -130,9 +126,7 @@ export const show = async (req: Request, res: Response) => {
   } else {
     myRatings = false;
   }
-
-  const pageTitle = tea.name;
-  res.json({ tea, pageTitle, reviews, myRatings, average });
+  res.json({ tea, reviews, myRatings, average });
 };
 
 export const editForm = async (req: Request, res: Response) => {
@@ -144,8 +138,7 @@ export const editForm = async (req: Request, res: Response) => {
   }
   const vendors = await Vendor.find();
   const producers = await Producer.find();
-  const pageTitle = "Edit " + t.name;
-  res.json({ t, currentYear, vendors, producers, pageTitle });
+  res.json({ t, currentYear, vendors, producers});
 };
 
 export const update = async (req: Request, res: Response) => {
@@ -189,9 +182,8 @@ return res.status(201).json({ message: "Tea removed!"});
 
 // vendor/producer controllers
 export const newVendor = async (req: Request, res: Response) => {
-  const pageTitle = "New Vendor";
   const vendors = await Vendor.find();
-  res.json({ vendors, pageTitle });
+  res.json({ vendors});
 };
 
 export const postVendor = async (req: Request, res: Response) => {
@@ -202,9 +194,8 @@ return res.status(201).json({ message: "Vendor submitted for approval!"});
 };
 
 export const newProducer = async (req: Request, res: Response) => {
-  const pageTitle = "New Producer";
   const producers = await Producer.find();
-  res.json({ producers, pageTitle });
+  res.json({ producers});
 };
 
 export const postProducer = async (req: Request, res: Response) => {
@@ -250,8 +241,7 @@ export const collection = async (req: Request, res: Response) => {
   return res.status(401).json({ error: "Unauthorized!" });
 }
   const followedUsers = collector.following;
-  const pageTitle = "User's collection";
-  res.json({ teas, pageTitle, collector, followedUsers });
+  res.json({ teas, collector, followedUsers });
 };
 
 export const browse = async (req: Request, res: Response) => {
@@ -346,10 +336,9 @@ export const browse = async (req: Request, res: Response) => {
   }
 
   const teas = await searchTea(search);
-  const pageTitle = search + "'s teas";
 
   //searching for vendors / producers to populate datalist
   const vendors = await Vendor.find();
   const producers = await Producer.find();
-  res.json({ teas, search, pageTitle, vendors, producers });
+  res.json({ teas, search, vendors, producers });
 };
