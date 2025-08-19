@@ -47,7 +47,6 @@ return res.status(400).json({
 };
 
 export const login = async (req: Request, res: Response, next: NextFunction) => {
-  const redirectUrl = req.session.returnTo || "/tea";
 
   passport.authenticate("local", (err: Error | null, user: Express.User | false, info: { message?: string } | undefined) => {
     if (err) return next(err);

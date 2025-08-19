@@ -68,7 +68,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     !req.path.startsWith("/images") && //Ignore images
     !req.path.startsWith("/scripts") //Ignore scripts
   ) {
-    //req.session.returnTo = req.originalUrl;
     req.session.save((err) => {
       if (err) console.log("Session save error:", err);
     });

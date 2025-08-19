@@ -2,12 +2,6 @@ import { Types } from 'mongoose';
 import {MulterFile} from 'multer';
 import { Session, SessionData } from 'express-session';
 
-declare module 'express-session' {
-  interface SessionData {
-    returnTo?: string;
-  }
-}
-
 declare global {
   namespace Express {
     interface User {

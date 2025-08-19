@@ -7,17 +7,14 @@ import Review from './models/review';
 //tea middleware
 export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
   if (!req.isAuthenticated()) {
-    req.session.returnTo = req.originalUrl;
-    req.flash("error", "Log in to proceed!");
-    return res.redirect("/login");
+   return res.status(401).json({ error: "Unauthorized" });
   }
   next();
 };
 export const isAuthor = async (req: Request, res: Response, next: NextFunction) => {
   const tea = await Tea.findById(req.params.id);
   if (req.user && tea && !tea.author.equals(req.user._id)) {
-    req.flash("error", "No permission to do that!");
-    return res.redirect("/tea/" + tea.id);
+   return res.status(401).json({ error: "Unauthorized" });
   }
   next();
 };
@@ -42,11 +39,9 @@ export const hasNoSpecialSymbols = (req: Request, res: Response, next: NextFunct
 
     for (let char of s) {
       if (!allowedCharacters.includes(char)) {
-        req.flash(
-          "error",
-          "Special characters not allowed, please use only letters and numbers!"
-        );
-        return res.redirect(req.get("Referer") || "/");
+ return res
+          .status(400)
+          .json({ error: "Special characters not allowed. Use only letters/numbers." })
       }
     }
   }
@@ -69,8 +64,7 @@ export const isReviewAuthor = async (req: Request, res: Response, next: NextFunc
   if (!req.user) {return res.status(401).json({ error: "Unauthorized!" })};
   const review = await Review.findById(req.params.reviewId);
   if (review && !review.author.equals(req.user._id) && req.user.moderator !== true) {
-    req.flash("error", "No permission to do that!");
-    return res.redirect("/tea/" + req.params.id);
+    return res.status(401).json({ error: "Unauthorized" });
   }
   next();
 };
@@ -79,8 +73,7 @@ export const isReviewAuthor = async (req: Request, res: Response, next: NextFunc
 
 export const isMod = async (req: Request, res: Response, next: NextFunction) => {
   if (!req.user || req.user.moderator !== true) {
-    req.flash("error", "No permission to do that!");
-    return res.redirect("/tea");
+  return res.status(401).json({ error: "Unauthorized" });
   }
   next();
 };
@@ -89,12 +82,9 @@ export const isMod = async (req: Request, res: Response, next: NextFunction) => 
 
 export const isNotStatic = (req: Request, res: Response, next: NextFunction) => {
   const isStatic = /\.(ico|css|js|png|jpg|jpeg|svg|woff2?|ttf|map)$/.test(req.path);
-  const isAuthRoute =
-    req.path.startsWith("/login") || req.path.startsWith("/signup");
-
+  const isAuthRoute = req.path.startsWith("/login") || req.path.startsWith("/signup");
   if (!isStatic && !isAuthRoute && req.method === "GET") {
-    req.session.returnTo = req.originalUrl;
+    res.setHeader("X-Return-To", req.originalUrl);
   }
-
   next();
 };
