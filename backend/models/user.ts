@@ -1,13 +1,11 @@
 import mongoose from "mongoose";
 import passportLocalMongoose from "passport-local-mongoose";
-import Image from "./image";
-import { PassportLocalModel, PassportLocalDocument } from 'mongoose';
-import { Types } from "joi";
+import { PassportLocalModel } from 'mongoose';
 
 
 const Schema = mongoose.Schema;
 
-export interface IUser extends PassportLocalDocument {
+export interface IUser extends mongoose.Document {
   email: string;
   moderator?: boolean;
     image?: {
@@ -42,6 +40,6 @@ const UserSchema = new Schema({
 });
 UserSchema.plugin(passportLocalMongoose);
 
-interface IUserModel extends PassportLocalModel<IUser> {}
+interface IUserModel extends PassportLocalModel<IUser> {};
 const User: IUserModel = mongoose.model<IUser, IUserModel>('User', UserSchema);
 export default User;

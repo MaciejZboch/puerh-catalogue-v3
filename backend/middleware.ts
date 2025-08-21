@@ -3,6 +3,23 @@ import { teaSchema, reviewSchema, vendorSchema } from './schemas.js';
 import { Request, Response, NextFunction } from 'express';
 import Tea from './models/tea';
 import Review from './models/review';
+import { AuthenticatedRequest } from './types/express';
+import { RequestHandler } from "express";
+
+//req.user._id typeguard
+
+
+
+export const typeguardUser: RequestHandler = (req, res, next) => {
+  const authReq = req as AuthenticatedRequest;
+
+  if (!authReq.user) {
+    res.status(401).json({ error: "Unauthorized!" });
+    return;
+  }
+
+  next();
+};
 
 //tea middleware
 export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {

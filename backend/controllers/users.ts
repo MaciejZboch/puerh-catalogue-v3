@@ -2,6 +2,8 @@ import User, { IUser }  from "../models/user";
 import passport from "passport";
 import { Request, Response, NextFunction } from "express";
 import { Types } from "mongoose";
+import { AuthenticatedRequest } from "../types/express";
+
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   //validations
@@ -70,13 +72,13 @@ export const logout = (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-export const follow = async (req: Request, res: Response, next: NextFunction) => {
+export const follow = async (req: AuthenticatedRequest<{ id: string }>, res: Response, next: NextFunction) => {
       if (!req.user) {
   return res.status(401).json({ error: "Unauthorized!" });
 }
-  const currentUserId: typeof req.user._id = req.user._id;
+  const currentUserId = req.user._id;
   const currentUser = await User.findById(currentUserId);
-  const userIdToFollow = req.params.id as unknown as Types.ObjectId;
+   const userIdToFollow = new Types.ObjectId(req.params.id);
   
   // Null guard
   if (currentUser == null)
