@@ -72,7 +72,7 @@ export const logout = (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-export const follow = async (req: AuthenticatedRequest<{ id: string }>, res: Response, next: NextFunction) => {
+export const follow = async (req: Request, res: Response, next: NextFunction) => {
       if (!req.user) {
   return res.status(401).json({ error: "Unauthorized!" });
 }

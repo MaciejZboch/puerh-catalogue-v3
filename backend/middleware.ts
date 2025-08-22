@@ -1,5 +1,5 @@
 import ExpressError from './utilities/ExpressError';
-import { teaSchema, reviewSchema, vendorSchema } from './schemas.js';
+import { teaSchema, reviewSchema, vendorSchema } from './schemas';
 import { Request, Response, NextFunction } from 'express';
 import Tea from './models/tea';
 import Review from './models/review';
