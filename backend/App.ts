@@ -18,6 +18,10 @@ import reviewRoutes from "./routes/review";
 import editRoutes from "./routes/edit"
 import moderateRoutes from "./routes/moderate"
 
+//JSON setup for React
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 //MongoDB setup
 const dbUrl = 'mongodb://localhost:27017/test';
 mongoose
