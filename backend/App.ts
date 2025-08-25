@@ -5,7 +5,6 @@ import session, {SessionData} from 'express-session';
 import MongoStore from 'connect-mongo'
 import helmet from 'helmet';
 import passport from 'passport';
-import flash from 'connect-flash';
 const LocalStrategy = require("passport-local");
 const app = express();
 import cors from 'cors';
@@ -79,7 +78,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-app.use(flash()); //Flash setup
 app.use(helmet()); //Helmet setup
 
 //Passport setup
@@ -96,8 +94,6 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.locals.currentUser = req.user;
   res.locals.baseUrl = req.baseUrl;
-  res.locals.success = req.flash("success");
-  res.locals.error = req.flash("error");
   res.locals.filters = req.query;
   next();
 });

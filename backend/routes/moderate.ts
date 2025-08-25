@@ -29,7 +29,6 @@ router.put(
         status: "rejected",
       });
     }
-    req.flash("Success", "Successfully changed status!");
     res.redirect("/moderate");
   })
 );
@@ -47,7 +46,6 @@ router.put(
         status: "rejected",
       });
     }
-    req.flash("Success", "Successfully changed status!");
     res.redirect("/moderate");
   })
 );
