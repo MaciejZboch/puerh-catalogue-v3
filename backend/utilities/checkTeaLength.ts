@@ -31,8 +31,7 @@ function checkTeaLength(req: Request, res: Response, tea: ITea) {
 
   for (const field of fields) {
     if (!isProperLength(tea[field.key as keyof ITea], field.max)) {
-      req.flash("error", field.message);
-      return res.redirect("/tea/new");
+        return res.status(401).json({ error: field.message });
     }
   }
 
