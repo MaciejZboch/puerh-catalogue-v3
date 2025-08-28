@@ -20,7 +20,7 @@ export default function Navbar() {
 
   return (
     <nav className="flex justify-between p-4 bg-gray-100">
-      <Link href="/" className="font-bold text-lg">My App</Link>
+      <Link href="/" className="font-bold text-lg">The Pu-Erh Catalogue</Link>
       <div className="flex gap-4">
         {!user ? (
           <>
