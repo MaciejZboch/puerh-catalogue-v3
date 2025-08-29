@@ -1,47 +1,57 @@
-import Link from "next/link";
-
 export default function HomePage() {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col bg-dark text-light">
 
       {/* Hero / Intro */}
-      <header className="px-6 py-12 bg-gradient-to-r from-blue-50 to-indigo-100 border-b">
-        <h1 className="text-4xl font-bold mb-4">Welcome to The Pu-Erh Catalogue</h1>
-        <p className="text-lg text-gray-600 max-w-2xl">
+      <header className="px-6 py-16 bg-[linear-gradient(90deg,rgba(2,0,36,1)_0%,rgba(104,171,124,1)_0%,rgba(32,34,65,1)_82%,rgba(29,37,41,1)_100%,rgba(0,212,255,1)_100%)]">
+        <h1 className="text-5xl font-bold mb-4 text-light">
+          Welcome to The Pu-Erh Catalogue
+        </h1>
+        <p className="text-lg text-cloud max-w-2xl">
           Discover, rate, and catalog teas from around the world. 
           Join the community and keep track of your favorite teas.
         </p>
       </header>
 
       {/* Main Content */}
-      <main className="flex-1 px-6 py-10 grid grid-cols-1 md:grid-cols-3 gap-8">
+      <main className="flex-1 px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-10">
+
         {/* Latest Teas */}
         <section className="col-span-2">
-          <h2 className="text-2xl font-semibold mb-4">Latest Teas</h2>
+          <h2 className="text-2xl font-semibold mb-6 text-light">
+            Latest Teas
+          </h2>
           <div className="grid gap-4">
             {[1, 2, 3, 4, 5].map((id) => (
               <div
                 key={id}
-                className="p-4 bg-white shadow rounded-lg flex items-center justify-between"
+                className="p-5 bg-charcoal shadow rounded-lg flex items-center justify-between border border-steel"
               >
                 <div>
-                  <h3 className="font-bold">Tea Name {id}</h3>
-                  <p className="text-gray-500">2023 · Yunnan · Sheng Pu’er</p>
+                  <h3 className="font-bold text-light">Tea Name {id}</h3>
+                  <p className="text-mist">2023 · Yunnan · Sheng Pu’er</p>
                 </div>
-                <button className="text-blue-600 hover:underline">Rate</button>
+                <button className="px-3 py-1 rounded bg-green-dark text-light hover:bg-green transition">
+                  Rate
+                </button>
               </div>
             ))}
           </div>
         </section>
 
-        {/* Sidebar / Charts */}
+        {/* Sidebar / Reviews */}
         <aside>
-          <h2 className="text-2xl font-semibold mb-4">Latest Reviews</h2>
+          <h2 className="text-2xl font-semibold mb-6 text-light">
+            Latest Reviews
+          </h2>
           <ul className="space-y-3">
             {[1, 2, 3, 4, 5].map((id) => (
-              <li key={id} className="flex justify-between">
-                <span>Popular Tea {id}</span>
-                <span className="font-bold">⭐ {4.5 - id * 0.2}</span>
+              <li
+                key={id}
+                className="flex justify-between p-3 bg-charcoal rounded border border-steel"
+              >
+                <span className="text-light">Popular Tea {id}</span>
+                <span className="font-bold text-accent">⭐ {4.5 - id * 0.2}</span>
               </li>
             ))}
           </ul>
@@ -49,7 +59,7 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="px-6 py-6 bg-white border-t text-center text-sm text-gray-500">
+      <footer className="px-6 py-6 bg-charcoal border-t border-steel text-center text-sm text-mist">
         © {new Date().getFullYear()} The Pu-Erh Catalogue.
       </footer>
     </div>

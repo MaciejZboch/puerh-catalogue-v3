@@ -6,15 +6,37 @@
 }
 
 @theme {
+  /* Grays */
+  --color-graphite: #121417;
   --color-dark: #1D2529;
-  --color-charcoal: #36454D;
-  --color-slate: #4F6571;
-  --color-steel: #688595;
-  --color-cloud: #8CA2AF;
-  --color-mist: #B0BFC8;
+  --color-charcoal: #2A3439;
+  --color-slate: #36454D;
+  --color-steel: #4F6571;
+  --color-ash: #5F737E;
+  --color-mist: #8CA2AF;
+  --color-cloud: #B0BFC8;
   --color-frost: #D4DCE1;
   --color-light: #F8F9FA;
-  --color-accent: #28a745;
+
+  /* Greens */
+  --color-green-deep: #1F3A29;   /* very dark green, good for backgrounds */
+  --color-green-dark: #2E5B3C;   /* darker shade for contrast */
+  --color-green-accent: #68AB7C;   /* accent (main brand green) */
+  --color-green-bright: #88C799; /* slightly lighter and fresher */
+  --color-green-soft: #A8D9B7;   /* pastel-like, good for hover states */
+  --color-green-mist: #D4EDE0;   /* very light, good as a subtle background */
+}
+
+@layer utilities {
+  .bg-hero-gradient {
+    background: linear-gradient(
+      90deg,
+      var(--color-green-dark) 0%,
+      var(--color-accent) 40%,
+      var(--color-green-bright) 70%,
+      var(--color-charcoal) 100%
+    );
+  }
 }
 
 @media (prefers-color-scheme: dark) {
