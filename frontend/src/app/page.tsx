@@ -7,7 +7,7 @@ export default function HomePage() {
         <h1 className="text-5xl font-bold mb-4 text-light">
           Welcome to The Pu-Erh Catalogue
         </h1>
-        <p className="text-lg text-cloud max-w-2xl">
+        <p className="text-lg text-light max-w-2xl">
           Discover, rate, and catalog teas from around the world. 
           Join the community and keep track of your favorite teas.
         </p>
@@ -25,13 +25,21 @@ export default function HomePage() {
             {[1, 2, 3, 4, 5].map((id) => (
               <div
                 key={id}
-                className="p-5 bg-charcoal shadow rounded-lg flex items-center justify-between border border-steel"
+                className="p-5 bg-charcoal shadow rounded-lg flex items-center justify-between border-b border-green-accent "
               >
+                        <div className="flex items-center gap-4">
+          {/* Placeholder Image */}
+          <img
+            src={`https://cdn-icons-png.flaticon.com/256/712/712255.png`}
+            alt={`Tea ${id}`}
+            className="w-12 h-12 rounded object-cover"
+          />
                 <div>
                   <h3 className="font-bold text-light">Tea Name {id}</h3>
                   <p className="text-mist">2023 · Yunnan · Sheng Pu’er</p>
                 </div>
-                <button className="px-3 py-1 rounded bg-green-dark text-light hover:bg-green transition">
+              </div>
+              <button className="px-3 py-1 rounded bg-green-accent text-dark hover:bg-green transition">
                   Rate
                 </button>
               </div>
@@ -48,7 +56,7 @@ export default function HomePage() {
             {[1, 2, 3, 4, 5].map((id) => (
               <li
                 key={id}
-                className="flex justify-between p-3 bg-charcoal rounded border border-steel"
+                className="flex justify-between p-3 bg-charcoal rounded border-b border-green-accent"
               >
                 <span className="text-light">Popular Tea {id}</span>
                 <span className="font-bold text-accent">⭐ {4.5 - id * 0.2}</span>
