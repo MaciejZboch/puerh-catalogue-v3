@@ -8,6 +8,7 @@ import passport from 'passport';
 const LocalStrategy = require("passport-local");
 const app = express();
 import cors from 'cors';
+import dotenv from "dotenv";
 
 //Other imports
 import User from './models/user';
@@ -16,6 +17,7 @@ import teaRoutes from "./routes/tea";
 import reviewRoutes from "./routes/review";
 import editRoutes from "./routes/edit"
 import moderateRoutes from "./routes/moderate"
+import { CipherKey } from 'crypto';
 
 //JSON setup for React
 app.use(express.json());
@@ -39,14 +41,25 @@ app.use(cors({
   credentials: true //allow cookies/auth headers
 })); 
 
+//.env setup
+import crypto from "crypto";
+dotenv.config();
+
+export const secret = Buffer.from(
+  process.env.SECRET_KEY as string
+) as crypto.CipherKey;
+
+export const secretOptional =
+  (process.env.OPTIONAL_SECRET as string) || false;
+  
 //Session setup
 app.use(session({
-  secret: 'c134cY87K43o',
+  secret,
   store: MongoStore.create({ 
     mongoUrl: dbUrl,
     touchAfter: 24 * 60 * 60,
   crypto: {
-    secret: 'c134cY87K43o'
+    secret: secretOptional
   }
 }),
   resave: false,
