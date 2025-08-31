@@ -39,7 +39,7 @@ export default function HomePage() {
                   <p className="text-mist">2023 · Yunnan · Sheng Pu’er</p>
                 </div>
               </div>
-              <button className="px-3 py-1 rounded bg-green-accent text-dark hover:bg-green transition">
+              <button className="px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition">
                   Rate
                 </button>
               </div>
@@ -49,25 +49,30 @@ export default function HomePage() {
 
         {/* Sidebar / Reviews */}
         <aside>
-          <h2 className="text-2xl font-semibold mb-6 text-light">
-            Latest Reviews
-          </h2>
-          <ul className="space-y-3">
-            {[1, 2, 3, 4, 5].map((id) => (
-              <li
-                key={id}
-                className="flex justify-between p-3 bg-charcoal rounded border-b border-green-accent"
-              >
-                <span className="text-light">Popular Tea {id}</span>
-                <span className="font-bold text-accent">⭐ {4.5 - id * 0.2}</span>
-              </li>
-            ))}
-          </ul>
-        </aside>
+  <h2 className="text-2xl font-semibold mb-6 text-light">
+    Latest Reviews
+  </h2>
+  <ul className="space-y-3">
+    {[1, 2, 3, 4, 5].map((id) => (
+      <li
+        key={id}
+        className="flex flex-col p-3 bg-charcoal rounded border-b border-green-accent"
+      >
+        <div className="flex justify-between">
+          <span className="text-light">Popular Tea {id}</span>
+          <span className="font-bold text-accent">⭐ {4.5 - id * 0.2}</span>
+        </div>
+        <p className="text-mist mt-1">
+          This is a sample review text for Tea {id}. Really enjoyed the aroma and flavor!
+        </p>
+      </li>
+    ))}
+  </ul>
+</aside>
       </main>
 
       {/* Footer */}
-      <footer className="px-6 py-6 bg-charcoal border-t border-steel text-center text-sm text-mist">
+      <footer className="px-6 py-6 bg-dark text-center text-sm text-ash">
         © {new Date().getFullYear()} The Pu-Erh Catalogue.
       </footer>
     </div>
