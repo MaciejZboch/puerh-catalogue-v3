@@ -27,18 +27,6 @@
   --color-green-mist: #D4EDE0;   /* very light, good as a subtle background */
 }
 
-@layer utilities {
-  .bg-hero-gradient {
-    background: linear-gradient(
-      90deg,
-      var(--color-green-dark) 0%,
-      var(--color-accent) 40%,
-      var(--color-green-bright) 70%,
-      var(--color-charcoal) 100%
-    );
-  }
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
