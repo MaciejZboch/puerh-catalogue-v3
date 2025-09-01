@@ -1,30 +1,46 @@
 //Dependency imports
 import express, {NextFunction, Request, Response} from 'express'
 import mongoose from 'mongoose';
-import session, {SessionData} from 'express-session';
+import session from 'express-session';
 import MongoStore from 'connect-mongo'
 import helmet from 'helmet';
 import passport from 'passport';
 const LocalStrategy = require("passport-local");
 const app = express();
 import cors from 'cors';
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
+import crypto from 'crypto';
 
 //Other imports
 import User from './models/user';
-import userRoutes from "./routes/users";
-import teaRoutes from "./routes/tea";
-import reviewRoutes from "./routes/review";
-import editRoutes from "./routes/edit"
-import moderateRoutes from "./routes/moderate"
-import { CipherKey } from 'crypto';
+import userRoutes from './routes/users';
+import teaRoutes from './routes/tea';
+import reviewRoutes from './routes/review';
+import editRoutes from './routes/edit';
+import moderateRoutes from './routes/moderate';
 
 //JSON setup for React
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+//.env setup
+dotenv.config();
+
+export const secret = Buffer.from(
+  process.env.SECRET_KEY as string
+) as crypto.CipherKey;
+
+export const secretOptional =
+  (process.env.OPTIONAL_SECRET as string) || false;
+  
 //MongoDB setup
-const dbUrl = 'mongodb://localhost:27017/test';
+//const dbUrl = 'mongodb://localhost:27017/test'; //local DB for development
+const dbUrl = process.env.DB_URL; //production DB in cloud
+
+if (!dbUrl) {
+  throw new Error("Missing DB_URL in environment variables");
+}
+
 mongoose
   .connect(dbUrl)
   .then(() => {
@@ -41,17 +57,6 @@ app.use(cors({
   credentials: true //allow cookies/auth headers
 })); 
 
-//.env setup
-import crypto from "crypto";
-dotenv.config();
-
-export const secret = Buffer.from(
-  process.env.SECRET_KEY as string
-) as crypto.CipherKey;
-
-export const secretOptional =
-  (process.env.OPTIONAL_SECRET as string) || false;
-  
 //Session setup
 app.use(session({
   secret,
