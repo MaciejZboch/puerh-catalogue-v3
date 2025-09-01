@@ -1,4 +1,25 @@
+"use client"
+
+import { useEffect, useState } from "react";
+import { getIndex } from "@/lib/api";
+
 export default function HomePage() {
+  const [teas, setTeas] = useState<any[]>([]);
+
+ useEffect(() => {
+      fetch("http://localhost:4000/api/teas", {
+    credentials: "include",
+  })
+      .then((res) => res.json())
+      .then((data) => {
+         console.log("API Response:", data); // 👈 Check here
+        const latestTeas = data.populatedActivities
+          .filter((act: any) => act.type === "tea")
+          .map((act: any) => act.content); // extract tea object
+        setTeas(latestTeas);
+      });
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col bg-dark text-light">
 
@@ -22,20 +43,20 @@ export default function HomePage() {
             Latest Teas
           </h2>
           <div className="grid gap-4">
-            {[1, 2, 3, 4, 5].map((id) => (
+            {teas.map((tea) => (
               <div
-                key={id}
+                key={tea._id}
                 className="p-5 bg-charcoal shadow rounded-lg flex items-center justify-between border-b border-green-accent "
               >
                         <div className="flex items-center gap-4">
           {/* Placeholder Image */}
           <img
             src={`https://cdn-icons-png.flaticon.com/256/712/712255.png`}
-            alt={`Tea ${id}`}
+            alt={`Tea ${tea._id}`}
             className="w-12 h-12 rounded object-cover"
           />
                 <div>
-                  <h3 className="font-bold text-light">Tea Name {id}</h3>
+                  <h3 className="font-bold text-light">Tea Name {tea.name}</h3>
                   <p className="text-mist">2023 · Yunnan · Sheng Pu’er</p>
                 </div>
               </div>

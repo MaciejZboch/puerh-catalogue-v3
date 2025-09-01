@@ -123,8 +123,4 @@ app.use("/api/teas", reviewRoutes);
 app.use("/api/edit", editRoutes);
 app.use("/api/moderate", moderateRoutes);
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Hello World')
-})
-
 app.listen(4000)
