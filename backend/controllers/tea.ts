@@ -28,17 +28,20 @@ export const index = async (req: Request, res: Response) => {
         } else if (act.type === "tea") {
           data = await Tea.findById(act.refId);
         }
-
         if (!data) return null;
-
         return { ...act.toObject(), content: data };
       })
     )
   ).filter((activity) => activity !== null); // Remove broken entries
+  
+  const teas = populatedActivities.filter((activity) => activity.type === "tea");
+  const reviews = populatedActivities.filter((activity) => activity.type === "review");
+
   res.json({
     vendors,
     producers,
-    populatedActivities,
+    teas,
+    reviews
   });
 };
 

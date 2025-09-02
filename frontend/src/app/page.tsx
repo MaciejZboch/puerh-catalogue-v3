@@ -1,24 +1,24 @@
 "use client"
 
 import { useEffect, useState } from "react";
-import { getIndex } from "@/lib/api";
 
 export default function HomePage() {
   const [teas, setTeas] = useState<any[]>([]);
 
- useEffect(() => {
-      fetch("http://localhost:4000/api/teas", {
+useEffect(() => {
+  fetch("http://localhost:4000/api/teas", {
     credentials: "include",
   })
-      .then((res) => res.json())
+    .then((res) => res.json())
       .then((data) => {
-         console.log("API Response:", data); // 👈 Check here
-        const latestTeas = data.populatedActivities
-          .filter((act: any) => act.type === "tea")
+         console.log("API Response:", data);
+        const latestTeas = data.teas
           .map((act: any) => act.content); // extract tea object
         setTeas(latestTeas);
-      });
-  }, []);
+      })
+    .catch((err) => console.error("Fetch error:", err));
+}, []);
+
 
   return (
     <div className="min-h-screen flex flex-col bg-dark text-light">
@@ -56,8 +56,8 @@ export default function HomePage() {
             className="w-12 h-12 rounded object-cover"
           />
                 <div>
-                  <h3 className="font-bold text-light">Tea Name {tea.name}</h3>
-                  <p className="text-mist">2023 · Yunnan · Sheng Pu’er</p>
+                  <h3 className="font-bold text-light">{tea.name} {tea.year}</h3>
+                  <p className="text-mist"> {tea.type}, {tea.shape}</p>
                 </div>
               </div>
               <button className="px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition">
