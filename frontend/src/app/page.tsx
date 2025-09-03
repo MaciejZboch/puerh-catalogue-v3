@@ -1,11 +1,13 @@
 "use client"
 
 import { useEffect, useState } from "react";
+import {ITea} from "../types/tea";
+import { IPopulatedReview } from "@/types/review";
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function HomePage() {
-  const [teas, setTeas] = useState<any[]>([]);
-  const [reviews, setReviews] = useState<any[]>([]);
+  const [teas, setTeas] = useState<ITea[]>([]);
+  const [reviews, setReviews] = useState<IPopulatedReview[]>([]);
 
 useEffect(() => {
   fetch("http://localhost:4000/api/teas", {
