@@ -1,9 +1,11 @@
 "use client"
 
 import { useEffect, useState } from "react";
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function HomePage() {
   const [teas, setTeas] = useState<any[]>([]);
+  const [reviews, setReviews] = useState<any[]>([]);
 
 useEffect(() => {
   fetch("http://localhost:4000/api/teas", {
@@ -15,6 +17,9 @@ useEffect(() => {
         const latestTeas = data.teas
           .map((act: any) => act.content); // extract tea object
         setTeas(latestTeas);
+        const latestReviews = data.reviews
+          .map((act: any) => act.content); // extract review object
+        setReviews(latestReviews);
       })
     .catch((err) => console.error("Fetch error:", err));
 }, []);
@@ -74,18 +79,20 @@ useEffect(() => {
     Latest Reviews
   </h2>
   <ul className="space-y-3">
-    {[1, 2, 3, 4, 5].map((id) => (
+    {reviews.map((review) => (
       <li
-        key={id}
+        key={review._id}
         className="flex flex-col p-3 bg-charcoal rounded border-b border-green-accent"
       >
         <div className="flex justify-between">
-          <span className="text-light">Popular Tea {id}</span>
-          <span className="font-bold text-accent">⭐ {4.5 - id * 0.2}</span>
+          <span> <b  className="text-light">{review.author.username} </b> <span className="text-mist">reviewed  </span>  <span className="text-light">{review.tea.name}</span> </span>
+          
         </div>
-        <p className="text-mist mt-1">
-          This is a sample review text for Tea {id}. Really enjoyed the aroma and flavor!
+        <p className="text-mist mt-1"> Rating:⭐ {review.rating}</p>
+        <p className="text-light mt-1">
+          {review.body}
         </p>
+        
       </li>
     ))}
   </ul>

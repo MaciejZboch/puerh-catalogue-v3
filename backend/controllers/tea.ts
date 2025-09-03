@@ -24,7 +24,7 @@ export const index = async (req: Request, res: Response) => {
       activities.map(async (act) => {
         let data;
         if (act.type === "review") {
-          data = await Review.findById(act.refId).populate("tea");
+          data = await Review.findById(act.refId).populate("tea").populate("author");
         } else if (act.type === "tea") {
           data = await Tea.findById(act.refId);
         }
