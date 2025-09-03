@@ -16,12 +16,8 @@ useEffect(() => {
     .then((res) => res.json())
       .then((data) => {
          console.log("API Response:", data);
-        const latestTeas = data.teas
-          .map((act: any) => act.content); // extract tea object
-        setTeas(latestTeas);
-        const latestReviews = data.reviews
-          .map((act: any) => act.content); // extract review object
-        setReviews(latestReviews);
+        setTeas(data.teas);
+        setReviews(data.reviews);
       })
     .catch((err) => console.error("Fetch error:", err));
 }, []);

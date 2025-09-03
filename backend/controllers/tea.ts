@@ -12,37 +12,51 @@ const currentYear = new Date().getFullYear();
 
 //index
 export const index = async (req: Request, res: Response) => {
-  const vendors = await Vendor.find();
-  const producers = await Producer.find();
-  const activities = await Activity.find({})
-    .sort({ createdAt: -1 })
-    .limit(20)
-    .populate("user", "username");
+  try {
+    const vendors = await Vendor.find();
+    const producers = await Producer.find();
 
-  const populatedActivities = (
-    await Promise.all(
-      activities.map(async (act) => {
-        let data;
-        if (act.type === "review") {
-          data = await Review.findById(act.refId).populate("tea").populate("author");
-        } else if (act.type === "tea") {
-          data = await Tea.findById(act.refId);
+    const activities = await Activity.find({})
+      .sort({ createdAt: -1 })
+      .limit(20)
+      .populate("user", "username");
+
+    const teas: any[] = [];
+    const reviews: any[] = [];
+
+    for (const act of activities) {
+      if (act.type === "review") {
+        const review = await Review.findById(act.refId)
+          .populate("tea")
+          .populate("author");
+
+        if (review) {
+          reviews.push({
+            ...act.toObject(),
+            ...review.toObject(),
+          });
         }
-        if (!data) return null;
-        return { ...act.toObject(), content: data };
-      })
-    )
-  ).filter((activity) => activity !== null); // Remove broken entries
-  
-  const teas = populatedActivities.filter((activity) => activity.type === "tea");
-  const reviews = populatedActivities.filter((activity) => activity.type === "review");
+      } else if (act.type === "tea") {
+        const tea = await Tea.findById(act.refId);
+        if (tea) {
+          teas.push({
+            ...act.toObject(),
+            ...tea.toObject(),
+          });
+        }
+      }
+    }
 
-  res.json({
-    vendors,
-    producers,
-    teas,
-    reviews
-  });
+    res.json({
+      vendors,
+      producers,
+      teas,
+      reviews,
+    });
+  } catch (err) {
+    console.error("Error in index controller:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
 };
 
 //new
