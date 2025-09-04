@@ -1,7 +1,8 @@
 import { IPopulatedReview } from "@/types/review";
+const API_URL = process.env.BACKEND_URL;
 
 export default async function LatestReviews() {
-const res = await fetch("http://localhost:4000/api/teas", {
+const res = await fetch(`${API_URL}/api/teas`, {
     cache: "no-store", // always fetch fresh data
   });
 
