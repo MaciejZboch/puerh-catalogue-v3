@@ -1,12 +1,10 @@
 import { Suspense } from "react";
-import { useEffect, useState } from "react";
-import {ITea} from "../types/tea";
-import { IPopulatedReview } from "@/types/review";
 import LatestTeas from "../components/LatestTeas";
 import LatestReviews from "@/components/LatestReviews";
 import LatestTeasSkeleton from "@/components/LatestTeasSkeleton";
 import LatestReviewsSkeleton from "@/components/LatestReviewSkeleton";
-const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+import Footer from "@/components/Footer";
+
 
 export default function HomePage() {
   return (
@@ -36,9 +34,7 @@ export default function HomePage() {
       </main>
 
       {/* Footer */}
-      <footer className="px-6 py-6 bg-dark text-center text-sm text-ash">
-        © {new Date().getFullYear()} The Pu-Erh Catalogue.
-      </footer>
+<Footer/>
     </div>
   );
 }
