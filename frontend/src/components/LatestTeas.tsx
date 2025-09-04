@@ -1,12 +1,16 @@
-"use client";
-
 import {ITea} from "../types/tea";
 
-interface TeaListProps {
-  teas: ITea[];
-}
+export default async function LatestTeas() {
+      const res = await fetch("http://localhost:4000/api/teas", {
+    cache: "no-store", // always fetch fresh data
+  });
 
-export default function LatestTeas({teas}: TeaListProps) {
+  if (!res.ok) {
+    throw new Error("Failed to fetch teas");
+  }
+
+  const data = await res.json();
+  const teas: ITea[] = data.teas;
 return (
 <section className="col-span-2">
           <h2 className="text-2xl font-semibold mb-6 text-light">
