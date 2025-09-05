@@ -3,6 +3,8 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { getCurrentUser } from "@/lib/api";
+import { logout } from "@/lib/api";
+
 import Link from "next/link";
 
 export default function Navbar() {

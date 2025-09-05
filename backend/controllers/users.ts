@@ -1,8 +1,7 @@
-import User, { IUser }  from "../models/user";
+import User  from "../models/user";
 import passport from "passport";
 import { Request, Response, NextFunction } from "express";
 import { Types } from "mongoose";
-import { AuthenticatedRequest } from "../types/express";
 
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
@@ -60,7 +59,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
       if (err) return next(err);
       return res.status(200).json({ message: "Welcome!", user});
     });
-  })(req, res, next); // Execute passport.authenticate
+  })(req, res, next);
 };
 
 export const logout = (req: Request, res: Response, next: NextFunction) => {
