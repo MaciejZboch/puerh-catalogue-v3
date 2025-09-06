@@ -7,19 +7,23 @@ export default function LoginPage() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState<any>(null); // TODO: replace with IUser type later
+   const [loading, setLoading] = useState(false);
 
   if (user) {
     console.log(user)
-    return <div>Welcome {user.username}! 🎉</div>;
+    return <div>Welcome {user.username}!</div>;
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    setLoading(true);
     try {
       const loggedInUser = await login(username, password);
       setUser(loggedInUser.user);
     } catch {
       alert("Login failed!");
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -38,6 +42,7 @@ export default function LoginPage() {
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
+          disabled={loading}
         />
 
         <input
@@ -47,13 +52,14 @@ export default function LoginPage() {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          disabled={loading}
         />
 
         <button
           className="w-full bg-green-accent text-dark py-2 rounded-md hover:bg-green-soft transition"
           type="submit"
         >
-          Login
+           {loading ? "Logging in..." : "Login"}
         </button>
       </form>
     </div>

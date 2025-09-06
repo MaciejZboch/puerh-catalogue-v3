@@ -11,7 +11,7 @@ export async function login(username: string, password: string) {
     const errorText = await res.text();
     throw new Error(`Login failed: ${res.status} ${errorText}`);
   }
-  return res.json(username);
+  return res.json();
 }
 
 export async function logout() {
@@ -22,7 +22,7 @@ export async function logout() {
 }
 
 export async function getCurrentUser() {
-  const res = await fetch(`${API_URL}/api/me`, { credentials: "include" });
+  const res = await fetch("http://localhost:4000/api/me", { credentials: "include" });
   if (!res.ok) return null;
   return res.json();
 }

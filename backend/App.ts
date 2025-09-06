@@ -70,8 +70,9 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   cookie: {
+    sameSite: "lax",
     httpOnly: true,
-    // secure: true, // Enable in production with HTTPS
+    secure: false, // Enable in production with HTTPS
     expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 1 week
     maxAge: 1000 * 60 * 60 * 24 * 7
   }
@@ -101,11 +102,12 @@ app.use(helmet()); //Helmet setup
 //Passport setup
 app.use(passport.initialize());
 app.use(passport.session());
-passport.use(new LocalStrategy(User.authenticate()));
 
-passport.serializeUser((user: any, done) => {
-  done(null, user.id);
-});
+// Use plugin-provided LocalStrategy
+passport.use(User.createStrategy());
+
+// Use plugin-provided session serialization
+passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 //Locals setup
