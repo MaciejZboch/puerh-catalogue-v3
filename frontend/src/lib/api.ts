@@ -7,8 +7,11 @@ export async function login(username: string, password: string) {
     credentials: "include", // send cookies
     body: JSON.stringify({ username, password }),
   });
-  if (!res.ok) throw new Error("Login failed");
-  return res.json();
+    if (!res.ok) {
+    const errorText = await res.text();
+    throw new Error(`Login failed: ${res.status} ${errorText}`);
+  }
+  return res.json(username);
 }
 
 export async function logout() {

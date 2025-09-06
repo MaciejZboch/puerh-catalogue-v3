@@ -117,7 +117,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 //Routes setup
-app.use("/", userRoutes);
+app.use("/api/", userRoutes);
 app.use("/api/teas", teaRoutes);
 app.use("/api/teas", reviewRoutes);
 app.use("/api/edit", editRoutes);
