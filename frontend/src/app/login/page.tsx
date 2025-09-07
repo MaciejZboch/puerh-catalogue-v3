@@ -1,31 +1,30 @@
 "use client";
 
 import { useState } from "react";
-import { login } from "@/lib/api"; // adjust path if needed
+import { useAuth } from "../hooks/useAuth";
 
 export default function LoginPage() {
+  const { login, user } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState<any>(null); // TODO: replace with IUser type later
-   const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   if (user) {
-    console.log(user)
+    console.log(user);
     return <div>Welcome {user.username}!</div>;
   }
 
-  async function handleSubmit(e: React.FormEvent) {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const loggedInUser = await login(username, password);
-      setUser(loggedInUser.user);
+      await login(username, password); // updates global state
     } catch {
       alert("Login failed!");
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-dark">
@@ -59,7 +58,7 @@ export default function LoginPage() {
           className="w-full bg-green-accent text-dark py-2 rounded-md hover:bg-green-soft transition"
           type="submit"
         >
-           {loading ? "Logging in..." : "Login"}
+          {loading ? "Logging in..." : "Login"}
         </button>
       </form>
     </div>

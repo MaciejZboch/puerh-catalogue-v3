@@ -3,39 +3,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useAuth } from "../app/hooks/useAuth";
 
 import { getCurrentUser, logout } from "@/lib/api";
 
 export default function Navbar() {
-  const [user, setUser] = useState<any>(null);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
-
-  // Fetch current user when navbar mounts
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const data = await getCurrentUser();
-        setUser(data);
-      } catch (err) {
-        console.error("Failed to fetch user:", err);
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUser();
-  }, []);
-
-  const handleLogout = async () => {
-    try {
-      await logout();
-      setUser(null);
-      router.push("/login");
-    } catch (err) {
-      console.error("Logout failed:", err);
-    }
-  };
+ const { user, logout, loading } = useAuth();
 
   return (
     <nav className="flex justify-between p-4 bg-charcoal">
@@ -54,8 +27,8 @@ export default function Navbar() {
           </>
         ) : (
           <>
-            <Link href="/profile">Profile</Link>
-            <button onClick={handleLogout}>Logout</button>
+            <Link href="/profile">{user.username}</Link>
+            <button onClick={logout}>Logout</button>
           </>
         )}
       </div>

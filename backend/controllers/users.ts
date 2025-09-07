@@ -57,7 +57,7 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 
     req.logIn(user, (err) => {
       if (err) return next(err);
-      return res.status(200).json({ message: "Welcome!", user});
+      return res.status(200).json(user);
     });
   })(req, res, next);
 };
