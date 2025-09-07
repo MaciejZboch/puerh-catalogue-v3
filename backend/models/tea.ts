@@ -1,5 +1,4 @@
 import {Schema, Types, model, Model} from "mongoose";
-import ImageSchema from "./image";
 import { Document } from 'mongoose';
 
 interface IImage extends Document {
@@ -79,7 +78,7 @@ const TeaSchema = new Schema({
 });
 
 //setting price per gram virtual
-TeaSchema.virtual("pricePerGram").get(function (this: any) {
+TeaSchema.virtual("pricePerGram").get(function (this: ITea) {
   return this.price / this.sizeInGrams;
 });
 

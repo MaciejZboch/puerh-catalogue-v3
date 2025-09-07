@@ -94,7 +94,7 @@ export const create = async (req: Request, res: Response) => {
 
   if (req.files) {
     if (Array.isArray(req.files)) {
-    newTea.images = req.files.map((f: any) => ({
+    newTea.images = req.files.map((f: Express.Multer.File) => ({
     url: f.path,
     filename: f.filename,
   })) as any;

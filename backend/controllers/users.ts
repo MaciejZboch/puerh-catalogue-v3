@@ -1,8 +1,11 @@
-import User  from "../models/user";
+import User, {IUser}  from "../models/user";
 import passport from "passport";
 import { Request, Response, NextFunction } from "express";
 import { Types } from "mongoose";
 
+interface UserWithId extends IUser {
+  _id: Types.ObjectId;
+}
 
 export const register = async (req: Request, res: Response, next: NextFunction) => {
   //validations
@@ -26,7 +29,7 @@ return res.status(400).json({ error: "Please make sure your username and passwor
         user.image = { url: req.file.path, filename: req.file.filename };
       }
       const registeredUser = await User.register(user, password);
-      req.login(<any>registeredUser, (err) => {
+      req.login(<UserWithId>registeredUser, (err) => {
         if (err) return next(err);
         return res.status(201).json({ message: "Welcome!", user: registeredUser });
       });
