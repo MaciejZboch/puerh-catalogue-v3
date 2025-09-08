@@ -86,12 +86,13 @@ export default function Navbar() {
             onChange={(e) => setQuery(e.target.value)}
             className="w-full p-2 rounded-md bg-dark border border-green-accent text-light"
           />
-          <button
-            type="submit"
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-green-accent"
-          >
-            🔍
-          </button>
+  <button
+    type="submit"
+    className="absolute right-2 top-1/2 -translate-y-1/2 text-green-accent"
+    disabled={searching}
+  >
+    {searching ? "Loading..." : "Search"}
+  </button>
         </form>
 
         {/* Auth section */}
