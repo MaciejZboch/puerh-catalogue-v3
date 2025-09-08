@@ -344,7 +344,6 @@ export const browse = async (req: Request, res: Response) => {
         },
       ]);
 
-      console.log("Search results count:", results.length);
       return results;
     } catch (err) {
       console.error("Aggregation error:", err);
