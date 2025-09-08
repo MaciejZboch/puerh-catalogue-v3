@@ -11,6 +11,7 @@ interface Tea {
   vendor?: { name: string };
   producer?: { name: string };
   type?: string;
+  image?: { url: string };
 }
 
 export default function Navbar() {
@@ -120,53 +121,69 @@ export default function Navbar() {
           {searching && <p className="text-mist">Searching...</p>}
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="border-b border-green-accent">
-                <th
-                  className="cursor-pointer p-2"
-                  onClick={() => handleSort("name")}
-                >
-                  Name {sortKey === "name" && (sortAsc ? "▲" : "▼")}
-                </th>
-                <th
-                  className="cursor-pointer p-2"
-                  onClick={() => handleSort("year")}
-                >
-                  Year {sortKey === "year" && (sortAsc ? "▲" : "▼")}
-                </th>
-                <th
-                  className="cursor-pointer p-2"
-                  onClick={() => handleSort("vendor")}
-                >
-                  Vendor {sortKey === "vendor" && (sortAsc ? "▲" : "▼")}
-                </th>
-                <th
-                  className="cursor-pointer p-2"
-                  onClick={() => handleSort("producer")}
-                >
-                  Producer {sortKey === "producer" && (sortAsc ? "▲" : "▼")}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {sortedResults.map((tea) => (
-                <tr
-                  key={tea._id}
-                  className="border-b border-gray-700 hover:bg-charcoal/50"
-                >
-                  <td className="p-2">
-                    <Link
-                      href={`/teas/${tea._id}`}
-                      className="text-green-accent hover:underline"
-                    >
-                      {tea.name}
-                    </Link>
-                  </td>
-                  <td className="p-2 text-center">{tea.year || "-"}</td>
-                  <td className="p-2 text-center">{tea.vendor?.name || "-"}</td>
-                  <td className="p-2 text-center">{tea.producer?.name || "-"}</td>
-                </tr>
-              ))}
-            </tbody>
+  <tr className="border-b border-green-accent">
+    <th
+      className="cursor-pointer p-2 flex items-center gap-2"
+      onClick={() => handleSort("name")}
+    >
+      <span className="w-6 h-6 inline-block"></span> {/* placeholder for alignment */}
+      Name {sortKey === "name" && (sortAsc ? "▲" : "▼")}
+    </th>
+    <th
+      className="cursor-pointer p-2 text-center"
+      onClick={() => handleSort("year")}
+    >
+      Year {sortKey === "year" && (sortAsc ? "▲" : "▼")}
+    </th>
+    <th
+      className="cursor-pointer p-2 text-center"
+      onClick={() => handleSort("vendor")}
+    >
+      Vendor {sortKey === "vendor" && (sortAsc ? "▲" : "▼")}
+    </th>
+    <th
+      className="cursor-pointer p-2 text-center"
+      onClick={() => handleSort("producer")}
+    >
+      Producer {sortKey === "producer" && (sortAsc ? "▲" : "▼")}
+    </th>
+  </tr>
+</thead>
+
+<tbody>
+  {sortedResults.map((tea) => (
+    <tr
+      key={tea._id}
+      className="border-b border-gray-700 hover:bg-charcoal/50"
+    >
+      <td className="p-2 flex items-center gap-2">
+        {tea.image?.url ? (
+          <img
+            src={tea.image.url}
+            alt={tea.name}
+            className="h-6 w-6 object-cover rounded"
+          />
+        ) : (
+          <img
+            src="https://cdn-icons-png.flaticon.com/256/712/712255.png"
+            alt={tea.name}
+            className="h-6 w-6 object-cover rounded"
+          />
+        )}
+        <Link
+          href={`/teas/${tea._id}`}
+          className="text-green-accent hover:underline"
+        >
+          {tea.name}
+        </Link>
+      </td>
+      <td className="p-2 text-center">{tea.year || "-"}</td>
+      <td className="p-2 text-center">{tea.vendor?.name || "-"}</td>
+      <td className="p-2 text-center">{tea.producer?.name || "-"}</td>
+    </tr>
+  ))}
+</tbody>
+
           </table>
         </div>
       )}
