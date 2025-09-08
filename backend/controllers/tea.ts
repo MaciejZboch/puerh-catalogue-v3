@@ -342,6 +342,20 @@ export const browse = async (req: Request, res: Response) => {
             ],
           },
         },
+          {
+    $group: {
+      _id: "$_id",
+      name: { $first: "$name" },
+      type: { $first: "$type" },
+      year: { $first: "$year" },
+      region: { $first: "$region" },
+      ageing_location: { $first: "$ageing_location" },
+      ageing_conditions: { $first: "$ageing_conditions" },
+      vendor: { $first: "$vendor" },
+      producer: { $first: "$producer" },
+      firstImage: { $first: "$images" },
+    },
+  },
       ]);
 
       return results;
