@@ -3,24 +3,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "../app/hooks/useAuth";
+import ITableTea from "@/types/tabletea";
 
-interface Tea {
-  _id: string;
-  name: string;
-  year?: number;
-  vendor?: { name: string };
-  producer?: { name: string };
-  type?: string;
-  image?: { url: string };
-}
 
 export default function Navbar() {
   const { user, logout, loading } = useAuth();
 
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<Tea[]>([]);
+  const [results, setResults] = useState<ITableTea[]>([]);
   const [searching, setSearching] = useState(false);
-  const [sortKey, setSortKey] = useState<keyof Tea>("name");
+  const [sortKey, setSortKey] = useState<keyof ITableTea>("name");
   const [sortAsc, setSortAsc] = useState(true);
 
   async function handleSearch(e: React.FormEvent) {
@@ -43,7 +35,7 @@ export default function Navbar() {
     }
   }
 
-  function handleSort(key: keyof Tea) {
+  function handleSort(key: keyof ITableTea) {
     if (sortKey === key) {
       setSortAsc(!sortAsc);
     } else {

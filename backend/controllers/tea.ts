@@ -255,7 +255,7 @@ export const collection = async (req: Request, res: Response) => {
   const collector = await User.findById(req.params.id).populate("following");
 
   if (!collector) {
-  return res.status(401).json({ error: "Unauthorized!" });
+  return res.status(404).json({ error: "User not found!" });
 }
   const followedUsers = collector.following;
   res.json({ teas, collector, followedUsers });
