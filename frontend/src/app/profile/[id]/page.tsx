@@ -15,6 +15,7 @@ export default function ProfilePage() {
     const [loading, setLoading] = useState(true);
     const [sortKey, setSortKey] = useState<keyof ITableTea>("name");
     const [sortAsc, setSortAsc] = useState(true);
+    const [followedUsers, setFollowedUsers] = useState<IUser[]>([]);
 
 
 
@@ -30,6 +31,7 @@ export default function ProfilePage() {
         const data = await res.json();
         setUser(data.collector);
         setTeas(data.teas || []);
+        setFollowedUsers(data.followedUsers);
       } catch (err) {
         console.error(err);
       } finally {
@@ -88,8 +90,43 @@ export default function ProfilePage() {
           {user.email && <p className="text-mist">{user.email}</p>}
         </div>
       </div>
+            {/* Followed users */}
+      <div className="mb-8">
+        <h2 className="text-xl font-semibold mb-2">
+          {user.username} follows:
+        </h2>
+        {followedUsers.length === 0 ? (
+          <p className="text-mist">{user.username} isn’t following anyone yet.</p>
+        ) : (
+          <ul className="space-y-2">
+            {followedUsers.map((fu) => (
+              <li key={fu._id}>
+                <Link
+                  href={`/profile/${fu._id}`}
+                  className="flex items-center gap-2 text-green-accent hover:underline"
+                >
+                  {fu.image?.url ? (
+                    <img
+                      src={fu.image.url}
+                      alt={fu.username}
+                      className="h-8 w-8 rounded-full object-cover"
+                    />
+                  ) : (
+                    <img
+                      src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
+                      alt={fu.username}
+                      className="h-8 w-8 rounded-full object-cover"
+                    />
+                  )}
+                  {fu.username}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
 
-      <h2 className="text-xl font-semibold mb-2">Teas by {user.username}</h2>
+      <h2 className="text-xl font-semibold mb-2">{user.username}'s tea collection:</h2>
       {teas.length === 0 ? (
         <p className="text-mist">{user.username} hasn’t added any teas yet.</p>
       ) : (
