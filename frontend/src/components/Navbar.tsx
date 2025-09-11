@@ -3,18 +3,50 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "../app/hooks/useAuth";
-import ITableTea from "@/types/tabletea";
+import ICollectionTea from "../types/collectiontea";
 
 
 export default function Navbar() {
   const { user, logout, loading } = useAuth();
 
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<ITableTea[]>([]);
+  const [results, setResults] = useState<ICollectionTea[]>([]);
   const [searching, setSearching] = useState(false);
-  const [sortKey, setSortKey] = useState<keyof ITableTea>("name");
+  const [sortKey, setSortKey] = useState<keyof ICollectionTea>("name");
   const [sortAsc, setSortAsc] = useState(true);
 
+  //add / remove tea from collection
+  async function collect(tea: ICollectionTea) {
+  try {
+    if (user == null) {throw new Error("No user - failed to collect");}
+    const inCollection = tea.owners?.map(String).includes(user._id);
+    const method = inCollection
+      ? "DELETE"
+      : "POST";
+
+    const res = await fetch(`http://localhost:4000/api/teas/${tea._id}/add`, {
+      method,
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      console.error(err.error);
+      return;
+    }
+
+    const updatedTea: ICollectionTea = await res.json();
+
+    setResults(prev =>
+      prev.map(t => (t._id === updatedTea._id ? updatedTea : t))
+    );
+  } catch (err) {
+    console.error("Error updating collection:", err);
+  }
+}
+
+//search function
   async function handleSearch(e: React.FormEvent) {
     e.preventDefault();
     if (!query.trim()) return;
@@ -28,6 +60,7 @@ export default function Navbar() {
       if (!res.ok) throw new Error("Search failed");
       const data = await res.json();
       setResults(data.teas);
+      console.log(data.teas)
     } catch (err) {
       console.error(err);
     } finally {
@@ -35,7 +68,8 @@ export default function Navbar() {
     }
   }
 
-  function handleSort(key: keyof ITableTea) {
+
+  function handleSort(key: keyof ICollectionTea) {
     if (sortKey === key) {
       setSortAsc(!sortAsc);
     } else {
@@ -150,19 +184,25 @@ export default function Navbar() {
       className="border-b border-gray-700 hover:bg-charcoal/50"
     >
       <td className="p-2 flex items-center gap-2">
-        {tea.image?.url ? (
-          <img
-            src={tea.image.url}
-            alt={tea.name}
-            className="h-6 w-6 object-cover rounded"
-          />
-        ) : (
-          <img
-            src="https://cdn-icons-png.flaticon.com/256/712/712255.png"
-            alt={tea.name}
-            className="h-6 w-6 object-cover rounded"
-          />
-        )}
+  {user?._id ? (
+    (Array.isArray(tea.owners) && tea.owners.map(String).includes(user._id)) ? (
+      <button
+        onClick={() => collect(tea)}
+        className="px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition"
+      >
+        Remove
+      </button>
+    ) : (
+      <button
+        onClick={() => collect(tea)}
+        className="px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition"
+      >
+        Collect
+      </button>
+    )
+  ) : (
+    <div className="px-3 py-1"></div>
+  )}
         <Link
           href={`/teas/${tea._id}`}
           className="text-green-accent hover:underline"

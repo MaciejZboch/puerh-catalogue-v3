@@ -24,14 +24,14 @@ export const typeguardUser: RequestHandler = (req, res, next) => {
 //tea middleware
 export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
   if (!req.isAuthenticated()) {
-   return res.status(401).json({ error: "Unauthorized" });
+   return res.status(401).json({ error: "Unauthorized, is not logged in" });
   }
   next();
 };
 export const isAuthor = async (req: Request, res: Response, next: NextFunction) => {
   const tea = await Tea.findById(req.params.id);
   if (req.user && tea && !tea.author.equals(req.user._id)) {
-   return res.status(401).json({ error: "Unauthorized" });
+   return res.status(401).json({ error: "Unauthorized, is not author" });
   }
   next();
 };

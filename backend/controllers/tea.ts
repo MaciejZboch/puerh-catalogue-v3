@@ -224,28 +224,50 @@ return res.status(201).json({ message: "Producer submitted for approval!"});
 
 //add or remove from collection
 export const addToCollection = async (req: Request, res: Response) => {
-  const t = await Tea.findById(req.params.id);
-  if (req.user && t && !t.owners.includes(req.user._id)) {
-    t.owners.push(req.user._id);
-    await t.save();
-  return res.json({ message: "Tea added to collection!" });
-  } else {
-    return res.status(400).json({ error: "This tea is already in your collection!" });
+  try {
+    const t = await Tea.findById(req.params.id);
+    if (!t) {
+      return res.status(404).json({ error: "Tea not found" });
+    }
+
+    if (req.user && !t.owners.includes(req.user._id)) {
+      t.owners.push(req.user._id);
+      await t.save();
+
+      return res.json(t); // send the updated tea with owners
+    } else {
+      return res.status(400).json({ error: "This tea is already in your collection!" });
+    }
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Server error" });
   }
 };
 
+
 export const removeFromCollection = async (req: Request, res: Response) => {
-  const t = await Tea.findById(req.params.id);
-  if (req.user && t && t.owners.includes(req.user._id)) {
-    await t.updateOne({
-      $pull: { owners: req.user._id },
-    });
-    await t.save();
-  return res.json({ message: "Tea removed from collection!" });
-  } else {
-return res.status(400).json({ error: "This tea is not in your collection!" });
+  try {
+    if (!req.user) {
+      return res.status(401).json({ error: "Unauthorized, user not logged in" });
+    }
+
+    const updatedTea = await Tea.findByIdAndUpdate(
+      req.params.id,
+      { $pull: { owners: req.user._id } },
+      { new: true } // returns the updated tea
+    );
+
+    if (!updatedTea) {
+      return res.status(404).json({ error: "Tea not found" });
+    }
+
+    return res.json(updatedTea); // frontend gets the updated tea
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Server error" });
   }
 };
+
 
 //get collection and browse tables
 export const collection = async (req: Request, res: Response) => {

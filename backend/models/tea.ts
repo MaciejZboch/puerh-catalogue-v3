@@ -72,7 +72,7 @@ const TeaSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  owners: [{ type: Schema.Types.ObjectId, ref: "User" }],
+  owners: [{ type: Schema.Types.ObjectId, ref: "User"}],
   sizeInGrams: Number,
   price: Number,
 });
