@@ -121,7 +121,7 @@ export default function Navbar() {
   </button>
         </form>
 
-        {/* Auth section */}
+        {/* Links */}
         <div className="flex gap-4 text-light">
           {loading ? (
             <span className="text-mist">Loading...</span>
@@ -132,6 +132,7 @@ export default function Navbar() {
             </>
           ) : (
             <>
+            <Link href="/new">Add new tea</Link>
               <Link href="/profile">{user.username}</Link>
               <button onClick={logout}>Logout</button>
             </>
@@ -145,6 +146,7 @@ export default function Navbar() {
           <h2 className="text-lg font-semibold mb-2">
             Search Results ({results.length})
           </h2>
+          <Link href="/new"><p>Don't see your tea? Click here to add it!</p></Link>
           {searching && <p className="text-mist">Searching...</p>}
           <table className="w-full text-left border-collapse">
             <thead>
