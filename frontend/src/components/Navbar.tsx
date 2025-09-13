@@ -133,7 +133,7 @@ export default function Navbar() {
           ) : (
             <>
             <Link href="/new">Add new tea</Link>
-              <Link href="/profile">{user.username}</Link>
+              <Link href={`/profile/${user._id}`}>{user.username}</Link>
               <button onClick={logout}>Logout</button>
             </>
           )}
