@@ -14,6 +14,7 @@ export default function Navbar() {
   const [searching, setSearching] = useState(false);
   const [sortKey, setSortKey] = useState<keyof ISearchTea>("name");
   const [sortAsc, setSortAsc] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false); //controls collapsible navbar
 
   //add / remove tea from collection
   async function collect(tea: ISearchTea) {
@@ -98,31 +99,79 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="relative flex justify-between items-center p-4 bg-charcoal">
-        <Link href="/" className="font-bold text-light">
-          The Pu-Erh Catalogue
-        </Link>
+          <nav className="relative flex items-center justify-between p-4 bg-charcoal">
+      {/* Logo */}
+      <Link href="/" className="font-bold text-light">
+        The Pu-Erh Catalogue
+      </Link>
 
-        {/* Search form */}
-        <form onSubmit={handleSearch} className="relative w-64">
-          <input
-            type="text"
-            placeholder="Search teas..."
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            className="w-full p-2 rounded-md bg-dark border border-green-accent text-light"
-          />
-  <button
-    type="submit"
-    className="absolute right-2 top-1/2 -translate-y-1/2 text-green-accent"
-    disabled={searching}
-  >
-    {searching ? "Loading..." : "Search"}
-  </button>
-        </form>
+      {/* Search (hidden on small screens) */}
+      <form
+        onSubmit={handleSearch}
+        className="relative hidden md:block w-48 lg:w-64"
+      >
+        <input
+          type="text"
+          placeholder="Search teas..."
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          className="w-full p-2 rounded-md bg-dark border border-green-accent text-light"
+        />
+        <button
+          type="submit"
+          className="absolute right-2 top-1/2 -translate-y-1/2 text-green-accent"
+          disabled={searching}
+        >
+          {searching ? "…" : "Search"}
+        </button>
+      </form>
 
-        {/* Links */}
-        <div className="flex gap-4 text-light">
+      {/* Desktop links */}
+      <div className="hidden md:flex gap-4 text-light">
+        {loading ? (
+          <span className="text-mist">Loading...</span>
+        ) : !user ? (
+          <>
+            <Link href="/login">Login</Link>
+            <Link href="/register">Register</Link>
+          </>
+        ) : (
+          <>
+            <Link href="/new">New tea</Link>
+            <Link href={`/profile/${user._id}`}>My Profile</Link>
+            <button onClick={logout}>Logout</button>
+          </>
+        )}
+      </div>
+
+      {/* Mobile hamburger */}
+      <button
+        className="md:hidden text-light"
+        onClick={() => setMenuOpen(!menuOpen)}
+      >
+        ☰
+      </button>
+
+      {/* Mobile dropdown */}
+      {menuOpen && (
+        <div className="absolute top-full left-0 w-full bg-charcoal flex flex-col gap-2 p-4 md:hidden text-light shadow-md z-10">
+          <form onSubmit={handleSearch} className="relative w-full">
+            <input
+              type="text"
+              placeholder="Search teas..."
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              className="w-full p-2 rounded-md bg-dark border border-green-accent text-light"
+            />
+            <button
+              type="submit"
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-green-accent"
+              disabled={searching}
+            >
+              {searching ? "…" : "Search"}
+            </button>
+          </form>
+
           {loading ? (
             <span className="text-mist">Loading...</span>
           ) : !user ? (
@@ -132,13 +181,14 @@ export default function Navbar() {
             </>
           ) : (
             <>
-            <Link href="/new">Add new tea</Link>
-              <Link href={`/profile/${user._id}`}>{user.username}</Link>
+              <Link href="/new">New tea</Link>
+              <Link href={`/profile/${user._id}`}>My Profile</Link>
               <button onClick={logout}>Logout</button>
             </>
           )}
         </div>
-      </nav>
+      )}
+    </nav>
 
       {/* Results table */}
       {results.length > 0 && (
@@ -150,7 +200,7 @@ export default function Navbar() {
           {searching && <p className="text-mist">Searching...</p>}
           <table className="w-full text-left border-collapse">
             <thead>
-  <tr className="border-b border-green-accent">
+  <tr className="border-b border-green-accent text-mist">
     <th
       className="cursor-pointer p-2 flex items-center gap-2"
       onClick={() => handleSort("name")}
