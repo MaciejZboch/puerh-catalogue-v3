@@ -3,20 +3,20 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useAuth } from "../app/hooks/useAuth";
-import ICollectionTea from "../types/collectiontea";
+import ISearchTea from "../types/searchtea";
 
 
 export default function Navbar() {
   const { user, logout, loading } = useAuth();
 
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState<ICollectionTea[]>([]);
+  const [results, setResults] = useState<ISearchTea[]>([]);
   const [searching, setSearching] = useState(false);
-  const [sortKey, setSortKey] = useState<keyof ICollectionTea>("name");
+  const [sortKey, setSortKey] = useState<keyof ISearchTea>("name");
   const [sortAsc, setSortAsc] = useState(true);
 
   //add / remove tea from collection
-  async function collect(tea: ICollectionTea) {
+  async function collect(tea: ISearchTea) {
   try {
     if (user == null) {throw new Error("No user - failed to collect");}
     const inCollection = tea.owners?.map(String).includes(user._id);
@@ -36,7 +36,7 @@ export default function Navbar() {
       return;
     }
 
-    const updatedTea: ICollectionTea = await res.json();
+    const updatedTea: ISearchTea = await res.json();
 
     setResults(prev =>
       prev.map(t => (t._id === updatedTea._id ? updatedTea : t))
@@ -69,7 +69,7 @@ export default function Navbar() {
   }
 
 
-  function handleSort(key: keyof ICollectionTea) {
+  function handleSort(key: keyof ISearchTea) {
     if (sortKey === key) {
       setSortAsc(!sortAsc);
     } else {

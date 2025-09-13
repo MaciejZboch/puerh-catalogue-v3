@@ -1,4 +1,4 @@
-export default interface ICollectionTea {
+export default interface ISearchTea {
   _id: string;
   name: string;
   year?: number;
