@@ -17,6 +17,30 @@ export default function ProfilePage() {
     const [sortAsc, setSortAsc] = useState(true);
     const [followedUsers, setFollowedUsers] = useState<IUser[]>([]);
 
+async function uncollect(tea: ITableTea) {
+  try {
+    if (user == null) {
+      throw new Error("No user - failed to collect");
+    }
+
+    const res = await fetch(`http://localhost:4000/api/teas/${tea._id}/add`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      console.error(err.error);
+      return;
+    }
+
+    setTeas(prev => prev.filter(t => t._id !== tea._id));
+
+  } catch (err) {
+    console.error("Error updating collection:", err);
+  }
+}
 
 
   useEffect(() => {
@@ -166,6 +190,12 @@ export default function ProfilePage() {
                 className="border-b border-gray-700 hover:bg-charcoal/50"
               >
                 <td className="p-2 flex items-center gap-2">
+                        <button
+        onClick={() => uncollect(tea)}
+        className="px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition"
+      >
+        Remove
+      </button>
                   {tea.image?.url ? (
                     <img
                       src={tea.image.url}
