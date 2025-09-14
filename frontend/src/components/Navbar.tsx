@@ -61,7 +61,6 @@ export default function Navbar() {
       if (!res.ok) throw new Error("Search failed");
       const data = await res.json();
       setResults(data.teas);
-      console.log(data.teas)
     } catch (err) {
       console.error(err);
     } finally {
@@ -108,7 +107,7 @@ export default function Navbar() {
       {/* Search (hidden on small screens) */}
       <form
         onSubmit={handleSearch}
-        className="relative hidden md:block w-48 lg:w-64"
+        className="relative hidden md:block w-full max-w-xs lg:max-w-sm"
       >
         <input
           type="text"
@@ -154,7 +153,7 @@ export default function Navbar() {
 
       {/* Mobile dropdown */}
       {menuOpen && (
-        <div className="absolute top-full left-0 w-full bg-charcoal flex flex-col gap-2 p-4 md:hidden text-light shadow-md z-10">
+        <div className="absolute top-full left-0 w-screen bg-charcoal flex flex-col gap-2 p-4 md:hidden text-light shadow-md z-10 overflow-x-hidden">
           <form onSubmit={handleSearch} className="relative w-full">
             <input
               type="text"
@@ -198,14 +197,17 @@ export default function Navbar() {
           </h2>
           <Link href="/new"><p>Don't see your tea? Click here to add it!</p></Link>
           {searching && <p className="text-mist">Searching...</p>}
+          <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
   <tr className="border-b border-green-accent text-mist">
     <th
-      className="cursor-pointer p-2 flex items-center gap-2"
+      className="cursor-pointer p-2"
       onClick={() => handleSort("name")}
     >
+      <div className="flex items-center gap-2">
       <span className="w-6 h-6 inline-block"></span> {/* placeholder for alignment */}
+      </div>
       Name {sortKey === "name" && (sortAsc ? "▲" : "▼")}
     </th>
     <th
@@ -270,6 +272,7 @@ export default function Navbar() {
 </tbody>
 
           </table>
+          </div>
         </div>
       )}
     </>

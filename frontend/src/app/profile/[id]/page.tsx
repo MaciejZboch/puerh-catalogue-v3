@@ -154,9 +154,10 @@ async function uncollect(tea: ITableTea) {
       {teas.length === 0 ? (
         <p className="text-mist">{user.username} hasn’t added any teas yet.</p>
       ) : (
+        <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-green-accent">
+            <tr className="border-b border-green-accent text-mist">
               <th
                 className="cursor-pointer p-2"
                 onClick={() => handleSort("name")}
@@ -223,6 +224,7 @@ async function uncollect(tea: ITableTea) {
             ))}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );
