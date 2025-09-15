@@ -19,9 +19,10 @@ return (<aside>
   </h2>
   <ul className="space-y-3">
     {reviews.map((review) => (
+      
       <li
         key={review._id}
-        className="flex flex-col p-3 bg-charcoal rounded border-b border-green-accent"
+        className="p-5 bg-charcoal shadow rounded-lg flex items-center justify-between border-b border-green-accent "
       >
         <div className="flex justify-between">
           <span> <b  className="text-light">{review.author.username} </b> <span className="text-mist">reviewed  </span>  <span className="text-light">{review.tea.name}</span> </span>
