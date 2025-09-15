@@ -17,10 +17,6 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "The Pu-erh Catalogue",
   description: "A website for pu-erh tea",
-    viewport: {
-    width: "device-width",
-    initialScale: 1,
-  },
 };
 export const viewport: Viewport = {
   width: "device-width",
