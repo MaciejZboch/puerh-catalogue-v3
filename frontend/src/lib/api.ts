@@ -33,16 +33,15 @@ export async function getIndex() {
   return res.json();
 }
 
-export async function collect(teaId: string) {
-  const res = await fetch(`http://localhost:4000/api/teas/${teaId}/add`, { method: "POST", credentials: "include"});
-  if (!res.ok) {throw new Error("Failed to collect");}
-  console.log('succesfully collected')
-  return res.json();
-}
-
 
 export async function removeFromCollection(teaId: string) {
   const res = await fetch(`http://localhost:4000/api/teas/${teaId}/remove`, { method: "DELETE", credentials: "include"});
   if (!res.ok) {throw new Error("Failed to collect");}
+  return res.json();
+}
+
+export async function getNewTeaForm() {
+  const res = await fetch(`http://localhost:4000/api/teas/new`, { method: "GET", credentials: "include"});
+    if (!res.ok) {throw new Error("Failed to get form");}
   return res.json();
 }
