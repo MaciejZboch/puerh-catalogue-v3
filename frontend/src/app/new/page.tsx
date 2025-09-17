@@ -125,135 +125,182 @@ if (data.shape) {
   };
   
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-lg mx-auto">
-      {/* Name */}
-      <div>
-        <label className="block text-sm font-medium">Name</label>
-        <input
-          {...register("name")}
-          className="border rounded p-2 w-full"
-          type="text"
-        />
-        {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
-      </div>
+    <div className="min-h-screen flex flex-col bg-dark text-light">
+    <div className="max-w-3xl mx-auto px-6 py-10 bg-dark">
+      <h1 className="text-3xl font-bold text-light">Add a New Tea</h1>
 
-      {/* Type */}
-      <div>
-        <label className="block text-sm font-medium">Type</label>
-        <select {...register("type")} className="border rounded p-2 w-full">
-          <option value="Raw / Sheng">Raw / Sheng</option>
-          <option value="Ripe / Shou">Ripe / Shou</option>
-        </select>
-        {errors.type && <p className="text-red-500 text-sm">{errors.type.message}</p>}
-      </div>
-
-      {/* Year */}
-      <div>
-        <label className="block text-sm font-medium">Year</label>
-        <input {...register("year")} className="border rounded p-2 w-full" type="number" />
-        {errors.year && <p className="text-red-500 text-sm">{errors.year.message}</p>}
-      </div>
-
-      {/* Vendor */}
-      <div>
-        <label className="block text-sm font-medium">Vendor</label>
-        <select {...register("vendor")} className="border rounded p-2 w-full">
-          {vendors.map((vendor:any) => (
-            <option key={vendor._id} value={vendor.name}>
-              {vendor.name}
-            </option>
-          ))}
-        </select>
-        {errors.vendor && <p className="text-red-500 text-sm">{errors.vendor.message}</p>}
-      </div>
-
-      {/* Producer */}
-      <div>
-        <label className="block text-sm font-medium">Producer</label>
-        <select {...register("producer")} className="border rounded p-2 w-full">
-          {producers.map((producer:any) => (
-            <option key={producer.name} value={producer.name}>
-              {producer.name}
-            </option>
-          ))}
-        </select>
-        {errors.producer && <p className="text-red-500 text-sm">{errors.producer.message}</p>}
-      </div>
-
-      {/* Region */}
-      <div>
-        <label className="block text-sm font-medium">Region</label>
-        <input {...register("region")} className="border rounded p-2 w-full" type="text" />
-        {errors.region && <p className="text-red-500 text-sm">{errors.region.message}</p>}
-      </div>
-
-      {/* Village */}
-      <div>
-        <label className="block text-sm font-medium">Village</label>
-        <input {...register("village")} className="border rounded p-2 w-full" type="text" />
-        {errors.village && <p className="text-red-500 text-sm">{errors.village.message}</p>}
-      </div>
-
-      {/* Ageing Location */}
-      <div>
-        <label className="block text-sm font-medium">Ageing Location</label>
-        <input
-          {...register("ageing_location")}
-          className="border rounded p-2 w-full"
-          type="text"
-        />
-        {errors.ageing_location && (
-          <p className="text-red-500 text-sm">{errors.ageing_location.message}</p>
-        )}
-      </div>
-
-      {/* Ageing Conditions */}
-      <div>
-        <label className="block text-sm font-medium">Ageing Conditions</label>
-        <input
-          {...register("ageing_conditions")}
-          className="border rounded p-2 w-full"
-          type="text"
-        />
-        {errors.ageing_conditions && (
-          <p className="text-red-500 text-sm">{errors.ageing_conditions.message}</p>
-        )}
-      </div>
-
-      {/* Description */}
-      <div>
-        <label className="block text-sm font-medium">Description</label>
-        <textarea
-          {...register("description")}
-          className="border rounded p-2 w-full"
-          rows={3}
-        />
-        {errors.description && (
-          <p className="text-red-500 text-sm">{errors.description.message}</p>
-        )}
-      </div>
-
-      {/* Shape */}
-      <div>
-        <label className="block text-sm font-medium">Shape</label>
-        <input {...register("shape")} className="border rounded p-2 w-full" type="text" />
-        {errors.shape && <p className="text-red-500 text-sm">{errors.shape.message}</p>}
-      </div>
-
-      {/* Images */}
-      <div>
-        <label className="block text-sm font-medium">Images</label>
-        <input {...register("images")} className="border rounded p-2 w-full" type="file" multiple />
-        {errors.images && <p className="text-red-500 text-sm">{errors.images.message}</p>}
-      </div>
-
-      {/* Submit */}
-      <button
-        type="submit"
-        className="bg-green-600 text-white rounded px-4 py-2 hover:bg-green-700"
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="space-y-6 bg-charcoal shadow-md rounded-lg p-8"
       >
-        Add Tea
-      </button>
-    </form>
+        {/* Name */}
+        <div>
+          <label className="block text-sm font-medium text-light">Name</label>
+          <input
+            {...register("name")}
+            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+            type="text"
+            placeholder="e.g. Yiwu Gushu"
+          />
+          {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
+        </div>
+
+        {/* Type */}
+        <div>
+          <label className="block text-sm font-medium text-light">Type</label>
+          <select
+            {...register("type")}
+            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+          >
+            <option value="Raw / Sheng">Raw / Sheng</option>
+            <option value="Ripe / Shou">Ripe / Shou</option>
+          </select>
+          {errors.type && <p className="text-red-500 text-sm mt-1">{errors.type.message}</p>}
+        </div>
+
+        {/* Year */}
+        <div>
+          <label className="block text-sm font-medium text-light">Year</label>
+          <input
+            {...register("year")}
+            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+            type="number"
+            placeholder="e.g. 2020"
+          />
+          {errors.year && <p className="text-red-500 text-sm mt-1">{errors.year.message}</p>}
+        </div>
+
+        {/* Vendor */}
+        <div>
+          <label className="block text-sm font-medium text-light">Vendor</label>
+          <select
+            {...register("vendor")}
+            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+          >
+            {vendors.map((vendor: any) => (
+              <option key={vendor._id} value={vendor.name}>
+                {vendor.name}
+              </option>
+            ))}
+          </select>
+          {errors.vendor && <p className="text-red-500 text-sm mt-1">{errors.vendor.message}</p>}
+        </div>
+
+        {/* Producer */}
+        <div>
+          <label className="block text-sm font-medium text-light">Producer</label>
+          <select
+            {...register("producer")}
+            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+          >
+            {producers.map((producer: any) => (
+              <option key={producer.name} value={producer.name}>
+                {producer.name}
+              </option>
+            ))}
+          </select>
+          {errors.producer && <p className="text-red-500 text-sm mt-1">{errors.producer.message}</p>}
+        </div>
+
+        {/* Region */}
+        <div>
+          <label className="block text-sm font-medium text-light">Region</label>
+          <input
+            {...register("region")}
+            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+            type="text"
+            placeholder="e.g. Yunnan"
+          />
+          {errors.region && <p className="text-red-500 text-sm mt-1">{errors.region.message}</p>}
+        </div>
+
+        {/* Village */}
+        <div>
+          <label className="block text-sm font-medium text-light">Village</label>
+          <input
+            {...register("village")}
+            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+            type="text"
+            placeholder="e.g. Lao Banzhang"
+          />
+          {errors.village && <p className="text-red-500 text-sm mt-1">{errors.village.message}</p>}
+        </div>
+
+        {/* Ageing Location */}
+        <div>
+          <label className="block text-sm font-medium text-light">Ageing Location</label>
+          <input
+            {...register("ageing_location")}
+            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+            type="text"
+            placeholder="e.g. Hong Kong"
+          />
+          {errors.ageing_location && (
+            <p className="text-red-500 text-sm mt-1">{errors.ageing_location.message}</p>
+          )}
+        </div>
+
+        {/* Ageing Conditions */}
+        <div>
+          <label className="block text-sm font-medium text-light">Ageing Conditions</label>
+          <input
+            {...register("ageing_conditions")}
+            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+            type="text"
+            placeholder="e.g. Dry storage"
+          />
+          {errors.ageing_conditions && (
+            <p className="text-red-500 text-sm mt-1">{errors.ageing_conditions.message}</p>
+          )}
+        </div>
+
+        {/* Description */}
+        <div>
+          <label className="block text-sm font-medium text-light">Description</label>
+          <textarea
+            {...register("description")}
+            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+            rows={3}
+            placeholder="Short notes about this tea..."
+          />
+          {errors.description && (
+            <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
+          )}
+        </div>
+
+        {/* Shape */}
+        <div>
+          <label className="block text-sm font-medium text-light">Shape</label>
+          <input
+            {...register("shape")}
+            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+            type="text"
+            placeholder="e.g. Cake"
+          />
+          {errors.shape && <p className="text-red-500 text-sm mt-1">{errors.shape.message}</p>}
+        </div>
+
+        {/* Images */}
+        <div>
+          <label className="block text-sm font-medium text-light">Images</label>
+          <input
+            {...register("images")}
+            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+            type="file"
+            multiple
+          />
+          {errors.images && <p className="text-red-500 text-sm mt-1">{errors.images.message}</p>}
+        </div>
+
+        {/* Submit */}
+        <button
+          type="submit"
+          className="w-full bg-green-accent text-dark py-2 rounded-md hover:bg-green-soft transition"
+        >
+          Add Tea
+        </button>
+      </form>
+    </div>
+    </div>
   );
 }
