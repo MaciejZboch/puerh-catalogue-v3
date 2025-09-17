@@ -66,11 +66,12 @@ export const newForm = async (req: Request, res: Response) => {
   res.json({ currentYear, vendors, producers});
 };
 
+//create tea
 export const create = async (req: Request, res: Response) => {
       if (!req.user) {
   return res.status(401).json({ error: "Unauthorized!" });
 }
-  const tea = req.body.tea;
+  const tea = req.body;
   const lengthError = checkTeaLength(req, res, tea); //returns null if the tea length is fine
   if (lengthError) {
     return res.status(401).json({ error: "Invalid length!" });

@@ -64,7 +64,7 @@ const {
   handleSubmit,
   formState: { errors },
 } = useForm<TeaFormInputs>({
-  resolver: yupResolver(schema) as any, // 👈 fix mismatch
+  resolver: yupResolver(schema) as any,
   defaultValues: {
     name: "",
     type: "Raw / Sheng",
@@ -75,9 +75,55 @@ const {
   },
 });
 
-  const onSubmit: SubmitHandler<TeaFormInputs> = (data) => {
-    console.log("Form submitted:", data);
+  const onSubmit: SubmitHandler<TeaFormInputs> = async (data) => {
+    const formData = new FormData();
+    
+formData.append("name", data.name);
+formData.append("type", data.type);
+
+if (data.year) {
+  formData.append("year", String(data.year));
+}
+
+formData.append("vendor", data.vendor);
+formData.append("producer", data.producer);
+
+if (data.region) {
+  formData.append("region", data.region);
+}
+
+if (data.village) {
+  formData.append("village", data.village);
+}
+
+if (data.ageing_location) {
+  formData.append("ageing_location", data.ageing_location);
+}
+
+if (data.ageing_conditions) {
+  formData.append("ageing_conditions", data.ageing_conditions);
+}
+
+if (data.description) {
+  formData.append("description", data.description);
+}
+
+if (data.shape) {
+  formData.append("shape", data.shape);
+}
+
+
+  // Add files
+  if (data.images && data.images.length > 0) {
+    Array.from(data.images).forEach((file) => {
+      formData.append("images", file);
+    });
+  }
+    const res = await fetch(`http://localhost:4000/api/teas/`, { method: "POST", body: formData, credentials: "include"});
+    if (!res.ok) {throw new Error("Failed to add new tea!");}
+  return res.json();
   };
+  
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 max-w-lg mx-auto">
       {/* Name */}

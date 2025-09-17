@@ -36,9 +36,8 @@ export const isAuthor = async (req: Request, res: Response, next: NextFunction) 
   next();
 };
 export const validateTea = (req: Request, res: Response, next: NextFunction) => {
-  const { error } = teaSchema.validate(req.body.tea);
-  const { error2 } = vendorSchema.validate(req.body.vendor);
-  if (error || error2) {
+  const { error } = teaSchema.validate(req.body);
+  if (error) {
     const msg = error.details.map((el: any) => el.message).join(",");
     throw new ExpressError(msg, 400);
   } else {
