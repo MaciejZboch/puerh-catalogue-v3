@@ -166,6 +166,8 @@ if (data.shape) {
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
             type="number"
             placeholder="e.g. 2020"
+            min="1900"
+            max={currentYear}
           />
           {errors.year && <p className="text-red-500 text-sm mt-1">{errors.year.message}</p>}
         </div>
@@ -177,6 +179,7 @@ if (data.shape) {
             {...register("vendor")}
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
           >
+             <option defaultValue disabled > -- select an option -- </option>
             {vendors.map((vendor: any) => (
               <option key={vendor._id} value={vendor.name}>
                 {vendor.name}
@@ -193,6 +196,7 @@ if (data.shape) {
             {...register("producer")}
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
           >
+            <option disabled selected></option>
             {producers.map((producer: any) => (
               <option key={producer.name} value={producer.name}>
                 {producer.name}
@@ -243,12 +247,17 @@ if (data.shape) {
         {/* Ageing Conditions */}
         <div>
           <label className="block text-sm font-medium text-light">Ageing Conditions</label>
-          <input
+          <select
             {...register("ageing_conditions")}
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-            type="text"
-            placeholder="e.g. Dry storage"
-          />
+          >
+              <option defaultChecked value="Unknown">Unknown</option>
+              <option value="Dry"> Dry</option>
+              <option value="Natural">Natural</option>
+              <option value="Wet">Wet</option>
+              <option value="Hong-Kong Traditional">Hong-Kong Traditional</option>
+              
+          </select>
           {errors.ageing_conditions && (
             <p className="text-red-500 text-sm mt-1">{errors.ageing_conditions.message}</p>
           )}
@@ -271,12 +280,20 @@ if (data.shape) {
         {/* Shape */}
         <div>
           <label className="block text-sm font-medium text-light">Shape</label>
-          <input
+          <select
             {...register("shape")}
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-            type="text"
-            placeholder="e.g. Cake"
-          />
+          >
+            <option defaultChecked value="Cake">Cake</option>
+            <option value="Loose">Loose</option>
+            <option value="Tuo">Tuo</option>
+            <option value="Brick">Brick</option>
+            <option value="Mushroom">Mushroom</option>
+            <option value="Dragon ball">Dragon ball</option>
+            <option value="Tube">Tube</option>
+            <option value="Melon">Melon</option>
+            <option value="Other">Other</option>
+            </select>
           {errors.shape && <p className="text-red-500 text-sm mt-1">{errors.shape.message}</p>}
         </div>
 
