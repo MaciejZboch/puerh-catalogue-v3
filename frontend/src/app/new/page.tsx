@@ -178,8 +178,9 @@ if (data.shape) {
           <select
             {...register("vendor")}
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+            defaultValue=""
           >
-             <option defaultValue disabled > -- select an option -- </option>
+             <option value="" disabled > -- select an option -- </option>
             {vendors.map((vendor: any) => (
               <option key={vendor._id} value={vendor.name}>
                 {vendor.name}
@@ -195,8 +196,9 @@ if (data.shape) {
           <select
             {...register("producer")}
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+            defaultValue=""
           >
-            <option disabled selected></option>
+            <option value="">Unknown</option>
             {producers.map((producer: any) => (
               <option key={producer.name} value={producer.name}>
                 {producer.name}
