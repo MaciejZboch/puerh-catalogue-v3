@@ -5,7 +5,6 @@ export default async function TeaPage({ params }: { params: { id: string } }) {
   const data = await getTea(params.id);
   const tea = data.tea;
   const reviews = data.reviews;
-console.log(tea)
   const tea2 = {
     id: "1",
     name: "7542",
@@ -36,7 +35,7 @@ console.log(tea)
   };
 
   return (
-    <main className="max-w-6xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <main className="max-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8 bg-dark text-light">
       {/* Left Column */}
       <div className="lg:col-span-1 flex flex-col items-center">
         <Image
@@ -48,16 +47,16 @@ console.log(tea)
         />
         <div className="mt-4 text-center">
           <h1 className="text-2xl font-bold">{tea.year} {tea.name}</h1>
-          <h2 className="text-lg text-gray-600">{tea.producer ? tea.producer.name : tea.vendor.name}</h2>
-          <p className="mt-1 text-sm text-gray-500">Vendor: {tea.vendor.name}</p>
+          <h2 className="text-lg text-mist">{tea.producer ? tea.producer.name : tea.vendor.name}</h2>
+          <p className="mt-1 text-sm text-mist">Vendor: {tea.vendor.name}</p>
         </div>
 
-        <div className="mt-6 w-full bg-gray-50 rounded-xl shadow p-4 text-center">
+        <div className="mt-6 w-full rounded-xl shadow p-4 text-center">
           <p className="text-3xl font-bold">{tea.rating? tea.rating.toFixed(2) : 0}</p>
           <p className="text-sm text-gray-500">
             from 2137 ratings
           </p>
-          <button className="mt-3 w-full bg-green-700 text-white py-2 px-4 rounded-xl hover:bg-green-600 transition">
+          <button className="mt-3 w-full bg-green-accent text-white py-2 px-4 rounded-xl hover:bg-green-bright transition">
             Rate This Tea
           </button>
         </div>
@@ -65,24 +64,26 @@ console.log(tea)
 
       {/* Center Column: Tasting Notes + Description + Reviews */}
       <div className="lg:col-span-2 space-y-8">
-
+<ul>
+  {(tea.region) ? <li><span className="text-mist">Region:</span> {tea.region}</li> : null}
+  {(tea.village) ? <li><span className="text-mist">Village:</span> {tea.village}</li> : null}
+  {(tea.ageing_location) ? <li><span className="text-mist">Ageing location:</span> {tea.ageing_location}</li> : null}
+  {(tea.ageing_conditions) ? <li><span className="text-mist">Ageing conditions:</span> {tea.ageing_conditions}</li> : null}
+  {(tea.sizeInGrams) ? <li><span className="text-mist">Size in grams:</span> {tea.sizeInGrams}</li> : null}
+  {(tea.price) ? <li><span className="text-mist">Last known price:</span> {tea.price}</li> : null}
+</ul>
 
         <section>
-          
-          <p className="text-gray-700">{tea.description ? tea.description : "This tea has no description yet."}</p>
-        </section>
-
-        <section>
-          
-          <p className="text-gray-700">Aged in {tea.ageing_conditions ? tea.ageing_conditions : "unspecified"} conditions in {tea.ageing_location ? tea.ageing_location : "an unknown location"}.</p>
+          <p className="text-mist">{tea.description ? tea.description : "This tea has no description yet."}</p>
         </section>
 
         <section>
         <h3>Write a review</h3>
         <form action="">
-            <textarea className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+            <textarea className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-charcoal"
             rows={3}
             placeholder="Short notes about this tea..." name="" id=""></textarea>
+            <button className="bg-green-accent hover:bg-green-bright rounded-xl py-2 px-4">Submit</button>
         </form>
         </section>
 
@@ -93,10 +94,10 @@ console.log(tea)
             {reviews.map((review: any, i: any) => (
               <div
                 key={i}
-                className="bg-gray-50 rounded-xl shadow p-4"
+                className="bg-charcoal border-b border-green-accent rounded-xl shadow p-4"
               >
                 <div className="flex justify-between items-center mb-2">
-                  <span className="font-semibold">{review.user.username}</span>
+                  <span className="font-semibold">{review.author.username}</span>
                   <span className="text-sm text-gray-500">
                     {review.rating.toFixed(1)} ★
                   </span>
