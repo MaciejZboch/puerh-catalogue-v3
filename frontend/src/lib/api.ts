@@ -29,19 +29,25 @@ export async function getCurrentUser() {
 
 export async function getIndex() {
   const res = await fetch(`${API_URL}/api/`);
-  if (!res.ok) {throw new Error("Failed to fetch teas");}
+  if (!res.ok) {throw new Error("Failed to fetch teas!");}
   return res.json();
 }
 
 
 export async function removeFromCollection(teaId: string) {
   const res = await fetch(`http://localhost:4000/api/teas/${teaId}/remove`, { method: "DELETE", credentials: "include"});
-  if (!res.ok) {throw new Error("Failed to collect");}
+  if (!res.ok) {throw new Error("Failed to collect!");}
   return res.json();
 }
 
 export async function getNewTeaForm() {
   const res = await fetch(`http://localhost:4000/api/teas/new`, { method: "GET", credentials: "include"});
-    if (!res.ok) {throw new Error("Failed to get form");}
+    if (!res.ok) {throw new Error("Failed to get form!");}
+  return res.json();
+}
+
+export async function getTea(teaId: string) {
+  const res = await fetch(`http://localhost:4000/api/teas/${teaId}`, { method: "GET", credentials: "include"});
+    if (!res.ok) {throw new Error("No tea with that id!");}
   return res.json();
 }
