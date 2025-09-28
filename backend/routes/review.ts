@@ -7,7 +7,7 @@ import {create, remove} from '../controllers/review';
 router.post("/:id/review", isLoggedIn, validateReview, catchAsync(create));
 
 router.delete(
-  "/:id/review/:reviewId",
+  "/review/:reviewId",
   isLoggedIn,
   isReviewAuthor,
   catchAsync(remove)

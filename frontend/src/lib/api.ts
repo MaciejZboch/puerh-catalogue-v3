@@ -42,12 +42,18 @@ export async function removeFromCollection(teaId: string) {
 
 export async function getNewTeaForm() {
   const res = await fetch(`http://localhost:4000/api/teas/new`, { method: "GET", credentials: "include"});
-    if (!res.ok) {throw new Error("Failed to get form!");}
+  if (!res.ok) {throw new Error("Failed to get form!");}
   return res.json();
 }
 
 export async function getTea(teaId: string) {
   const res = await fetch(`http://localhost:4000/api/teas/${teaId}`, { method: "GET", credentials: "include"});
-    if (!res.ok) {throw new Error("No tea with that id!");}
+  if (!res.ok) {throw new Error("No tea with that id!");}
   return res.json();
+}
+
+export async function deleteReview(reviewId: string) {
+const res = await fetch(`http://localhost:4000/api/teas/review/${reviewId}`, { method: "DELETE", credentials: "include"});
+    if (!res.ok) {throw new Error("No tea with that id!");}
+    return res.json();
 }

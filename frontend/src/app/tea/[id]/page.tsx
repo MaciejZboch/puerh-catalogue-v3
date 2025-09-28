@@ -1,12 +1,25 @@
 import Image from "next/image";
 import { getTea } from "@/lib/api";
 import ReviewForm from "@/components/ReviewForm";
+import { cookies } from "next/headers";
+import DeleteReviewButton from "@/components/DeleteReviewButton";
+import { IPopulatedReview } from "@/types/review";
+
+export async function getCurrentUserForServer() {
+  const cookieStore = cookies();
+  const res = await fetch("http://localhost:4000/api/me", { credentials: "include", headers: {
+      cookie: cookieStore.toString()
+    }, });
+  if (!res.ok) return null;
+  return res.json();
+}
 
 export default async function TeaPage({ params }: { params: { id: string } }) {
   params = await params;
   const data = await getTea(params.id);
   const tea = data.tea;
   const reviews = data.reviews;
+  const currentUser = await getCurrentUserForServer();
 
   return (
     <main className="max-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8 bg-dark text-light">
@@ -58,7 +71,7 @@ export default async function TeaPage({ params }: { params: { id: string } }) {
         <section>
           <h3 className="text-xl font-semibold mb-4">Reviews</h3>
           <div className="space-y-4">
-            {reviews.map((review: any, i: any) => (
+            {reviews.map((review: IPopulatedReview, i: any) => (
               <div
                 key={i}
                 className="bg-charcoal border-b border-green-accent rounded-xl shadow p-4"
@@ -70,6 +83,7 @@ export default async function TeaPage({ params }: { params: { id: string } }) {
                   </span>
                 </div>
                 <p className="text-mist">{review.body}</p>
+                {currentUser && review.author._id === currentUser._id && <DeleteReviewButton reviewId={review._id}/>}
               </div>
             ))}
           </div>
