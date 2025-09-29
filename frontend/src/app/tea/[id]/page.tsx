@@ -6,12 +6,21 @@ import DeleteReviewButton from "@/components/DeleteReviewButton";
 import { IPopulatedReview } from "@/types/review";
 import ReviewSection from "@/components/ReviewSection";
 
+export async function getCurrentUserForServer() {
+  const cookieStore = cookies();
+  const res = await fetch("http://localhost:4000/api/me", { credentials: "include", headers: {
+      cookie: cookieStore.toString()
+    }, });
+  if (!res.ok) return null;
+  return res.json();
+}
+
 export default async function TeaPage({ params }: { params: { id: string } }) {
   params = await params;
   const data = await getTea(params.id);
   const tea = data.tea;
   const reviews = data.reviews;
-
+  const currentUser = await getCurrentUserForServer();
   return (
     <main className="max-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8 bg-dark text-light">
       {/* Left Column */}
@@ -56,7 +65,7 @@ export default async function TeaPage({ params }: { params: { id: string } }) {
           <p className="text-mist">{tea.description ? tea.description : "This tea has no description yet."}</p>
         </section>
 
-<ReviewSection teaId={params.id} reviews={reviews}/>
+<ReviewSection teaId={params.id} reviews={reviews} currentUser={currentUser}/>
       </div>
     </main>
   );

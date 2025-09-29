@@ -1,35 +1,36 @@
 "use client";
 
-import { cookies } from "next/headers";
 import ReviewForm from "./ReviewForm";
 import { IPopulatedReview } from "@/types/review";
 import DeleteReviewButton from "./DeleteReviewButton";
 import { useState } from "react";
 
-export async function getCurrentUserForServer() {
-  const cookieStore = cookies();
-  const res = await fetch("http://localhost:4000/api/me", { credentials: "include", headers: {
-      cookie: cookieStore.toString()
-    }, });
-  if (!res.ok) return null;
-  return res.json();
-}
-
-export default async function ReviewSection({
+export default function ReviewSection({
   teaId,
   reviews,
+  currentUser
 }: {
   teaId: string;
   reviews: IPopulatedReview[];
+  currentUser: any;
 }) {
-    const currentUser = await getCurrentUserForServer();
+    const [reviewsArray, setReviewsArray] = useState(reviews);
+
+    const handleAddReview = (newReview: IPopulatedReview) => {
+        setReviewsArray((prev) => [newReview, ...prev]);
+    };
+
+    const handleDeleteReview = (id: string) => {
+        setReviewsArray((prev) => prev.filter((r) => r._id !== id));
+     };
+
 return ( <>
-<ReviewForm teaId={teaId}/>
+<ReviewForm onNewReview={handleAddReview} teaId={teaId}/>
 
         <section>
           <h3 className="text-xl font-semibold mb-4">Reviews</h3>
           <div className="space-y-4">
-            {reviews.map((review: IPopulatedReview, i: any) => (
+            {reviewsArray.map((review: IPopulatedReview, i: any) => (
               <div
                 key={i}
                 className="bg-charcoal border-b border-green-accent rounded-xl shadow p-4"
@@ -41,7 +42,7 @@ return ( <>
                   </span>
                 </div>
                 <p className="text-mist">{review.body}</p>
-                {currentUser && review.author._id === currentUser._id && <DeleteReviewButton reviewId={review._id}/>}
+                {currentUser && review.author._id === currentUser._id && <DeleteReviewButton onDelete={() => handleDeleteReview(review._id)} reviewId={review._id}/>}
               </div>
             ))}
           </div>

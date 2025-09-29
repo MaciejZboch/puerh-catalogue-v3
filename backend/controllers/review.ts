@@ -19,7 +19,7 @@ return res.status(404).json({ error: "Tea not found!" });
   review.tea = tea._id as Types.ObjectId;
 
   await review.save();
-
+  
   //logging activity with timestamp
   const activity = new Activity({
     user: req.user._id,
@@ -27,7 +27,9 @@ return res.status(404).json({ error: "Tea not found!" });
     refId: review._id,
   });
   await activity.save();
-  return res.status(201).json({ message: "Review created!"});
+
+  await review.populate("author");
+  return res.json( review );
 };
 
 export const remove = async (req: Request, res: Response) => {

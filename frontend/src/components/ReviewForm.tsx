@@ -1,7 +1,8 @@
 "use client";
 import { useState } from "react";
+import { IPopulatedReview } from "@/types/review";
 
-export default function ReviewForm({teaId} : {teaId : string}) {
+export default function ReviewForm({teaId, onNewReview} : {teaId : string, onNewReview : (review : IPopulatedReview) => void;}) {
     const [body, setBody] = useState("");
     const [rating, setRating] = useState(5);
     const [loading, setLoading] = useState(false);
@@ -20,6 +21,9 @@ export default function ReviewForm({teaId} : {teaId : string}) {
                 }
         }),
             })
+            const createdReview = await res.json();
+            console.log(createdReview);
+onNewReview(createdReview);
         if (!res.ok) throw new Error("Failed to submit review");
 
       // Clear form on success
