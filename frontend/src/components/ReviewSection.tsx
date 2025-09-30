@@ -41,7 +41,7 @@ return ( <>
               >
                 <div className="flex justify-between items-center mb-2">
                   <span className="font-semibold">{review.author.username}</span>
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-light">
                     {review.rating.toFixed(1)} ★
                   </span>
                 </div>

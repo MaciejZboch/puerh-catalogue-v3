@@ -1,9 +1,6 @@
 import Image from "next/image";
 import { getTea } from "@/lib/api";
-import ReviewForm from "@/components/ReviewForm";
 import { cookies } from "next/headers";
-import DeleteReviewButton from "@/components/DeleteReviewButton";
-import { IPopulatedReview } from "@/types/review";
 import ReviewSection from "@/components/ReviewSection";
 
 export async function getCurrentUserForServer() {

@@ -47,7 +47,7 @@ onNewReview(createdReview);
                     <div>
           <label className="block mb-1">Rating</label>
           <select
-            className="p-2 rounded-md bg-dark border-b border-green-accent"
+            className="p-2 rounded-md bg-charcoal border-b border-green-accent"
             value={rating}
             onChange={(e) => setRating(Number(e.target.value))}
           >
@@ -57,10 +57,11 @@ onNewReview(createdReview);
               </option>
             ))}
           </select>
+           <button className="bg-green-accent hover:bg-green-bright rounded-xl py-2 px-4 mx-4">Submit</button>
         </div>
 
         {error && <p className="text-red-500">{error}</p>}
-            <button className="bg-green-accent hover:bg-green-bright rounded-xl py-2 px-4">Submit</button>
+           
         </form>
         </section>
 }
