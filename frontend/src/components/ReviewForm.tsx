@@ -22,7 +22,6 @@ export default function ReviewForm({teaId, onNewReview} : {teaId : string, onNew
         }),
             })
             const createdReview = await res.json();
-            console.log(createdReview);
 onNewReview(createdReview);
         if (!res.ok) throw new Error("Failed to submit review");
 

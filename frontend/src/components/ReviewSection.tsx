@@ -14,7 +14,11 @@ export default function ReviewSection({
   reviews: IPopulatedReview[];
   currentUser: any;
 }) {
-    const [reviewsArray, setReviewsArray] = useState(reviews);
+    const [reviewsArray, setReviewsArray] = useState([...reviews].sort(
+    (a, b) =>
+      new Date(parseInt(b._id.substring(0, 8), 16)).getTime() -
+      new Date(parseInt(a._id.substring(0, 8), 16)).getTime()
+  ));
 
     const handleAddReview = (newReview: IPopulatedReview) => {
         setReviewsArray((prev) => [newReview, ...prev]);
