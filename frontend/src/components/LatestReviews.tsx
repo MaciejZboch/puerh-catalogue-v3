@@ -25,16 +25,21 @@ return (<aside>
         key={review._id}
         className="p-5 bg-charcoal shadow rounded-lg flex items-center justify-between border-b border-green-accent "
       >
-        <div className="flex justify-between">
-          <span> <Link href={`/profile/${review.author._id}`}><b className="text-light">{review.author.username} </b> </Link>
-          <span className="text-mist">reviewed </span>  
-          <span className="text-light"><Link href={`/tea/${review.tea._id}`}>{review.tea.name}</Link> </span> </span>
-          
-        </div>
-        <p className="text-mist mt-1"> Rating:⭐ {review.rating}</p>
-        <p className="text-light mt-1">
-          {review.body}
-        </p>
+        
+                <div>
+                  <Link className="text-green-accent font-semibold" href={`/profile/${review.author._id}`}>{review.author.username}</Link>
+                  <span className="text-mist"> reviewed </span>  
+                  <Link className="text-green-accent" href={`/tea/${review.tea._id}`}>{review.tea.name}</Link>
+                
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm text-light">
+                    {review.rating.toFixed(1)} ★
+                  </span>
+                </div>
+
+                <p className="text-mist">{review.body}</p>
+              </div>
+
         
       </li>
     ))}
