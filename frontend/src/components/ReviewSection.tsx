@@ -4,6 +4,7 @@ import ReviewForm from "./ReviewForm";
 import { IPopulatedReview } from "@/types/review";
 import DeleteReviewButton from "./DeleteReviewButton";
 import { useState } from "react";
+import Link from "next/link";
 
 export default function ReviewSection({
   teaId,
@@ -40,7 +41,7 @@ return ( <>
                 className="bg-charcoal border-b border-green-accent rounded-xl shadow p-4"
               >
                 <div className="flex justify-between items-center mb-2">
-                  <span className="font-semibold">{review.author.username}</span>
+                  <span className="font-semibold"><Link href={`/profile/${review.author._id}`}>{review.author.username}</Link></span>
                   <span className="text-sm text-light">
                     {review.rating.toFixed(1)} ★
                   </span>

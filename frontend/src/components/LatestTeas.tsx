@@ -1,3 +1,4 @@
+import Link from "next/link";
 import {ITea} from "../types/tea";
 const API_URL = process.env.BACKEND_URL;
 
@@ -31,7 +32,7 @@ return (
             className="w-12 h-12 rounded object-cover"
           />
                 <div>
-                  <h3 className="font-bold text-light">{tea.name} {tea.year}</h3>
+                  <Link href={`/tea/${tea._id}`}><h3 className="font-bold text-light">{tea.name} {tea.year}</h3></Link>
                   <p className="text-mist"> {tea.type}, {tea.shape}</p>
                 </div>
               </div>

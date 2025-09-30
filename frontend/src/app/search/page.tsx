@@ -116,7 +116,7 @@ export default function SearchPage() {
                 >
                   <td className="p-2">
                     <Link
-                      href={`/teas/${tea._id}`}
+                      href={`/tea/${tea._id}`}
                       className="text-green-accent hover:underline"
                     >
                       {tea.name}

@@ -1,4 +1,5 @@
 import { IPopulatedReview } from "@/types/review";
+import Link from "next/link";
 const API_URL = process.env.BACKEND_URL;
 
 export default async function LatestReviews() {
@@ -25,7 +26,9 @@ return (<aside>
         className="p-5 bg-charcoal shadow rounded-lg flex items-center justify-between border-b border-green-accent "
       >
         <div className="flex justify-between">
-          <span> <b  className="text-light">{review.author.username} </b> <span className="text-mist">reviewed  </span>  <span className="text-light">{review.tea.name}</span> </span>
+          <span> <Link href={`/profile/${review.author._id}`}><b className="text-light">{review.author.username} </b> </Link>
+          <span className="text-mist">reviewed </span>  
+          <span className="text-light"><Link href={`/tea/${review.tea._id}`}>{review.tea.name}</Link> </span> </span>
           
         </div>
         <p className="text-mist mt-1"> Rating:⭐ {review.rating}</p>
