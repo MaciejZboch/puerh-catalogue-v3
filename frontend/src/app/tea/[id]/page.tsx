@@ -1,10 +1,12 @@
 import Image from "next/image";
-import { getTea } from "@/lib/api";
+import { getTea, deleteTea } from "@/lib/api";
 import { cookies } from "next/headers";
 import ReviewSection from "@/components/ReviewSection";
+import EditTeaButton from "@/components/EditTeaButton";
+import DeleteTeaButton from "@/components/DeleteTeaButton";
 
 export async function getCurrentUserForServer() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const res = await fetch("http://localhost:4000/api/me", { credentials: "include", headers: {
       cookie: cookieStore.toString()
     }, });
@@ -48,7 +50,10 @@ export default async function TeaPage({ params }: { params: { id: string } }) {
 
       {/* Center Column: Tasting Notes + Description + Reviews */}
       <div className="lg:col-span-2 space-y-8">
-<h3 className="text-xl font-semibold mb-4">Tea info</h3>
+<h3 className="inline text-xl font-semibold mb-4">Tea info</h3>
+  <EditTeaButton/>
+  <DeleteTeaButton teaId={params.id}/>
+
 <ul>
   {(tea.region) ? <li><span className="text-mist">Region:</span> {tea.region}</li> : null}
   {(tea.village) ? <li><span className="text-mist">Village:</span> {tea.village}</li> : null}

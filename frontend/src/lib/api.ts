@@ -54,6 +54,12 @@ export async function getTea(teaId: string) {
 
 export async function deleteReview(reviewId: string) {
 const res = await fetch(`http://localhost:4000/api/teas/review/${reviewId}`, { method: "DELETE", credentials: "include"});
+    if (!res.ok) {throw new Error("No review with that id!");}
+    return res.json();
+}
+
+export async function deleteTea(teaId: string) {
+const res = await fetch(`http://localhost:4000/api/teas/${teaId}`, { method: "DELETE", credentials: "include"});
     if (!res.ok) {throw new Error("No tea with that id!");}
     return res.json();
 }
