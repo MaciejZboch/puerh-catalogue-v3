@@ -25,12 +25,13 @@ export const index = async (req: Request, res: Response) => {
     const reviews: any[] = [];
 
     for (const act of activities) {
+
       if (act.type === "review") {
         const review = await Review.findById(act.refId)
           .populate("tea")
           .populate("author");
 
-        if (review) {
+        if (review && review.tea) {
           reviews.push({
             ...act.toObject(),
             ...review.toObject(),
