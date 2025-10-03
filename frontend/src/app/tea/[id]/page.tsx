@@ -23,7 +23,7 @@ export default async function TeaPage({ params }: { params: { id: string } }) {
   return (
     <main className="max-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8 bg-dark text-light">
       {/* Left Column - tea card */}
-      <div className="lg:col-span-1 flex flex-col items-center bg-charcoal rounded-md border-b border-green-accent">
+      <div className="lg:col-span-1 max-h-141 flex flex-col items-center bg-charcoal rounded-md border-b border-green-accent">
 <Image
   src={
     tea.images?.[1]?.url ||
