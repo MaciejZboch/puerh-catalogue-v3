@@ -5,7 +5,7 @@ import { isLoggedIn, isAuthor, validateTea } from '../middleware';
 import multer from 'multer';
 import { storage }  from '../cloudinary';
 const upload = multer({ storage });
-import {collection, browse, index, newForm, remove, create, newProducer, newVendor, postProducer, postVendor, update, show, addToCollection, removeFromCollection } from '../controllers/tea';
+import {collection, browse, index, newForm, remove, create, newProducer, newVendor, postProducer, postVendor, update, show, addToCollection, removeFromCollection, editForm } from '../controllers/tea';
 const { hasNoSpecialSymbols } = require("../middleware");
 
 router
@@ -29,6 +29,9 @@ router
   );
 
 router.get("/new", isLoggedIn, catchAsync(newForm));
+
+router.get("/:id/edit", isLoggedIn, isAuthor, validateTea, catchAsync(editForm));
+
 router
   .route("/newVendor")
   .get(isLoggedIn, newVendor)

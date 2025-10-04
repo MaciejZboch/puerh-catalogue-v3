@@ -16,7 +16,6 @@ import User from './models/user';
 import userRoutes from './routes/users';
 import teaRoutes from './routes/tea';
 import reviewRoutes from './routes/review';
-import editRoutes from './routes/edit';
 import moderateRoutes from './routes/moderate';
 
 //JSON setup for React
@@ -122,7 +121,6 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use("/api/", userRoutes);
 app.use("/api/teas", teaRoutes);
 app.use("/api/teas", reviewRoutes);
-app.use("/api/edit", editRoutes);
 app.use("/api/moderate", moderateRoutes);
 
 app.listen(4000)

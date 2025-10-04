@@ -1,4 +1,6 @@
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+import { useSearchParams } from "next/navigation"
+
 
 export async function login(username: string, password: string) {
   const res = await fetch(`${API_URL}/api/login`, {
@@ -42,6 +44,12 @@ export async function removeFromCollection(teaId: string) {
 
 export async function getNewTeaForm() {
   const res = await fetch(`http://localhost:4000/api/teas/new`, { method: "GET", credentials: "include"});
+  if (!res.ok) {throw new Error("Failed to get form!");}
+  return res.json();
+}
+
+export async function getEditTeaForm(teaId: string, userId: string | null) {
+  const res = await fetch(`http://localhost:4000/api/teas/${teaId}/edit?user=${userId}`, { method: "GET", credentials: "include"});
   if (!res.ok) {throw new Error("Failed to get form!");}
   return res.json();
 }

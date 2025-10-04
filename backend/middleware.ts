@@ -1,5 +1,5 @@
 import ExpressError from './utilities/ExpressError';
-import { teaSchema, reviewSchema, vendorSchema } from './schemas';
+import { teaSchema, reviewSchema } from './schemas';
 import { Request, Response, NextFunction } from 'express';
 import Tea from './models/tea';
 import Review from './models/review';
@@ -30,7 +30,8 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
 };
 export const isAuthor = async (req: Request, res: Response, next: NextFunction) => {
   const tea = await Tea.findById(req.params.id);
-  if (req.user && tea && !tea.author.equals(req.user._id)) {
+  console.log(tea)
+  if (req.user && tea && !tea.author.equals(req.user._id) || req.user && req.user.moderator === true) {
    return res.status(401).json({ error: "Unauthorized, is not author" });
   }
   next();

@@ -52,7 +52,7 @@ export default async function TeaPage({ params }: { params: { id: string } }) {
       {/* Center Column: Tasting Notes + Description + Reviews */}
       <div className="lg:col-span-2 space-y-8">
 <h3 className="inline text-xl font-semibold mb-4">Tea info</h3>
-  <EditTeaButton/>
+  <EditTeaButton teaId={params.id} userId={currentUser._id}/>
   <DeleteTeaButton teaId={params.id}/>
 
 <ul>
