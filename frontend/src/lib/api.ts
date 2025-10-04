@@ -49,7 +49,7 @@ export async function getNewTeaForm() {
 }
 
 export async function getEditTeaForm(teaId: string, userId: string | null) {
-  const res = await fetch(`http://localhost:4000/api/teas/${teaId}/edit?user=${userId}`, { method: "GET", credentials: "include"});
+  const res = await fetch(`http://localhost:4000/api/teas/${teaId}/edit`, { method: "GET", credentials: "include"});
   if (!res.ok) {throw new Error("Failed to get form!");}
   return res.json();
 }

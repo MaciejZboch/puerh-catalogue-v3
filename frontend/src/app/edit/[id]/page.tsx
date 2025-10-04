@@ -25,8 +25,8 @@ export default function Edit() {
         setVendors(data.vendors || []);
         setProducers(data.producers || []);
       }
-      catch {
-        console.error("failed to fetch tea form data");
+      catch (err) {
+        console.error("failed to fetch tea form data", err);
       }
     }
     fetchFormData();

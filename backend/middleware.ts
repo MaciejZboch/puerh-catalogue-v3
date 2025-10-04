@@ -30,10 +30,21 @@ export const isLoggedIn = (req: Request, res: Response, next: NextFunction) => {
 };
 export const isAuthor = async (req: Request, res: Response, next: NextFunction) => {
   const tea = await Tea.findById(req.params.id);
-  console.log(tea)
-  if (req.user && tea && !tea.author.equals(req.user._id) || req.user && req.user.moderator === true) {
-   return res.status(401).json({ error: "Unauthorized, is not author" });
+ if (!tea) {
+    return res.status(404).json({ error: "Tea not found" });
   }
+
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthorized" });
+  }
+
+  const isModerator = req.user.moderator === true;
+  const isAuthor = tea.author && tea.author.equals && tea.author.equals(req.user._id);
+
+  if (!isModerator && !isAuthor) {
+    return res.status(401).json({ error: "Unauthorized, not author or moderator" });
+  }
+
   next();
 };
 export const validateTea = (req: Request, res: Response, next: NextFunction) => {
