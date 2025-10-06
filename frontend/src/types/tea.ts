@@ -24,8 +24,8 @@ export interface ITea {
     | 'Tube'
     | 'Melon'
     | 'Other';
-  producer: string | null; // ObjectId serialized
-  vendor: string | null;
+  producer: any;
+  vendor: any;
   author: string;
   owners: string[];
   sizeInGrams: number;

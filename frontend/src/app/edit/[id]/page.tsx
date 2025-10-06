@@ -3,9 +3,10 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { getEditTeaForm, getNewTeaForm } from "@/lib/api";
+import { getEditTeaForm } from "@/lib/api";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
+import { ITea } from "@/types/tea";
 
 
 export default function Edit() {
@@ -17,6 +18,28 @@ export default function Edit() {
   const [vendors, setVendors] = useState<any[]>([]);
   const [producers, setProducers] = useState<any[]>([]);
   
+  const emptyTea: ITea = {
+  _id: "",
+  name: "",
+  description: "",
+  images: [],
+  type: "Raw / Sheng",
+  year: new Date().getFullYear(),
+  region: "",
+  village: "",
+  ageing_location: "",
+  ageing_conditions: "Dry",
+  shape: "Cake",
+  producer: null,
+  vendor: null,
+  author: "unknown",
+  owners: [],
+  sizeInGrams: 0,
+  price: 0,
+  pricePerGram: 0
+};
+
+const [t, setT] = useState<ITea>(emptyTea);
 
   useEffect(() => {
     async function fetchFormData() {
@@ -24,6 +47,13 @@ export default function Edit() {
         const data = await getEditTeaForm(teaId, userId);
         setVendors(data.vendors || []);
         setProducers(data.producers || []);
+        reset({
+        ...data.t,
+        vendor: data.t.vendor?._id || "",   // use id as key and value
+        producer: data.t.producer?._id || ""
+      });
+      console.log(t)
+
       }
       catch (err) {
         console.error("failed to fetch tea form data", err);
@@ -70,6 +100,7 @@ const {
   register,
   handleSubmit,
   formState: { errors },
+  reset
 } = useForm<TeaFormInputs>({
   resolver: yupResolver(schema) as any,
   defaultValues: {
@@ -134,7 +165,7 @@ if (data.shape) {
   return (
     <div className="min-h-screen flex flex-col bg-dark text-light">
     <div className="max-w-3xl mx-auto px-6 py-10 bg-dark">
-      <h1 className="text-3xl font-bold text-light">Add a New Tea</h1>
+      <h1 className="text-3xl font-bold text-light">Edit Tea</h1>
 
       <form
         onSubmit={handleSubmit(onSubmit)}
@@ -146,8 +177,8 @@ if (data.shape) {
           <input
             {...register("name")}
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+            placeholder="Loading..."
             type="text"
-            placeholder="e.g. Yiwu Gushu"
           />
           {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
         </div>
@@ -172,7 +203,7 @@ if (data.shape) {
             {...register("year")}
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
             type="number"
-            placeholder="e.g. 2020"
+            placeholder="e.g. 2020..."
             min="1900"
             max={currentYear}
           />
@@ -185,7 +216,6 @@ if (data.shape) {
           <select
             {...register("vendor")}
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-            defaultValue=""
           >
              <option value="" disabled > -- select an option -- </option>
             {vendors.map((vendor: any) => (
@@ -222,7 +252,7 @@ if (data.shape) {
             {...register("region")}
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
             type="text"
-            placeholder="e.g. Yunnan"
+            placeholder="e.g. Menghai..."
           />
           {errors.region && <p className="text-red-500 text-sm mt-1">{errors.region.message}</p>}
         </div>
@@ -234,7 +264,7 @@ if (data.shape) {
             {...register("village")}
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
             type="text"
-            placeholder="e.g. Lao Banzhang"
+            placeholder="e.g. Lao Banzhang..."
           />
           {errors.village && <p className="text-red-500 text-sm mt-1">{errors.village.message}</p>}
         </div>
@@ -246,7 +276,7 @@ if (data.shape) {
             {...register("ageing_location")}
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
             type="text"
-            placeholder="e.g. Hong Kong"
+            placeholder="e.g. Hong Kong..."
           />
           {errors.ageing_location && (
             <p className="text-red-500 text-sm mt-1">{errors.ageing_location.message}</p>
@@ -280,6 +310,7 @@ if (data.shape) {
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
             rows={3}
             placeholder="Short notes about this tea..."
+            value={t.description}
           />
           {errors.description && (
             <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
@@ -323,7 +354,7 @@ if (data.shape) {
           type="submit"
           className="w-full bg-green-accent text-dark py-2 rounded-md hover:bg-green-soft transition"
         >
-          Add Tea
+          Edit tea
         </button>
       </form>
     </div>
