@@ -170,8 +170,8 @@ export const update = async (req: Request, res: Response) => {
     ...req.body.tea,
   });
   if (!foundTea) {return res.status(401).json({ error: "Tea not found!" })};
-  foundTea.vendor = await Vendor.findOne({ name: req.body.vendor.name });
-  foundTea.producer = await Producer.findOne({ name: req.body.producer.name });
+  foundTea.vendor = await Vendor.findById(req.body.vendor);
+  foundTea.producer = await Producer.findById(req.body.producer);
 
   if (req.files) {
     if (Array.isArray(req.files)) {

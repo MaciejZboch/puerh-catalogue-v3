@@ -219,7 +219,7 @@ if (data.shape) {
           >
              <option value="" disabled > -- select an option -- </option>
             {vendors.map((vendor: any) => (
-              <option key={vendor._id} value={vendor.name}>
+              <option key={vendor._id} value={vendor._id}>
                 {vendor.name}
               </option>
             ))}
@@ -237,7 +237,7 @@ if (data.shape) {
           >
             <option value="">Unknown</option>
             {producers.map((producer: any) => (
-              <option key={producer.name} value={producer.name}>
+              <option key={producer.name} value={producer._id}>
                 {producer.name}
               </option>
             ))}
