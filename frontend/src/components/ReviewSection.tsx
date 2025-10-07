@@ -33,7 +33,7 @@ return ( <>
 <ReviewForm onNewReview={handleAddReview} teaId={teaId}/>
 
         <section>
-          <h3 className="text-xl font-semibold mb-4">Reviews</h3>
+          {reviewsArray.length > 0 && <h3 className="text-xl font-semibold mb-4">Reviews</h3>}
           <div className="space-y-4">
             {reviewsArray.map((review: IPopulatedReview, i: any) => (
               <div
