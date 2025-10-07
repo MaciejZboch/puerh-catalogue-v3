@@ -161,14 +161,17 @@ export const editForm = async (req: Request, res: Response) => {
 };
 
 export const update = async (req: Request, res: Response) => {
-  const tea = req.body.tea;
+  const tea = req.body;
   const lengthError = checkTeaLength(req, res, tea); //returns null if the tea length is fine
+
   if (lengthError) {
   return res.status(500).json({ error: "Invalid length!" });
   }
+  
   const foundTea = await Tea.findByIdAndUpdate(req.params.id, {
-    ...req.body.tea,
+    ...tea,
   });
+
   if (!foundTea) {return res.status(401).json({ error: "Tea not found!" })};
   foundTea.vendor = await Vendor.findById(req.body.vendor);
   foundTea.producer = await Producer.findById(req.body.producer);

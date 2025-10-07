@@ -52,7 +52,6 @@ const [t, setT] = useState<ITea>(emptyTea);
         vendor: data.t.vendor?._id || "",   // use id as key and value
         producer: data.t.producer?._id || ""
       });
-      console.log(t)
 
       }
       catch (err) {
@@ -157,7 +156,7 @@ if (data.shape) {
       formData.append("images", file);
     });
   }
-    const res = await fetch(`http://localhost:4000/api/teas/`, { method: "POST", body: formData, credentials: "include"});
+    const res = await fetch(`http://localhost:4000/api/teas/${teaId}`, { method: "PUT", body: formData, credentials: "include"});
     if (!res.ok) {throw new Error("Failed to add new tea!");}
   return res.json();
   };

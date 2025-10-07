@@ -2,11 +2,11 @@ import { Request, Response, NextFunction } from "express";
 import {ITea} from "../models/tea";
 
 function checkTeaLength(req: Request, res: Response, tea: ITea) {
-  
-function isProperLength(t: string | undefined, x: number) {
+
+  function isProperLength(t: string | undefined, x: number) {
   if (!t) return true; // allow empty values
   return t.length > 3 && t.length < x;
-}
+  }
   const fields = [
     { key: "name", max: 20, message: "Name must be 3 to 20 characters long!" },
     {
