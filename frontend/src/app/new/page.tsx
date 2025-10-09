@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -10,6 +11,7 @@ import { useEffect, useState } from "react";
 export default function New() {
   const [vendors, setVendors] = useState<any[]>([]);
   const [producers, setProducers] = useState<any[]>([]);
+  const router = useRouter();
 
   useEffect(() => {
     async function fetchFormData() {
@@ -76,53 +78,47 @@ const {
 });
 
   const onSubmit: SubmitHandler<TeaFormInputs> = async (data) => {
-    const formData = new FormData();
-    
-formData.append("name", data.name);
-formData.append("type", data.type);
+  const formData = new FormData();
 
-if (data.year) {
-  formData.append("year", String(data.year));
-}
+  formData.append("name", data.name);
+  formData.append("type", data.type);
 
-formData.append("vendor", data.vendor);
-formData.append("producer", data.producer);
+  if (data.year) formData.append("year", String(data.year));
+  formData.append("vendor", data.vendor);
+  formData.append("producer", data.producer);
 
-if (data.region) {
-  formData.append("region", data.region);
-}
+  if (data.region) formData.append("region", data.region);
+  if (data.village) formData.append("village", data.village);
+  if (data.ageing_location) formData.append("ageing_location", data.ageing_location);
+  if (data.ageing_conditions) formData.append("ageing_conditions", data.ageing_conditions);
+  if (data.description) formData.append("description", data.description);
+  if (data.shape) formData.append("shape", data.shape);
 
-if (data.village) {
-  formData.append("village", data.village);
-}
-
-if (data.ageing_location) {
-  formData.append("ageing_location", data.ageing_location);
-}
-
-if (data.ageing_conditions) {
-  formData.append("ageing_conditions", data.ageing_conditions);
-}
-
-if (data.description) {
-  formData.append("description", data.description);
-}
-
-if (data.shape) {
-  formData.append("shape", data.shape);
-}
-
-
-  // Add files
   if (data.images && data.images.length > 0) {
     Array.from(data.images).forEach((file) => {
       formData.append("images", file);
     });
   }
-    const res = await fetch(`http://localhost:4000/api/teas/`, { method: "POST", body: formData, credentials: "include"});
-    if (!res.ok) {throw new Error("Failed to add new tea!");}
-  return res.json();
-  };
+
+  try {
+    const res = await fetch(`http://localhost:4000/api/teas/`, {
+      method: "POST",
+      body: formData,
+      credentials: "include",
+    });
+
+    if (!res.ok) throw new Error("Failed to add new tea!");
+
+    const data = await res.json();
+
+    //redirect to the newly created tea page
+    router.push(`/tea/${data.tea._id}`);
+  } catch (err) {
+    console.error(err);
+    alert("Error creating tea. Please try again.");
+  }
+};
+
   
   return (
     <div className="min-h-screen flex flex-col bg-dark text-light">
