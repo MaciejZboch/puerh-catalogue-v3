@@ -79,8 +79,8 @@ export const create = async (req: Request, res: Response) => {
   }
   const newTea = new Tea(tea);
   newTea.author = req.user._id;
-  newTea.vendor = await Vendor.findOne({ name: req.body.vendor.name });
-  newTea.producer = await Producer.findOne({ name: req.body.producer.name });
+  newTea.vendor = await Vendor.findById(req.body.vendor);
+  newTea.producer = await Producer.findById(req.body.producer);
   if (!newTea.vendor) {
   throw new Error('Vendor not found!');
 }
