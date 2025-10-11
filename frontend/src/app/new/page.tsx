@@ -33,14 +33,25 @@ const schema = yup.object({
   name: yup.string().required("Name is required").min(3).max(20),
   type: yup.string().required("Type is required"),
   year: yup
-    .number()
-    .notRequired()
-    .typeError("Year must be a number")
-    .min(1900, "Year cannot be earlier than 1900")
-    .max(currentYear, `Year cannot be later than ${currentYear}`)
-    .integer(),
+  .number()
+  .nullable()
+  .transform((v) => (v === "" ? null : v))
+  .notRequired()
+  .when([], {
+    is: (v: any) => v !== null && v !== undefined,
+    then: (schema) =>
+      schema
+        .typeError("Year must be a number")
+        .min(1900, "Year cannot be earlier than 1900")
+        .max(
+          currentYear,
+          `Year cannot be later than ${currentYear}`
+        )
+        .integer(),
+    otherwise: (schema) => schema.strip(), // if no year is given, ignore min and max
+  }),
   vendor: yup.string().required("Vendor is required"),
-  producer: yup.string().required("Producer is required"),
+  producer: yup.string().notRequired().nullable().transform((v) => (v === "" ? null : v)),
   region: yup.string().min(3).max(20).notRequired().nullable().transform((v) => (v === "" ? null : v)),
   village: yup.string().min(3).max(20).notRequired().nullable().transform((v) => (v === "" ? null : v)),
   ageing_location: yup.string().min(3).max(20).notRequired().nullable().transform((v) => (v === "" ? null : v)),
@@ -71,7 +82,7 @@ const {
     name: "",
     type: "Raw / Sheng",
     vendor: vendors[0]?.name || "",
-    producer: producers[0]?.name || "Unknown",
+    producer: producers[0]?.name || null,
     ageing_conditions: "Unknown",
     shape: "Cake",
   },
@@ -85,8 +96,7 @@ const {
 
   if (data.year) formData.append("year", String(data.year));
   formData.append("vendor", data.vendor);
-  formData.append("producer", data.producer);
-
+  if (data.producer) formData.append("producer", data.producer);
   if (data.region) formData.append("region", data.region);
   if (data.village) formData.append("village", data.village);
   if (data.ageing_location) formData.append("ageing_location", data.ageing_location);
