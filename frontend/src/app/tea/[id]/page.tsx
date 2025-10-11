@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { getTea, deleteTea } from "@/lib/api";
+import { getTea } from "@/lib/api";
 import { cookies } from "next/headers";
 import ReviewSection from "@/components/ReviewSection";
 import EditTeaButton from "@/components/EditTeaButton";

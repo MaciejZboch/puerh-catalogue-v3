@@ -1,5 +1,4 @@
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
-import { useSearchParams } from "next/navigation"
 
 
 export async function login(username: string, password: string) {
