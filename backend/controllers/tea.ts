@@ -191,7 +191,7 @@ export const update = async (req: Request, res: Response) => {
     });
     await foundTea.save();
   }
-return res.status(201).json({ message: "Tea updated!", tea: tea });
+return res.status(201).json({ message: "Tea updated!", tea: foundTea });
 }};
 
 export const remove = async (req: Request, res: Response) => {

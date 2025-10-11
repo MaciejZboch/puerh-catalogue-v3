@@ -1,5 +1,6 @@
 "use client"
 
+import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -17,7 +18,8 @@ export default function Edit() {
   const userId = searchParams.get("user")
   const [vendors, setVendors] = useState<any[]>([]);
   const [producers, setProducers] = useState<any[]>([]);
-  
+  const router = useRouter();
+
   const emptyTea: ITea = {
   _id: "",
   name: "",
@@ -156,9 +158,20 @@ if (data.shape) {
       formData.append("images", file);
     });
   }
-    const res = await fetch(`http://localhost:4000/api/teas/${teaId}`, { method: "PUT", body: formData, credentials: "include"});
-    if (!res.ok) {throw new Error("Failed to add new tea!");}
-  return res.json();
+
+  try {
+    const res = await fetch(`http://localhost:4000/api/teas/${teaId}`,
+      { method: "PUT", body: formData, credentials: "include"});
+
+    if (!res.ok) throw new Error("Failed to add new tea!");
+    const data = await res.json();
+
+    //redirect to the edited tea page
+    router.push(`/tea/${data.tea._id}`);
+  } catch (err) {
+    console.error(err);
+    alert("Error editing tea. Please try again.");
+  }
   };
   
   return (
