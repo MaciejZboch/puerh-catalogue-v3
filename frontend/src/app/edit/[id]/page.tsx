@@ -52,7 +52,8 @@ const [t, setT] = useState<ITea>(emptyTea);
         reset({
         ...data.t,
         vendor: data.t.vendor?._id || "",   // use id as key and value
-        producer: data.t.producer?._id || ""
+        producer: data.t.producer?._id || "",
+        year: data.t.year ?? null,
       });
 
       }
@@ -69,23 +70,12 @@ const schema = yup.object({
   name: yup.string().required("Name is required").min(3).max(20),
   type: yup.string().required("Type is required"),
   year: yup
-  .number()
-  .nullable()
-  .transform((v) => (v === "" ? null : v))
-  .notRequired()
-  .when([], {
-    is: (v: any) => v !== null && v !== undefined,
-    then: (schema) =>
-      schema
-        .typeError("Year must be a number")
-        .min(1900, "Year cannot be earlier than 1900")
-        .max(
-          currentYear,
-          `Year cannot be later than ${currentYear}`
-        )
-        .integer(),
-    otherwise: (schema) => schema.strip(), // if no year is given, ignore min and max
-  }),
+    .number()
+    .notRequired()
+    .typeError("Year must be a number")
+    .min(1900, "Year cannot be earlier than 1900")
+    .max(currentYear, `Year cannot be later than ${currentYear}`)
+    .integer(),
   vendor: yup.string().required("Vendor is required"),
   producer: yup
   .string()
@@ -229,7 +219,7 @@ if (data.shape) {
         <div>
           <label className="block text-sm font-medium text-light">Year</label>
           <input
-            {...register("year")}
+            {...register("year", { valueAsNumber: true })}
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
             type="number"
             placeholder="e.g. 2020..."
@@ -339,7 +329,6 @@ if (data.shape) {
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
             rows={3}
             placeholder="Short notes about this tea..."
-            value={t.description}
           />
           {errors.description && (
             <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>

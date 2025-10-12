@@ -33,23 +33,12 @@ const schema = yup.object({
   name: yup.string().required("Name is required").min(3).max(20),
   type: yup.string().required("Type is required"),
   year: yup
-  .number()
-  .nullable()
-  .transform((v) => (v === "" ? null : v))
-  .notRequired()
-  .when([], {
-    is: (v: any) => v !== null && v !== undefined,
-    then: (schema) =>
-      schema
-        .typeError("Year must be a number")
-        .min(1900, "Year cannot be earlier than 1900")
-        .max(
-          currentYear,
-          `Year cannot be later than ${currentYear}`
-        )
-        .integer(),
-    otherwise: (schema) => schema.strip(), // if no year is given, ignore min and max
-  }),
+    .number()
+    .notRequired()
+    .typeError("Year must be a number")
+    .min(1900, "Year cannot be earlier than 1900")
+    .max(currentYear, `Year cannot be later than ${currentYear}`)
+    .integer(),
   vendor: yup.string().required("Vendor is required"),
   producer: yup.string().notRequired().nullable().transform((v) => (v === "" ? null : v)),
   region: yup.string().min(3).max(20).notRequired().nullable().transform((v) => (v === "" ? null : v)),
