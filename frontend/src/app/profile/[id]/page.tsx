@@ -5,6 +5,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import ITableTea from "@/types/tabletea";
 import { IUser } from "@/types/user";
+import { getCurrentUser } from "@/lib/api";
 
 export default function ProfilePage() {
     const params = useParams();
@@ -16,6 +17,34 @@ export default function ProfilePage() {
     const [sortKey, setSortKey] = useState<keyof ITableTea>("name");
     const [sortAsc, setSortAsc] = useState(true);
     const [followedUsers, setFollowedUsers] = useState<IUser[]>([]);
+    const [currentUser, setCurrentUser] = useState<IUser | null>(null);
+
+async function follow(userId: string) {
+  const res = await fetch(`http://localhost:4000/api/users/${userId}`, {
+      method: "PUT",
+      credentials: "include",
+    });
+    if (res.ok && currentUser) {
+    setCurrentUser((prev) =>
+      prev
+        ? { ...prev, following: [...prev.following, userId] }
+        : prev
+    );
+  }
+}
+async function unfollow(userId: string) {
+    const res = await fetch(`http://localhost:4000/api/users/${userId}`, {
+      method: "DELETE",
+      credentials: "include",
+    });
+    if (res.ok && currentUser) {
+    setCurrentUser((prev) =>
+      prev
+        ? { ...prev, following: prev.following.filter((id) => id !== userId) }
+        : prev
+    );
+  }
+}
 
 async function uncollect(tea: ITableTea) {
   try {
@@ -41,7 +70,13 @@ async function uncollect(tea: ITableTea) {
     console.error("Error updating collection:", err);
   }
 }
-
+  useEffect(() => {
+         async function fetchCurrentUser() {
+    const user = await getCurrentUser();
+    setCurrentUser(user);
+  }
+    fetchCurrentUser();
+  }, []);
 
   useEffect(() => {
     async function fetchProfile() {
@@ -61,7 +96,7 @@ async function uncollect(tea: ITableTea) {
       } finally {
         setLoading(false);
       }
-}
+  }
  if (userId) fetchProfile();
   }, [userId]);
    function handleSort(key: keyof ITableTea) {
@@ -111,7 +146,15 @@ async function uncollect(tea: ITableTea) {
         )}
         <div>
           <h1 className="text-2xl font-bold">{user.username}</h1>
+          
+          {currentUser && currentUser._id !== user._id &&
+          <button className="px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition"
+            onClick={ !currentUser.following.includes(user._id)
+            ? () => follow(userId)
+            : () => unfollow(userId)}>
+            {!currentUser.following.includes(user._id) ? "Follow" : "Unfollow"}</button>}
           {user.email && <p className="text-mist">{user.email}</p>}
+        
         </div>
       </div>
             {/* Followed users */}
