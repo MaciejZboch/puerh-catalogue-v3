@@ -18,6 +18,7 @@ export default function ProfilePage() {
     const [sortAsc, setSortAsc] = useState(true);
     const [followedUsers, setFollowedUsers] = useState<IUser[]>([]);
     const [currentUser, setCurrentUser] = useState<IUser | null>(null);
+    const [loadingCurrentUser, setLoadingCurrentUser] = useState(true);
 
 async function follow(userId: string) {
   const res = await fetch(`http://localhost:4000/api/users/${userId}`, {
@@ -71,9 +72,15 @@ async function uncollect(tea: ITableTea) {
   }
 }
   useEffect(() => {
-         async function fetchCurrentUser() {
-    const user = await getCurrentUser();
-    setCurrentUser(user);
+    async function fetchCurrentUser() {
+      try {
+        const user = await getCurrentUser();
+        setCurrentUser(user);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoadingCurrentUser(false);
+      }
   }
     fetchCurrentUser();
   }, []);
@@ -125,7 +132,7 @@ async function uncollect(tea: ITableTea) {
       : String(strB).localeCompare(String(strA));
   });
 
-  if (loading) return <p className="p-4 text-light">Loading profile...</p>;
+  if (loading || loadingCurrentUser) return <div className="p-6 bg-dark text-light min-h-screen items-center"> <p className="p-4">Loading profile...</p></div>;
   if (!user) return <p className="p-4 text-light">User not found.</p>;
 
   return (
