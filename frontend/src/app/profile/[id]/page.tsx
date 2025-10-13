@@ -200,10 +200,10 @@ async function uncollect(tea: ITableTea) {
         )}
       </div>
 
-      <h2 className="text-xl font-semibold mb-2">{user.username}'s tea collection:</h2>
       {teas.length === 0 ? (
         <p className="text-mist">{user.username} hasn’t added any teas yet.</p>
-      ) : (
+      ) : ( <>
+        <h2 className="text-xl font-semibold mb-2">{user.username}'s tea collection:</h2>
         <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
@@ -275,6 +275,7 @@ async function uncollect(tea: ITableTea) {
           </tbody>
         </table>
         </div>
+        </>
       )}
     </div>
   );
