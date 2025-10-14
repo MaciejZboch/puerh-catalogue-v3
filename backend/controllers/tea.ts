@@ -21,10 +21,23 @@ export const index = async (req: Request, res: Response) => {
       .limit(20)
       .populate("user", "username");
 
-    const teas: any[] = [];
-    const reviews: any[] = [];
+    //const teas: any[] = [];
+    //const reviews: any[] = [];
 
-    for (const act of activities) {
+    //experiment with no activity
+
+    const reviews = await Review
+      .find({})
+      .sort({ _id: -1 })   // sort newest first
+      .limit(8);
+
+    const teas = await Tea
+      .find({})
+      .sort({_id: -1})
+      .limit(10);
+
+
+   /* for (const act of activities) {
 
       if (act.type === "review") {
         const review = await Review.findById(act.refId)
@@ -47,7 +60,7 @@ export const index = async (req: Request, res: Response) => {
         }
       }
     }
-
+*/
     res.json({
       vendors,
       producers,
