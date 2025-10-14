@@ -15,15 +15,21 @@ export const index = async (req: Request, res: Response) => {
     const vendors = await Vendor.find();
     const producers = await Producer.find();
 
-    const reviews = await Review
+    const unfilteredReviews = await Review
       .find({})
       .sort({ _id: -1 })   // sort newest first
-      .limit(8);
+      .limit(8)
+      .populate("author")
+      .populate("tea");
+    
+    const reviews = unfilteredReviews.filter(r => r.tea);
 
     const teas = await Tea
       .find({})
       .sort({_id: -1})
-      .limit(10);
+      .limit(10)
+      .populate("vendor")
+      .populate("producer");
 
     res.json({
       vendors,
