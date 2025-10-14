@@ -53,7 +53,6 @@ const [t, setT] = useState<ITea>(emptyTea);
         ...data.t,
         vendor: data.t.vendor?._id || "",   // use id as key and value
         producer: data.t.producer?._id || "",
-        year: data.t.year ?? null,
       });
 
       }
@@ -75,7 +74,9 @@ const schema = yup.object({
     .typeError("Year must be a number")
     .min(1900, "Year cannot be earlier than 1900")
     .max(currentYear, `Year cannot be later than ${currentYear}`)
-    .integer(),
+    .integer()
+    .transform((curr, orig) => (orig === "" ? null : curr))
+    .nullable(),
   vendor: yup.string().required("Vendor is required"),
   producer: yup
   .string()
@@ -219,7 +220,7 @@ if (data.shape) {
         <div>
           <label className="block text-sm font-medium text-light">Year</label>
           <input
-            {...register("year", { valueAsNumber: true })}
+            {...register("year")}
             className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
             type="number"
             placeholder="e.g. 2020..."

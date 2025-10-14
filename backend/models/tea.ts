@@ -10,7 +10,7 @@ export interface ITea extends Document {
   description: string;
   images: Types.Array<IImage>;
   type: 'Raw / Sheng' | 'Ripe / Shu' | 'blend';
-  year: number;
+  year: number | null;
   region: string;
   village: string;
   ageing_location: string;

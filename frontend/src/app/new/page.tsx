@@ -38,7 +38,9 @@ const schema = yup.object({
     .typeError("Year must be a number")
     .min(1900, "Year cannot be earlier than 1900")
     .max(currentYear, `Year cannot be later than ${currentYear}`)
-    .integer(),
+    .integer()
+    .transform((curr, orig) => (orig === "" ? null : curr))
+    .nullable(),
   vendor: yup.string().required("Vendor is required"),
   producer: yup.string().notRequired().nullable().transform((v) => (v === "" ? null : v)),
   region: yup.string().min(3).max(20).notRequired().nullable().transform((v) => (v === "" ? null : v)),

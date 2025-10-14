@@ -167,6 +167,10 @@ export const update = async (req: Request, res: Response) => {
   if (lengthError) {
   return res.status(500).json({ error: "Invalid length!" });
   }
+
+  if (!req.body.year) {
+   tea.year = null
+  }
   
   const foundTea = await Tea.findByIdAndUpdate(req.params.id, {
     ...tea,
