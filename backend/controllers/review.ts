@@ -1,6 +1,5 @@
 import Review, {IReview} from '../models/review';
 import Tea from '../models/tea';
-import Activity from '../models/activity';
 import { Request, Response } from 'express';
 import { Types } from 'mongoose';
 
@@ -19,14 +18,6 @@ return res.status(404).json({ error: "Tea not found!" });
   review.tea = tea._id as Types.ObjectId;
 
   await review.save();
-  
-  //logging activity with timestamp
-  const activity = new Activity({
-    user: req.user._id,
-    type: "review",
-    refId: review._id,
-  });
-  await activity.save();
 
   await review.populate("author");
   return res.json( review );

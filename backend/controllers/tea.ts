@@ -3,7 +3,6 @@ import Vendor from "../models/vendor";
 import Producer from "../models/producer";
 import User from "../models/user";
 import Review from "../models/review";
-import Activity from "../models/activity";
 import {cloudinary} from "../cloudinary/index";
 import checkTeaLength from "../utilities/checkTeaLength";
 import mongoose from "mongoose";
@@ -16,16 +15,6 @@ export const index = async (req: Request, res: Response) => {
     const vendors = await Vendor.find();
     const producers = await Producer.find();
 
-    const activities = await Activity.find({})
-      .sort({ createdAt: -1 })
-      .limit(20)
-      .populate("user", "username");
-
-    //const teas: any[] = [];
-    //const reviews: any[] = [];
-
-    //experiment with no activity
-
     const reviews = await Review
       .find({})
       .sort({ _id: -1 })   // sort newest first
@@ -36,31 +25,6 @@ export const index = async (req: Request, res: Response) => {
       .sort({_id: -1})
       .limit(10);
 
-
-   /* for (const act of activities) {
-
-      if (act.type === "review") {
-        const review = await Review.findById(act.refId)
-          .populate("tea")
-          .populate("author");
-
-        if (review && review.tea) {
-          reviews.push({
-            ...act.toObject(),
-            ...review.toObject(),
-          });
-        }
-      } else if (act.type === "tea") {
-        const tea = await Tea.findById(act.refId);
-        if (tea) {
-          teas.push({
-            ...act.toObject(),
-            ...tea.toObject(),
-          });
-        }
-      }
-    }
-*/
     res.json({
       vendors,
       producers,
@@ -116,14 +80,6 @@ export const create = async (req: Request, res: Response) => {
 }
   }
   await newTea.save();
-
-  //logging activity with timestamp
-  const activity = new Activity({
-    user: req.user._id,
-    type: "tea",
-    refId: newTea._id,
-  });
-  await activity.save();
   return res.status(201).json({ message: "Tea created successfully!", tea: newTea });
 };
 
@@ -213,9 +169,6 @@ return res.status(201).json({ message: "Tea updated!", tea: foundTea });
 
 export const remove = async (req: Request, res: Response) => {
   await Tea.findByIdAndDelete(req.params.id);
-  await Activity.deleteMany({
-    refId: new mongoose.Types.ObjectId(req.params.id),
-  });
 return res.status(201).json({ message: "Tea removed!"});
 };
 
