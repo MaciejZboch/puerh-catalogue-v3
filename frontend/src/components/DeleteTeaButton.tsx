@@ -6,6 +6,9 @@ export default function DeleteTeaButton ({teaId}: {teaId: string}) {
     const router = useRouter();
 
     function handleDelete() {
+        const confirmed = confirm("Are you sure you want to delete this tea? This action cannot be undone.");
+        if (!confirmed) {return};
+        
         try {
             deleteTea(teaId)
             router.push("/");  

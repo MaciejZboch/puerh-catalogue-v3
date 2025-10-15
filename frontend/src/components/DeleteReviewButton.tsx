@@ -9,6 +9,9 @@ interface Props {
 
 export default function DeleteReviewButton({ reviewId, onDelete }: Props) {
   const handleDelete = async () => {
+    const confirmed = confirm("Are you sure you want to delete this review? This action cannot be undone.");
+    if (!confirmed) {return};
+
     try {
       await deleteReview(reviewId);
       onDelete();
