@@ -3,18 +3,19 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Link from "next/link";
-import ITableTea from "@/types/tabletea";
 import { IUser } from "@/types/user";
 import { getCurrentUser } from "@/lib/api";
+import UncollectButton from "@/components/UncollectButton";
+import ISearchTea from "@/types/searchtea";
 
 export default function ProfilePage() {
     const params = useParams();
     const userId = params?.id as string;
 
     const [user, setUser] = useState<IUser | null>(null);
-    const [teas, setTeas] = useState<ITableTea[]>([]);
+    const [teas, setTeas] = useState<ISearchTea[]>([]);
     const [loading, setLoading] = useState(true);
-    const [sortKey, setSortKey] = useState<keyof ITableTea>("name");
+    const [sortKey, setSortKey] = useState<keyof ISearchTea>("name");
     const [sortAsc, setSortAsc] = useState(true);
     const [followedUsers, setFollowedUsers] = useState<IUser[]>([]);
     const [currentUser, setCurrentUser] = useState<IUser | null>(null);
@@ -47,7 +48,7 @@ async function unfollow(userId: string) {
   }
 }
 
-async function uncollect(tea: ITableTea) {
+async function uncollect(tea: ISearchTea) {
   try {
     if (user == null) {
       throw new Error("No user - failed to collect");
@@ -106,7 +107,7 @@ async function uncollect(tea: ITableTea) {
   }
  if (userId) fetchProfile();
   }, [userId]);
-   function handleSort(key: keyof ITableTea) {
+   function handleSort(key: keyof ISearchTea) {
     if (sortKey === key) {
       setSortAsc(!sortAsc);
     } else {
@@ -241,12 +242,9 @@ async function uncollect(tea: ITableTea) {
                 className="border-b border-gray-700 hover:bg-charcoal/50"
               >
                 <td className="p-2 flex items-center gap-2">
-                        <button
-        onClick={() => uncollect(tea)}
-        className="px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition"
-      >
-        Remove
-      </button>
+                  <UncollectButton tea={tea}
+                  onRemoved={(teaId) => setTeas(prev => prev.filter(t => t._id !== teaId))}
+                  />
                   {tea.image?.url ? (
                     <img
                       src={tea.image.url}

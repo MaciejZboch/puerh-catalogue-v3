@@ -6,5 +6,5 @@ export default interface ISearchTea {
   producer?: { name: string };
   type?: string;
   image?: { url: string };
-  owners: string[];
+  owners?: string[];
 }

@@ -4,24 +4,35 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import ISearchTea from "../../types/searchtea";
-import { useAuth } from "../hooks/useAuth";
+import UncollectButton from "@/components/UncollectButton";
+import { getCurrentUser } from "@/lib/api";
+import CollectButton from "@/components/CollectButton";
+import { IUser } from "@/types/user";
 
 export default function SearchPage() {
-  const { user } = useAuth();
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
 
-  const [results, setResults] = useState<ISearchTea[]>([]);
+  let [results, setResults] = useState<ISearchTea[]>([]);
   const [searching, setSearching] = useState(false);
   const [sortKey, setSortKey] = useState<keyof ISearchTea>("name");
   const [sortAsc, setSortAsc] = useState(true);
+  const [currentUser, setCurrentUser] = useState<IUser | null>(null);
 
   useEffect(() => {
     if (!query) return;
-
-    async function fetchResults() {
+    async function fetchCurrentUser() {
       try {
         setSearching(true);
+        const user = await getCurrentUser();
+        setCurrentUser(user);
+      } catch (err) {
+        console.error(err);
+      }
+  }
+    fetchCurrentUser();
+    async function fetchResults() {
+      try {
         const res = await fetch(
           `http://localhost:4000/api/teas/browse?search=${encodeURIComponent(
             query
@@ -50,7 +61,7 @@ export default function SearchPage() {
     }
   }
 
-  const sortedResults = [...results].sort((a, b) => {
+  results = [...results].sort((a, b) => {
     const valA = a[sortKey] ?? "";
     const valB = b[sortKey] ?? "";
     const strA =
@@ -109,27 +120,70 @@ export default function SearchPage() {
               </tr>
             </thead>
             <tbody>
-              {sortedResults.map((tea) => (
-                <tr
-                  key={tea._id}
-                  className="border-b border-gray-700 hover:bg-charcoal/50"
-                >
-                  <td className="p-2">
-                    <Link
-                      href={`/tea/${tea._id}`}
-                      className="text-green-accent hover:underline"
-                    >
-                      {tea.name}
-                    </Link>
-                  </td>
-                  <td className="p-2 text-center">{tea.year || "-"}</td>
-                  <td className="p-2 text-center">{tea.vendor?.name || "-"}</td>
-                  <td className="p-2 text-center">
-                    {tea.producer?.name || "-"}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+  {results.map((tea) => {
+    const teaState = results.find(t => t._id === tea._id); // ensure we use latest state
+    const isCollected = currentUser && teaState?.owners?.includes(currentUser._id);
+
+    return (
+      <tr
+        key={tea._id}
+        className="border-b border-gray-700 hover:bg-charcoal/50"
+      >
+        <td className="p-2 flex items-center gap-2">
+          {currentUser && !isCollected && (
+<CollectButton
+  tea={tea}
+  onCollected={() => {
+    if (!currentUser?._id) return;
+
+    setResults(prev =>
+      prev.map(t =>
+        t._id === tea._id
+          ? {
+              ...t,
+              owners: Array.isArray(t.owners)
+                ? [...t.owners, currentUser._id]
+                : [currentUser._id],
+            }
+          : t
+      )
+    );
+  }}
+/>
+
+          )}
+
+          {currentUser && isCollected && (
+            <UncollectButton
+              tea={tea}
+              onRemoved={(teaId) => {
+                setResults(prev =>
+                  prev.map(t =>
+                    t._id === teaId
+                      ? { ...t, owners: t.owners?.filter(id => id !== currentUser._id) || [] }
+                      : t
+                  )
+                );
+              }}
+            />
+          )}
+
+          <Link
+            href={`/tea/${tea._id}`}
+            className="text-green-accent hover:underline"
+          >
+            {tea.name}
+          </Link>
+        </td>
+
+        <td className="p-2 text-center">{tea.year || "-"}</td>
+        <td className="p-2 text-center">{tea.vendor?.name || "-"}</td>
+        <td className="p-2 text-center">{tea.producer?.name || "-"}</td>
+      </tr>
+    );
+  })}
+</tbody>
+
           </table>
         </div>
       )}

@@ -5,7 +5,6 @@ import User from "../models/user";
 import Review from "../models/review";
 import {cloudinary} from "../cloudinary/index";
 import checkTeaLength from "../utilities/checkTeaLength";
-import mongoose from "mongoose";
 import { Request, Response } from "express";
 const currentYear = new Date().getFullYear();
 
@@ -356,6 +355,7 @@ export const browse = async (req: Request, res: Response) => {
       ageing_conditions: { $first: "$ageing_conditions" },
       vendor: { $first: "$vendor" },
       producer: { $first: "$producer" },
+      owners: { $first: "$owners" },
       firstImage: { $first: "$images" },
     },
   },
