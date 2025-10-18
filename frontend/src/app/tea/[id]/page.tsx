@@ -62,6 +62,7 @@ export default async function TeaPage({ params }: { params: { id: string } }) {
   {(tea.ageing_conditions) ? <li><span className="text-mist">Ageing conditions:</span> {tea.ageing_conditions}</li> : null}
   {(tea.sizeInGrams) ? <li><span className="text-mist">Size in grams:</span> {tea.sizeInGrams}</li> : null}
   {(tea.price) ? <li><span className="text-mist">Last known price:</span> {tea.price}</li> : null}
+  {(tea.price) ? <li><span className="text-mist">Last known price in grams:</span> {tea.priceInGrams}</li> : null}
 </ul>
 
         <section>
