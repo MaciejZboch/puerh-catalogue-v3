@@ -37,7 +37,7 @@ export default function Moderate() {
         </ul>
         <h2>Producers</h2>
         <ul>
-            <li>{producers && producers[0].name}</li> <button>Approve</button> <button>Reject</button>
+            <li></li> <button>Approve</button> <button>Reject</button>
         </ul>
     </> )
 }
