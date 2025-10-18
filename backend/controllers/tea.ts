@@ -174,7 +174,9 @@ return res.status(201).json({ message: "Tea updated!", tea: foundTea });
 
 export const remove = async (req: Request, res: Response) => {
   await Tea.findByIdAndDelete(req.params.id);
-return res.status(201).json({ message: "Tea removed!"});
+  await Review.deleteMany({tea: req.params.id});
+  
+  return res.status(201).json({ message: "Tea removed!"});
 };
 
 // vendor/producer controllers
