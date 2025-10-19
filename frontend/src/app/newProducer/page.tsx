@@ -52,13 +52,16 @@ export default function Vendor() {
     try {
       const res = await fetch(`http://localhost:4000/api/teas/newProducer`, {
         method: "POST",
-        body: formData,
+              headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
         credentials: "include",
       });
   
       if (!res.ok) throw new Error("Failed to add new tea!");
   
-      const data = await res.json();
+      await res.json();
   
       //redirect to the main page
       router.push(`/`);

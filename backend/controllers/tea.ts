@@ -186,7 +186,8 @@ export const newVendor = async (req: Request, res: Response) => {
 };
 
 export const postVendor = async (req: Request, res: Response) => {
-  const v = new Vendor({ name: req.body.vendor });
+  console.log(req.body)
+  const v = new Vendor({ name: req.body.name });
 
   await v.save();
 return res.status(201).json({ message: "Vendor submitted for approval!"});
@@ -198,7 +199,8 @@ export const newProducer = async (req: Request, res: Response) => {
 };
 
 export const postProducer = async (req: Request, res: Response) => {
-  const p = await new Producer({ name: req.body.producer });
+  console.log(req.body)
+  const p = await new Producer({ name: req.body.name });
 
   await p.save();
 return res.status(201).json({ message: "Producer submitted for approval!"});

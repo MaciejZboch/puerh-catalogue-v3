@@ -58,7 +58,7 @@ export const validateTea = (req: Request, res: Response, next: NextFunction) => 
 };
 export const hasNoSpecialSymbols = (req: Request, res: Response, next: NextFunction) => {
   const allowedCharacters =
-    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@.";
+    "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@. ";
 
   for (const key in req.body) {
     const s = req.body[key]; // Get the value of each field
