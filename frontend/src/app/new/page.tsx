@@ -6,11 +6,13 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { getNewTeaForm } from "@/lib/api";
 import { useEffect, useState } from "react";
+import { IVendor } from "@/types/vendor";
+import { IProducer } from "@/types/producer";
 
 
 export default function New() {
-  const [vendors, setVendors] = useState<any[]>([]);
-  const [producers, setProducers] = useState<any[]>([]);
+  const [vendors, setVendors] = useState<IVendor[]>([]);
+  const [producers, setProducers] = useState<IProducer[]>([]);
   const router = useRouter();
 
   useEffect(() => {

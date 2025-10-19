@@ -8,6 +8,8 @@ import { getEditTeaForm } from "@/lib/api";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { ITea } from "@/types/tea";
+import { IVendor } from "@/types/vendor";
+import { IProducer } from "@/types/producer";
 
 
 export default function Edit() {
@@ -16,8 +18,8 @@ export default function Edit() {
   const teaId = params?.id as string;
   const searchParams = useSearchParams()
   const userId = searchParams.get("user")
-  const [vendors, setVendors] = useState<any[]>([]);
-  const [producers, setProducers] = useState<any[]>([]);
+  const [vendors, setVendors] = useState<IVendor[]>([]);
+  const [producers, setProducers] = useState<IProducer[]>([]);
   const router = useRouter();
 
   const emptyTea: ITea = {

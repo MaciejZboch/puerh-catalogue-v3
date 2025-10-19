@@ -47,6 +47,18 @@ export async function getNewTeaForm() {
   return res.json();
 }
 
+export async function getNewVendorForm() {
+  const res = await fetch(`http://localhost:4000/api/teas/newVendor`, { method: "GET", credentials: "include"});
+  if (!res.ok) {throw new Error("Failed to get form!");}
+  return res.json();
+}
+
+export async function getNewProducerForm() {
+  const res = await fetch(`http://localhost:4000/api/teas/newProducer`, { method: "GET", credentials: "include"});
+  if (!res.ok) {throw new Error("Failed to get form!");}
+  return res.json();
+}
+
 export async function getEditTeaForm(teaId: string, userId: string | null) {
   const res = await fetch(`http://localhost:4000/api/teas/${teaId}/edit`, { method: "GET", credentials: "include"});
   if (!res.ok) {throw new Error("Failed to get form!");}

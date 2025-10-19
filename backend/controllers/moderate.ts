@@ -1,10 +1,5 @@
-import Tea from '../models/tea';
 import Vendor from "../models/vendor";
 import Producer from "../models/producer";
-import User from "../models/user";
-import Review from "../models/review";
-import {cloudinary} from "../cloudinary/index";
-import checkTeaLength from "../utilities/checkTeaLength";
 import { Request, Response } from "express";
 const currentYear = new Date().getFullYear();
 
