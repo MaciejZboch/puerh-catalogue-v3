@@ -1,12 +1,15 @@
 "use client"
 
+import { getCurrentUser } from "@/lib/api";
 import { IProducer } from "@/types/producer";
 import { IVendor } from "@/types/vendor";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function Moderate() {
     const [vendors, setVendors] = useState<IVendor[]>();
     const [producers, setProducers] = useState<IProducer[]>([]);
+    const router = useRouter();
 
     async function changeVendorStatus(vendorId: string, status: "approved" | "rejected") {
         const res = await fetch (`http://localhost:4000/api/moderate/vendor/${vendorId}?status=${status}`, { method: "PUT", credentials: "include"});
@@ -23,12 +26,17 @@ export default function Moderate() {
     useEffect(() => {
         try {
             async function getAdmin() {
-            const res = await fetch (`http://localhost:4000/api/moderate`, { method: "GET", credentials: "include"});
-            if (!res.ok) {throw new Error("No tea with that id!");}
-            const data = await res.json();
+                const currentUser = await getCurrentUser();
+                if (currentUser && currentUser.moderator === true) {
+                    const res = await fetch (`http://localhost:4000/api/moderate`, { method: "GET", credentials: "include"});
+                    if (!res.ok) {throw new Error("No tea with that id!");}
+                    const data = await res.json();
 
-            setProducers(data.producers)
-            setVendors(data.vendors)
+                    setProducers(data.producers)
+                    setVendors(data.vendors)
+                 } else {
+                    router.push("/login");
+             }
         }
         getAdmin();
         } catch {

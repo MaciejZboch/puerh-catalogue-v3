@@ -8,7 +8,7 @@ import { getNewTeaForm } from "@/lib/api";
 import { useEffect, useState } from "react";
 import { IVendor } from "@/types/vendor";
 import { IProducer } from "@/types/producer";
-
+import { getCurrentUser } from "@/lib/api";
 
 export default function New() {
   const [vendors, setVendors] = useState<IVendor[]>([]);
@@ -18,9 +18,14 @@ export default function New() {
   useEffect(() => {
     async function fetchFormData() {
       try {
-        const data = await getNewTeaForm();
-        setVendors(data.vendors || []);
-        setProducers(data.producers || []);
+        const currentUser = await getCurrentUser();
+        if (currentUser) {
+          const data = await getNewTeaForm();
+          setVendors(data.vendors || []);
+          setProducers(data.producers || []);
+        } else {
+          router.push("/login")
+        }
       }
       catch {
         console.error("failed to fetch tea form data");
