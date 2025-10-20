@@ -1,7 +1,6 @@
 import Vendor from "../models/vendor";
 import Producer from "../models/producer";
 import { Request, Response } from "express";
-const currentYear = new Date().getFullYear();
 
 export const index = async (req: Request, res: Response) => {
     const vendors = await Vendor.find({ status: "pending" });
@@ -20,7 +19,7 @@ export const changeVendorStatus = async (req: Request, res: Response) => {
         status: "rejected",
       });
     }
-    res.redirect("/moderate");
+    res.json({ success: true });
 }
 
 export const changeProducerStatus = async (req: Request, res: Response) => {
@@ -33,5 +32,5 @@ export const changeProducerStatus = async (req: Request, res: Response) => {
         status: "rejected",
       });
     }
-    res.redirect("/moderate");
+    res.json({ success: true });
   }
