@@ -52,8 +52,8 @@ export default async function TeaPage({ params }: { params: { id: string } }) {
       {/* Center Column: Tasting Notes + Description + Reviews */}
       <div className="lg:col-span-2 space-y-8">
 <h3 className="inline text-xl font-semibold mb-4">Tea info</h3>
-  <EditTeaButton teaId={params.id} userId={currentUser._id}/>
-  <DeleteTeaButton teaId={params.id}/>
+  {currentUser && tea.owners.includes(currentUser._id) || currentUser  && currentUser.moderator === true && <><EditTeaButton teaId={params.id} userId={currentUser._id}/> <DeleteTeaButton teaId={params.id}/></>}
+  
 
 <ul>
   {(tea.region) ? <li><span className="text-mist">Region:</span> {tea.region}</li> : null}
