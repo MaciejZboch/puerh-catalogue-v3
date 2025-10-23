@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const { login, user } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
   if (user) {
     console.log(user);
@@ -23,6 +25,7 @@ export default function LoginPage() {
       alert("Login failed!");
     } finally {
       setLoading(false);
+      router.back()
     }
   };
 
