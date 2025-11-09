@@ -63,9 +63,11 @@ export const create = async (req: Request, res: Response) => {
   newTea.author = req.user._id;
   newTea.vendor = await Vendor.findById(req.body.vendor);
   newTea.producer = await Producer.findById(req.body.producer);
+
   if (!newTea.vendor) {
-  throw new Error('Vendor not found!');
-}
+    throw new Error('Vendor not found!');
+  }
+  
   //search db to check if there is something with the same exact name, vendor and year in the DB
   const sameTea = await Tea.find({
     name: newTea.name,

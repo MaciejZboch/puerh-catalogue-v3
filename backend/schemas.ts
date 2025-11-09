@@ -45,10 +45,12 @@ export const teaSchema = Joi.object({
   producer: Joi.any(),
   description: Joi.string().allow("").escapeHTML(),
   type: Joi.string().required(),
-  year: Joi.any(),
+  year: Joi.number(),
   region: Joi.string().allow("").escapeHTML(),
   village: Joi.string().allow("").escapeHTML(),
   ageing_location: Joi.string().allow("").escapeHTML(),
   ageing_conditions: Joi.string().allow(""),
   shape: Joi.string().allow(""),
+  price: Joi.number(),
+  sizeInGrams: Joi.number()
 });

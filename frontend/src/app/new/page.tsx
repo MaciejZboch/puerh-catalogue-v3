@@ -65,7 +65,9 @@ const schema = yup.object({
       );
     })
     .notRequired(),
-});
+  price: yup.number().notRequired().nullable().transform((curr, orig) => (orig === "" ? null : curr)),
+  sizeInGrams: yup.number().notRequired().nullable().transform((curr, orig) => (orig === "" ? null : curr))
+  });
 
 
 type TeaFormInputs = yup.InferType<typeof schema>;
@@ -101,6 +103,8 @@ const {
   if (data.ageing_conditions) formData.append("ageing_conditions", data.ageing_conditions);
   if (data.description) formData.append("description", data.description);
   if (data.shape) formData.append("shape", data.shape);
+  if (data.price) formData.append("price", String(data.price));
+  if (data.sizeInGrams) formData.append("sizeInGrams", String(data.sizeInGrams));
 
   if (data.images && data.images.length > 0) {
     Array.from(data.images).forEach((file) => {
@@ -211,6 +215,31 @@ const {
           </select>
           {errors.producer && <p className="text-red-500 text-sm mt-1">{errors.producer.message}</p>}
         </div>
+
+          {/* Price */}
+        <div>
+          <label className="block text-sm font-medium text-light">Last known price in USD</label>
+          <input
+            {...register("price")}
+            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+            type="number"
+            placeholder="e.g. 45$"
+          />
+          {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>}
+        </div>
+
+         {/* Weight */}
+        <div>
+          <label className="block text-sm font-medium text-light">Weight in grams</label>
+          <input
+            {...register("sizeInGrams")}
+            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
+            type="number"
+            placeholder="e.g. 400"
+          />
+          {errors.sizeInGrams && <p className="text-red-500 text-sm mt-1">{errors.sizeInGrams.message}</p>}
+        </div>
+
 
         {/* Region */}
         <div>
