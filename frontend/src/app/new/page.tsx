@@ -81,7 +81,6 @@ export default function New() {
     },
   });
 
-  // ✅ Reset defaults once vendors & producers are loaded
   useEffect(() => {
     if (vendors.length > 0 || producers.length > 0) {
       reset({

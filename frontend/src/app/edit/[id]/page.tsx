@@ -195,223 +195,275 @@ if (data.sizeInGrams) {
   
   return (
     <div className="min-h-screen flex flex-col bg-dark text-light">
-    <div className="max-w-3xl mx-auto px-6 py-10 bg-dark">
-      <h1 className="text-3xl font-bold text-light">Edit Tea</h1>
+      <div className="max-w-5xl mx-auto px-6 py-10 bg-dark">
+        <h1 className="text-center text-3xl font-bold text-light mb-8">Add a New Tea</h1>
 
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="space-y-6 bg-charcoal shadow-md rounded-lg p-8"
-      >
-        {/* Name */}
-        <div>
-          <label className="block text-sm font-medium text-light">Name</label>
-          <input
-            {...register("name")}
-            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-            placeholder="Loading..."
-            type="text"
-          />
-          {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
-        </div>
-
-        {/* Type */}
-        <div>
-          <label className="block text-sm font-medium text-light">Type</label>
-          <select
-            {...register("type")}
-            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-          >
-            <option value="Raw / Sheng">Raw / Sheng</option>
-            <option value="Ripe / Shou">Ripe / Shou</option>
-          </select>
-          {errors.type && <p className="text-red-500 text-sm mt-1">{errors.type.message}</p>}
-        </div>
-
-        {/* Year */}
-        <div>
-          <label className="block text-sm font-medium text-light">Year</label>
-          <input
-            {...register("year")}
-            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-            type="number"
-            placeholder="e.g. 2020..."
-            min="1900"
-            max={currentYear}
-          />
-          {errors.year && <p className="text-red-500 text-sm mt-1">{errors.year.message}</p>}
-        </div>
-
-        {/* Vendor */}
-        <div>
-          <label className="block text-sm font-medium text-light">Vendor</label>
-          <select
-            {...register("vendor")}
-            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-          >
-             <option value="" disabled > -- select an option -- </option>
-            {vendors.map((vendor: any) => (
-              <option key={vendor._id} value={vendor._id}>
-                {vendor.name}
-              </option>
-            ))}
-          </select>
-          {errors.vendor && <p className="text-red-500 text-sm mt-1">{errors.vendor.message}</p>}
-        </div>
-
-        {/* Producer */}
-        <div>
-          <label className="block text-sm font-medium text-light">Producer</label>
-          <select
-            {...register("producer")}
-            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-            defaultValue=""
-          >
-            <option value="">Unknown</option>
-            {producers.map((producer: any) => (
-              <option key={producer.name} value={producer._id}>
-                {producer.name}
-              </option>
-            ))}
-          </select>
-          {errors.producer && <p className="text-red-500 text-sm mt-1">{errors.producer.message}</p>}
-        </div>
-
-          {/* Price */}
-        <div>
-          <label className="block text-sm font-medium text-light">Last known price in USD</label>
-          <input
-            {...register("price")}
-            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-            type="number"
-            placeholder="e.g. 45$"
-          />
-          {errors.price && <p className="text-red-500 text-sm mt-1">{errors.price.message}</p>}
-        </div>
-
-         {/* Weight */}
-        <div>
-          <label className="block text-sm font-medium text-light">Weight in grams</label>
-          <input
-            {...register("sizeInGrams")}
-            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-            type="number"
-            placeholder="e.g. 400"
-          />
-          {errors.sizeInGrams && <p className="text-red-500 text-sm mt-1">{errors.sizeInGrams.message}</p>}
-        </div>
-
-        {/* Region */}
-        <div>
-          <label className="block text-sm font-medium text-light">Region</label>
-          <input
-            {...register("region")}
-            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-            type="text"
-            placeholder="e.g. Menghai..."
-          />
-          {errors.region && <p className="text-red-500 text-sm mt-1">{errors.region.message}</p>}
-        </div>
-
-        {/* Village */}
-        <div>
-          <label className="block text-sm font-medium text-light">Village</label>
-          <input
-            {...register("village")}
-            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-            type="text"
-            placeholder="e.g. Lao Banzhang..."
-          />
-          {errors.village && <p className="text-red-500 text-sm mt-1">{errors.village.message}</p>}
-        </div>
-
-        {/* Ageing Location */}
-        <div>
-          <label className="block text-sm font-medium text-light">Ageing Location</label>
-          <input
-            {...register("ageing_location")}
-            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-            type="text"
-            placeholder="e.g. Hong Kong..."
-          />
-          {errors.ageing_location && (
-            <p className="text-red-500 text-sm mt-1">{errors.ageing_location.message}</p>
-          )}
-        </div>
-
-        {/* Ageing Conditions */}
-        <div>
-          <label className="block text-sm font-medium text-light">Ageing Conditions</label>
-          <select
-            {...register("ageing_conditions")}
-            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-          >
-              <option defaultChecked value="Unknown">Unknown</option>
-              <option value="Dry"> Dry</option>
-              <option value="Natural">Natural</option>
-              <option value="Wet">Wet</option>
-              <option value="Hong-Kong Traditional">Hong-Kong Traditional</option>
-              
-          </select>
-          {errors.ageing_conditions && (
-            <p className="text-red-500 text-sm mt-1">{errors.ageing_conditions.message}</p>
-          )}
-        </div>
-
-        {/* Description */}
-        <div>
-          <label className="block text-sm font-medium text-light">Description</label>
-          <textarea
-            {...register("description")}
-            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-            rows={3}
-            placeholder="Short notes about this tea..."
-          />
-          {errors.description && (
-            <p className="text-red-500 text-sm mt-1">{errors.description.message}</p>
-          )}
-        </div>
-
-        {/* Shape */}
-        <div>
-          <label className="block text-sm font-medium text-light">Shape</label>
-          <select
-            {...register("shape")}
-            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-          >
-            <option defaultChecked value="Cake">Cake</option>
-            <option value="Loose">Loose</option>
-            <option value="Tuo">Tuo</option>
-            <option value="Brick">Brick</option>
-            <option value="Mushroom">Mushroom</option>
-            <option value="Dragon ball">Dragon ball</option>
-            <option value="Tube">Tube</option>
-            <option value="Melon">Melon</option>
-            <option value="Other">Other</option>
-            </select>
-          {errors.shape && <p className="text-red-500 text-sm mt-1">{errors.shape.message}</p>}
-        </div>
-
-        {/* Images */}
-        <div>
-          <label className="block text-sm font-medium text-light">Images</label>
-          <input
-            {...register("images")}
-            className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
-            type="file"
-            multiple
-          />
-          {errors.images && <p className="text-red-500 text-sm mt-1">{errors.images.message}</p>}
-        </div>
-
-        {/* Submit */}
-        <button
-          type="submit"
-          className="w-full bg-green-accent text-dark py-2 rounded-md hover:bg-green-soft transition"
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-10 bg-charcoal shadow-md rounded-lg p-8"
         >
-          Edit tea
-        </button>
-      </form>
-    </div>
+          {/* ===== BASIC INFO ===== */}
+          <div>
+            <h2 className="text-xl font-semibold mb-4 text-green-accent">
+              Basic Info
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+              {/* Name */}
+              <div>
+                <label className="block text-sm font-medium text-light">
+                  Name
+                </label>
+                <input
+                  {...register("name")}
+                  className="w-full p-2 border-b border-green-accent rounded-md bg-dark"
+                  type="text"
+                  placeholder="Loading..."
+                />
+                {errors.name && (
+                  <p className="text-red-500 text-sm mt-1">
+                    {errors.name.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Type */}
+              <div>
+                <label className="block text-sm font-medium text-light">
+                  Type
+                </label>
+                <select
+                  {...register("type")}
+                  className="w-full p-2 border-b border-green-accent rounded-md bg-dark"
+                >
+                  <option value="Raw / Sheng">Raw / Sheng</option>
+                  <option value="Ripe / Shou">Ripe / Shou</option>
+                </select>
+              </div>
+
+              {/* Vendor */}
+              <div>
+                <label className="block text-sm font-medium text-light">
+                  Vendor
+                </label>
+                <select
+                  {...register("vendor")}
+                  className="w-full p-2 border-b border-green-accent rounded-md bg-dark"
+                >
+                  <option value="" disabled>
+                    -- select an option --
+                  </option>
+                  {vendors.map((vendor) => (
+                    <option key={vendor._id} value={vendor._id}>
+                      {vendor.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Year */}
+              <div>
+                <label className="block text-sm font-medium text-light">
+                  Year
+                </label>
+                <input
+                  {...register("year")}
+                  className="w-full p-2 border-b border-green-accent rounded-md bg-dark"
+                  type="number"
+                  placeholder="e.g. 2020"
+                  min="1900"
+                  max={currentYear}
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* ===== ORIGIN & PRODUCTION ===== */}
+          <div>
+            <h2 className="text-xl font-semibold mb-4 text-green-accent">
+              Origin & Production
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
+              {/* Region */}
+              <div>
+                <label className="block text-sm font-medium text-light">
+                  Region
+                </label>
+                <input
+                  {...register("region")}
+                  className="w-full p-2 border-b border-green-accent rounded-md bg-dark"
+                  placeholder="e.g. Yunnan"
+                />
+              </div>
+
+              {/* Village */}
+              <div>
+                <label className="block text-sm font-medium text-light">
+                  Village
+                </label>
+                <input
+                  {...register("village")}
+                  className="w-full p-2 border-b border-green-accent rounded-md bg-dark"
+                  placeholder="e.g. Lao Banzhang"
+                />
+              </div>
+
+              {/* Producer */}
+              <div>
+                <label className="block text-sm font-medium text-light">
+                  Producer
+                </label>
+                <select
+                  {...register("producer")}
+                  className="w-full p-2 border-b border-green-accent rounded-md bg-dark"
+                >
+                  <option value="">Unknown</option>
+                  {producers.map((producer) => (
+                    <option key={producer._id} value={producer._id}>
+                      {producer.name}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* ===== AGEING DETAILS ===== */}
+          <div>
+            <h2 className="text-xl font-semibold mb-4 text-green-accent">
+              Ageing Details
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+              {/* Location */}
+              <div>
+                <label className="block text-sm font-medium text-light">
+                  Ageing Location
+                </label>
+                <input
+                  {...register("ageing_location")}
+                  className="w-full p-2 border-b border-green-accent rounded-md bg-dark"
+                  placeholder="e.g. Hong Kong"
+                />
+              </div>
+
+              {/* Conditions */}
+              <div>
+                <label className="block text-sm font-medium text-light">
+                  Ageing Conditions
+                </label>
+                <select
+                  {...register("ageing_conditions")}
+                  className="w-full p-2 border-b border-green-accent rounded-md bg-dark"
+                >
+                  <option value="Unknown">Unknown</option>
+                  <option value="Dry">Dry</option>
+                  <option value="Natural">Natural</option>
+                  <option value="Wet">Wet</option>
+                  <option value="Hong-Kong Traditional">
+                    Hong-Kong Traditional
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          {/* ===== PRICING & WEIGHT ===== */}
+          <div>
+            <h2 className="text-xl font-semibold mb-4 text-green-accent">
+              Pricing & Weight
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+              {/* Price */}
+              <div>
+                <label className="block text-sm font-medium text-light">
+                  Last Known Price (USD)
+                </label>
+                <input
+                  {...register("price")}
+                  type="number"
+                  placeholder="e.g. 45"
+                  className="w-full p-2 border-b border-green-accent rounded-md bg-dark"
+                />
+              </div>
+
+              {/* Weight */}
+              <div>
+                <label className="block text-sm font-medium text-light">
+                  Weight (grams)
+                </label>
+                <input
+                  {...register("sizeInGrams")}
+                  type="number"
+                  placeholder="e.g. 400"
+                  className="w-full p-2 border-b border-green-accent rounded-md bg-dark"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* ===== SHAPE & APPEARANCE ===== */}
+          <div>
+            <h2 className="text-xl font-semibold mb-4 text-green-accent">
+              Shape & Appearance
+            </h2>
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+              {/* Shape */}
+              <div>
+                <label className="block text-sm font-medium text-light">
+                  Shape
+                </label>
+                <select
+                  {...register("shape")}
+                  className="w-full p-2 border-b border-green-accent rounded-md bg-dark"
+                >
+                  <option value="Cake">Cake</option>
+                  <option value="Loose">Loose</option>
+                  <option value="Tuo">Tuo</option>
+                  <option value="Brick">Brick</option>
+                  <option value="Mushroom">Mushroom</option>
+                  <option value="Dragon ball">Dragon ball</option>
+                  <option value="Tube">Tube</option>
+                  <option value="Melon">Melon</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+
+              {/* Images */}
+              <div>
+                <label className="block text-sm font-medium text-light">
+                  Images
+                </label>
+                <input
+                  {...register("images")}
+                  type="file"
+                  multiple
+                  className="w-full p-2 border-b border-green-accent rounded-md bg-dark"
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* ===== ADDITIONAL NOTES ===== */}
+          <div>
+            <h2 className="text-xl font-semibold mb-4 text-green-accent">
+              Additional Notes
+            </h2>
+            <textarea
+              {...register("description")}
+              className="w-full p-2 border-b border-green-accent rounded-md bg-dark"
+              rows={3}
+              placeholder="Short notes about this tea..."
+            />
+          </div>
+
+          {/* Submit */}
+          <button
+            type="submit"
+            className="w-full bg-green-accent text-dark py-2 rounded-md hover:bg-green-soft transition"
+          >
+            Add Tea
+          </button>
+        </form>
+      </div>
     </div>
   );
 }
