@@ -48,7 +48,6 @@ export const isAuthor = async (req: Request, res: Response, next: NextFunction) 
   next();
 };
 export const validateTea = (req: Request, res: Response, next: NextFunction) => {
-  console.log(req.body)
   const { error } = teaSchema.validate(req.body);
   if (error) {
     const msg = error.details.map((el: any) => el.message).join(",");

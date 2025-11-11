@@ -5,7 +5,7 @@ export default function LatestTeasSkeleton() {
         Latest Teas
       </h2>
       <div className="grid gap-4">
-        {Array.from({ length: 3 }).map((_, idx) => (
+        {Array.from({ length: 10 }).map((_, idx) => (
           <div
             key={idx}
             className="p-5 bg-charcoal shadow rounded-lg flex items-center justify-between border-b border-green-accent animate-pulse"
