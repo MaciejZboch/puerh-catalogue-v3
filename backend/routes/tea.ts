@@ -1,12 +1,12 @@
 import express from 'express';
 const router = express.Router();
 import catchAsync from '../utilities/catchAsync';
-import { isLoggedIn, isAuthor, validateTea } from '../middleware';
+import { isLoggedIn, isAuthor, validateTea } from '../expressmiddleware';
 import multer from 'multer';
 import { storage }  from '../cloudinary';
 const upload = multer({ storage });
 import {collection, browse, index, newForm, remove, create, newProducer, newVendor, postProducer, postVendor, update, show, addToCollection, removeFromCollection, editForm } from '../controllers/tea';
-const { hasNoSpecialSymbols } = require("../middleware");
+const { hasNoSpecialSymbols } = require("../expressmiddleware");
 
 router
   .route("/newVendor")
