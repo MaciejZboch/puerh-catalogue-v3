@@ -14,7 +14,7 @@ export default async function LatestTeas() {
   const data = await res.json();
   const teas: ITea[] = data.teas;
 return (
-<section className="col-span-2">
+  <section className="col-span-2">
           <h2 className="text-2xl font-semibold mb-6 text-light">
             Latest Teas
           </h2>
@@ -24,7 +24,7 @@ return (
                 key={tea._id}
                 className="p-5 bg-charcoal shadow rounded-lg flex items-center justify-between border-b border-green-accent "
               >
-                        <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4">
           {/* Placeholder Image */}
           <img
             src={`https://cdn-icons-png.flaticon.com/256/712/712255.png`}
@@ -36,12 +36,12 @@ return (
                   <p className="text-mist"> {tea.type}, {tea.shape}</p>
                 </div>
               </div>
-              <button className="px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition">
-                  Rate
-                </button>
+              <Link href={`/tea/${tea._id}`} className="px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition">
+                  Details
+              </Link>
               </div>
             ))}
           </div>
-        </section>
+  </section>
 )
 }
