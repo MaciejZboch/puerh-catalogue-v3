@@ -61,8 +61,8 @@ export default function New() {
           ["image/jpeg", "image/png", "image/jpg"].includes(file.type)
         );
       }),
-    price: yup.number().nullable(),
-    sizeInGrams: yup.number().nullable(),
+    price: yup.number().nullable().transform((curr, orig) => (orig === "" ? null : curr)),
+    sizeInGrams: yup.number().nullable().transform((curr, orig) => (orig === "" ? null : curr)),
   });
 
   type TeaFormInputs = yup.InferType<typeof schema>;
