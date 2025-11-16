@@ -10,15 +10,16 @@ export default function Moderate() {
     const [vendors, setVendors] = useState<IVendor[]>();
     const [producers, setProducers] = useState<IProducer[]>([]);
     const router = useRouter();
+    const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
     async function changeVendorStatus(vendorId: string, status: "approved" | "rejected") {
-        const res = await fetch (`http://localhost:4000/api/moderate/vendor/${vendorId}?status=${status}`, { method: "PUT", credentials: "include"});
+        const res = await fetch (`${API_URL}/api/moderate/vendor/${vendorId}?status=${status}`, { method: "PUT", credentials: "include"});
             if (!res.ok) {throw new Error("No tea with that id!");}
         const data = await res.json();
     }
 
      async function changeProducerStatus(producerId: string, status: "approved" | "rejected") {
-        const res = await fetch (`http://localhost:4000/api/moderate/producer/${producerId}?status=${status}`, { method: "PUT", credentials: "include"});
+        const res = await fetch (`${API_URL}/api/moderate/producer/${producerId}?status=${status}`, { method: "PUT", credentials: "include"});
             if (!res.ok) {throw new Error("No tea with that id!");}
         const data = await res.json();
     }
@@ -28,7 +29,7 @@ export default function Moderate() {
             async function getAdmin() {
                 const currentUser = await getCurrentUser();
                 if (currentUser && currentUser.moderator === true) {
-                    const res = await fetch (`http://localhost:4000/api/moderate`, { method: "GET", credentials: "include"});
+                    const res = await fetch (`${API_URL}/api/moderate`, { method: "GET", credentials: "include"});
                     if (!res.ok) {throw new Error("No tea with that id!");}
                     const data = await res.json();
 

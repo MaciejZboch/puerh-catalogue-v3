@@ -50,7 +50,8 @@ export default function Vendor() {
     formData.append("name", data.name);
   
     try {
-      const res = await fetch(`http://localhost:4000/api/teas/newProducer`, {
+      const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+      const res = await fetch(`${API_URL}/api/teas/newProducer`, {
         method: "POST",
               headers: {
         "Content-Type": "application/json",

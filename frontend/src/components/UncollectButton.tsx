@@ -8,9 +8,10 @@ interface Props {
 
 export default function UncollectButton({ tea, onRemoved }: Props) {
   async function handleUncollect() {
+    const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
     try {
       const res = await fetch(
-        `http://localhost:4000/api/teas/${tea._id}/add`,
+        `${API_URL}/api/teas/${tea._id}/add`,
         {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },

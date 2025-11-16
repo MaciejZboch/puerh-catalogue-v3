@@ -179,7 +179,8 @@ if (data.sizeInGrams) {
   }
 
   try {
-    const res = await fetch(`http://localhost:4000/api/teas/${teaId}`,
+    const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+    const res = await fetch(`${API_URL}/api/teas/${teaId}`,
       { method: "PUT", body: formData, credentials: "include"});
 
     if (!res.ok) throw new Error("Failed to add new tea!");

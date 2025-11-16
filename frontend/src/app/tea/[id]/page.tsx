@@ -7,7 +7,8 @@ import DeleteTeaButton from "@/components/DeleteTeaButton";
 
 export async function getCurrentUserForServer() {
   const cookieStore = await cookies();
-  const res = await fetch("http://localhost:4000/api/me", { credentials: "include", headers: {
+  const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const res = await fetch(`${API_URL}/api/me`, { credentials: "include", headers: {
       cookie: cookieStore.toString()
     }, });
   if (!res.ok) return null;

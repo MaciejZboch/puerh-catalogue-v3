@@ -9,20 +9,21 @@ export default function ReviewForm({teaId, onNewReview} : {teaId : string, onNew
     const [error, setError] = useState<string | null>(null);
 
     async function handleSubmit(e: React.FormEvent) {
+      const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
         e.preventDefault();
         setLoading(true);
         try {
-            const res = await fetch(`http://localhost:4000/api/teas/${teaId}/review/`, {
-                method: "POST", credentials: "include", headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                review: {
+            const res = await fetch(`${API_URL}/api/teas/${teaId}/review/`, {
+              method: "POST", credentials: "include", headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+              review: {
                 body,
                 rating,
-                }
+              }
         }),
             })
-            const createdReview = await res.json();
-onNewReview(createdReview);
+          const createdReview = await res.json();
+          onNewReview(createdReview);
         if (!res.ok) throw new Error("Failed to submit review");
 
       // Clear form on success

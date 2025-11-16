@@ -11,6 +11,7 @@ import ISearchTea from "@/types/searchtea";
 export default function ProfilePage() {
     const params = useParams();
     const userId = params?.id as string;
+    const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
     const [user, setUser] = useState<IUser | null>(null);
     const [teas, setTeas] = useState<ISearchTea[]>([]);
@@ -22,7 +23,7 @@ export default function ProfilePage() {
     const [loadingCurrentUser, setLoadingCurrentUser] = useState(true);
 
 async function follow(userId: string) {
-  const res = await fetch(`http://localhost:4000/api/users/${userId}`, {
+  const res = await fetch(`${API_URL}/api/users/${userId}`, {
       method: "PUT",
       credentials: "include",
     });
@@ -35,7 +36,7 @@ async function follow(userId: string) {
   }
 }
 async function unfollow(userId: string) {
-    const res = await fetch(`http://localhost:4000/api/users/${userId}`, {
+    const res = await fetch(`${API_URL}/api/users/${userId}`, {
       method: "DELETE",
       credentials: "include",
     });
@@ -54,7 +55,7 @@ async function uncollect(tea: ISearchTea) {
       throw new Error("No user - failed to collect");
     }
 
-    const res = await fetch(`http://localhost:4000/api/teas/${tea._id}/add`, {
+    const res = await fetch(`${API_URL}/api/teas/${tea._id}/add`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
       credentials: "include",
@@ -91,7 +92,7 @@ async function uncollect(tea: ISearchTea) {
       try {
         setLoading(true);
         const res = await fetch(
-          `http://localhost:4000/api/teas/collection/${encodeURIComponent(userId)}`,
+          `${API_URL}/api/teas/collection/${encodeURIComponent(userId)}`,
           { credentials: "include" }
         );
         if (!res.ok) throw new Error("Failed to fetch profile");

@@ -8,9 +8,10 @@ interface Props {
 
 export default function CollectButton({ tea, onCollected }: Props) {
   async function handleCollect() {
+    const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
     try {
       const res = await fetch(
-        `http://localhost:4000/api/teas/${tea._id}/add`,
+        `${API_URL}/teas/${tea._id}/add`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -25,7 +26,7 @@ export default function CollectButton({ tea, onCollected }: Props) {
       }
 
        const updatedTea = await fetch(
-      `http://localhost:4000/api/teas/${tea._id}`
+      `${API_URL}/api/teas/${tea._id}`
       ).then((r) => r.json());
 
       onCollected(updatedTea); // pass full updated object

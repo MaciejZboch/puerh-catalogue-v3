@@ -106,7 +106,8 @@ export default function New() {
     }
 
     try {
-      const res = await fetch(`http://localhost:4000/api/teas/`, {
+      const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+      const res = await fetch(`${API_URL}/api/teas/`, {
         method: "POST",
         body: formData,
         credentials: "include",

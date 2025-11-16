@@ -12,6 +12,7 @@ import { IUser } from "@/types/user";
 export default function SearchPage() {
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
+  const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
   let [results, setResults] = useState<ISearchTea[]>([]);
   const [searching, setSearching] = useState(false);
@@ -34,7 +35,7 @@ export default function SearchPage() {
     async function fetchResults() {
       try {
         const res = await fetch(
-          `http://localhost:4000/api/teas/browse?search=${encodeURIComponent(
+          `${API_URL}/api/teas/browse?search=${encodeURIComponent(
             query
           )}`,
           { credentials: "include" }
