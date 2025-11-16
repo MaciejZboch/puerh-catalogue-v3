@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {ITea} from "../types/tea";
-const API_URL = process.env.BACKEND_URL;
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default async function LatestTeas() {
       const res = await fetch(`${API_URL}/api/teas`, {

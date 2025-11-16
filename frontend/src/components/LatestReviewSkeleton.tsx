@@ -3,7 +3,7 @@ import { IPopulatedReview } from "@/types/review";
 import Link from "next/link";
 import { useState, useEffect } from "react";
 
-const API_URL = process.env.BACKEND_URL;
+const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default function LatestReviews() {
   const [reviews, setReviews] = useState<IPopulatedReview[] | null>(null);
