@@ -5,8 +5,6 @@ import ReviewSection from "@/components/ReviewSection";
 import EditTeaButton from "@/components/EditTeaButton";
 import DeleteTeaButton from "@/components/DeleteTeaButton";
 
-export default async function TeaPage({ params }: { params: { id: string } }) {
-
   async function getCurrentUserForServer() {
   const cookieStore = await cookies();
   const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -17,9 +15,18 @@ export default async function TeaPage({ params }: { params: { id: string } }) {
   return res.json();
 }
 
-  const data = await getTea(params.id);
+export default async function TeaPage({
+  params,
+}: {
+  params: any;
+}) {
+  const resolvedParams = await params; // works in dev + production
+  const { id } = resolvedParams;
+
+  const data = await getTea(id);
   const tea = data.tea;
   const reviews = data.reviews;
+
   const currentUser = await getCurrentUserForServer();
   return (
     <main className="max-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8 bg-dark text-light">
