@@ -5,39 +5,44 @@ import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import ISearchTea from "../../types/searchtea";
 import UncollectButton from "@/components/UncollectButton";
-import { getCurrentUser } from "@/lib/api";
 import CollectButton from "@/components/CollectButton";
+import { getCurrentUser } from "@/lib/api";
 import { IUser } from "@/types/user";
 
 export default function SearchPage() {
   const searchParams = useSearchParams();
-  const query = searchParams.get("query") || "";
   const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-  let [results, setResults] = useState<ISearchTea[]>([]);
+  const [query, setQuery] = useState("");
+  useEffect(() => {
+    setQuery(searchParams.get("query") || "");
+  }, [searchParams]);
+
+  const [results, setResults] = useState<ISearchTea[]>([]);
   const [searching, setSearching] = useState(false);
   const [sortKey, setSortKey] = useState<keyof ISearchTea>("name");
   const [sortAsc, setSortAsc] = useState(true);
   const [currentUser, setCurrentUser] = useState<IUser | null>(null);
 
+  // Fetch current user and search results when query changes
   useEffect(() => {
     if (!query) return;
-    async function fetchCurrentUser() {
+
+    setSearching(true);
+
+    const fetchCurrentUser = async () => {
       try {
-        setSearching(true);
         const user = await getCurrentUser();
         setCurrentUser(user);
       } catch (err) {
         console.error(err);
       }
-  }
-    fetchCurrentUser();
-    async function fetchResults() {
+    };
+
+    const fetchResults = async () => {
       try {
         const res = await fetch(
-          `${API_URL}/api/teas/browse?search=${encodeURIComponent(
-            query
-          )}`,
+          `${API_URL}/api/teas/browse?search=${encodeURIComponent(query)}`,
           { credentials: "include" }
         );
         if (!res.ok) throw new Error("Search failed");
@@ -48,21 +53,14 @@ export default function SearchPage() {
       } finally {
         setSearching(false);
       }
-    }
+    };
 
+    fetchCurrentUser();
     fetchResults();
-  }, [query]);
+  }, [query, API_URL]);
 
-  function handleSort(key: keyof ISearchTea) {
-    if (sortKey === key) {
-      setSortAsc(!sortAsc);
-    } else {
-      setSortKey(key);
-      setSortAsc(true);
-    }
-  }
-
-  results = [...results].sort((a, b) => {
+  // Sorting
+  const sortedResults = [...results].sort((a, b) => {
     const valA = a[sortKey] ?? "";
     const valB = b[sortKey] ?? "";
     const strA =
@@ -78,113 +76,112 @@ export default function SearchPage() {
       : String(strB).localeCompare(String(strA));
   });
 
+  const handleSort = (key: keyof ISearchTea) => {
+    if (sortKey === key) {
+      setSortAsc(!sortAsc);
+    } else {
+      setSortKey(key);
+      setSortAsc(true);
+    }
+  };
+
   return (
     <div className="p-4 bg-dark text-light min-h-screen">
       <h2 className="text-lg font-semibold mb-2">
         Results for "{query}" ({results.length})
       </h2>
+
       <Link href="/new">
         <p>Don&apos;t see your tea? Click here to add it!</p>
       </Link>
 
       {searching && <p className="text-mist">Searching...</p>}
 
-      {results.length > 0 && (
+      {sortedResults.length > 0 && (
         <div className="overflow-x-auto mt-4">
           <table className="w-full text-left border-collapse">
             <thead>
               <tr className="border-b border-green-accent text-mist">
-                <th
-                  className="cursor-pointer p-2"
-                  onClick={() => handleSort("name")}
-                >
-                  Name {sortKey === "name" && (sortAsc ? "▲" : "▼")}
-                </th>
-                <th
-                  className="cursor-pointer p-2 text-center"
-                  onClick={() => handleSort("year")}
-                >
-                  Year {sortKey === "year" && (sortAsc ? "▲" : "▼")}
-                </th>
-                <th
-                  className="cursor-pointer p-2 text-center"
-                  onClick={() => handleSort("vendor")}
-                >
-                  Vendor {sortKey === "vendor" && (sortAsc ? "▲" : "▼")}
-                </th>
-                <th
-                  className="cursor-pointer p-2 text-center"
-                  onClick={() => handleSort("producer")}
-                >
-                  Producer {sortKey === "producer" && (sortAsc ? "▲" : "▼")}
-                </th>
+                {["name", "year", "vendor", "producer"].map((key) => (
+                  <th
+                    key={key}
+                    className="cursor-pointer p-2 text-center"
+                    onClick={() => handleSort(key as keyof ISearchTea)}
+                  >
+                    {key.charAt(0).toUpperCase() + key.slice(1)}{" "}
+                    {sortKey === key && (sortAsc ? "▲" : "▼")}
+                  </th>
+                ))}
               </tr>
             </thead>
             <tbody>
-  {results.map((tea) => {
-    const teaState = results.find(t => t._id === tea._id); // ensure we use latest state
-    const isCollected = currentUser && teaState?.owners?.includes(currentUser._id);
+              {sortedResults.map((tea) => {
+                const isCollected =
+                  currentUser &&
+                  tea.owners?.includes(currentUser._id);
 
-    return (
-      <tr
-        key={tea._id}
-        className="border-b border-gray-700 hover:bg-charcoal/50"
-      >
-        <td className="p-2 flex items-center gap-2">
-          {currentUser && !isCollected && (
-<CollectButton
-  tea={tea}
-  onCollected={() => {
-    if (!currentUser?._id) return;
+                return (
+                  <tr
+                    key={tea._id}
+                    className="border-b border-gray-700 hover:bg-charcoal/50"
+                  >
+                    <td className="p-2 flex items-center gap-2">
+                      {currentUser && !isCollected && (
+                        <CollectButton
+                          tea={tea}
+                          onCollected={() => {
+                            if (!currentUser?._id) return;
+                            setResults((prev) =>
+                              prev.map((t) =>
+                                t._id === tea._id
+                                  ? {
+                                      ...t,
+                                      owners: Array.isArray(t.owners)
+                                        ? [...t.owners, currentUser._id]
+                                        : [currentUser._id],
+                                    }
+                                  : t
+                              )
+                            );
+                          }}
+                        />
+                      )}
 
-    setResults(prev =>
-      prev.map(t =>
-        t._id === tea._id
-          ? {
-              ...t,
-              owners: Array.isArray(t.owners)
-                ? [...t.owners, currentUser._id]
-                : [currentUser._id],
-            }
-          : t
-      )
-    );
-  }}
-/>
+                      {currentUser && isCollected && (
+                        <UncollectButton
+                          tea={tea}
+                          onRemoved={(teaId) => {
+                            setResults((prev) =>
+                              prev.map((t) =>
+                                t._id === teaId
+                                  ? {
+                                      ...t,
+                                      owners:
+                                        t.owners?.filter(
+                                          (id) => id !== currentUser._id
+                                        ) || [],
+                                    }
+                                  : t
+                              )
+                            );
+                          }}
+                        />
+                      )}
 
-          )}
-
-          {currentUser && isCollected && (
-            <UncollectButton
-              tea={tea}
-              onRemoved={(teaId) => {
-                setResults(prev =>
-                  prev.map(t =>
-                    t._id === teaId
-                      ? { ...t, owners: t.owners?.filter(id => id !== currentUser._id) || [] }
-                      : t
-                  )
+                      <Link
+                        href={`/tea/${tea._id}`}
+                        className="text-green-accent hover:underline"
+                      >
+                        {tea.name}
+                      </Link>
+                    </td>
+                    <td className="p-2 text-center">{tea.year || "-"}</td>
+                    <td className="p-2 text-center">{tea.vendor?.name || "-"}</td>
+                    <td className="p-2 text-center">{tea.producer?.name || "-"}</td>
+                  </tr>
                 );
-              }}
-            />
-          )}
-
-          <Link
-            href={`/tea/${tea._id}`}
-            className="text-green-accent hover:underline"
-          >
-            {tea.name}
-          </Link>
-        </td>
-
-        <td className="p-2 text-center">{tea.year || "-"}</td>
-        <td className="p-2 text-center">{tea.vendor?.name || "-"}</td>
-        <td className="p-2 text-center">{tea.producer?.name || "-"}</td>
-      </tr>
-    );
-  })}
-</tbody>
-
+              })}
+            </tbody>
           </table>
         </div>
       )}
