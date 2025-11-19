@@ -5,7 +5,9 @@ import ReviewSection from "@/components/ReviewSection";
 import EditTeaButton from "@/components/EditTeaButton";
 import DeleteTeaButton from "@/components/DeleteTeaButton";
 
-export async function getCurrentUserForServer() {
+export default async function TeaPage({ params }: { params: { id: string } }) {
+
+  async function getCurrentUserForServer() {
   const cookieStore = await cookies();
   const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
   const res = await fetch(`${API_URL}/api/me`, { credentials: "include", headers: {
@@ -15,7 +17,6 @@ export async function getCurrentUserForServer() {
   return res.json();
 }
 
-export default async function TeaPage({ params }: { params: { id: string } }) {
   params = await params;
   const data = await getTea(params.id);
   const tea = data.tea;
