@@ -4,7 +4,9 @@
   "description": "a website about tea",
   "main": "App.ts",
   "scripts": {
-    "test": "console.log(\"hello world\")"
+    "test": "console.log(\"hello world\")",
+    "start": "ts-node index.ts",
+    "build": "tsc"
   },
   "author": "maciejzboch",
   "license": "ISC",
