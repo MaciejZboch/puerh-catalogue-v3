@@ -17,7 +17,6 @@ export default async function TeaPage({ params }: { params: { id: string } }) {
   return res.json();
 }
 
-  params = await params;
   const data = await getTea(params.id);
   const tea = data.tea;
   const reviews = data.reviews;
