@@ -1,121 +1,87 @@
-//Dependency imports
-import express, {NextFunction, Request, Response} from 'express'
+import express, { NextFunction, Request, Response } from 'express';
 import mongoose from 'mongoose';
 import session from 'express-session';
-import MongoStore from 'connect-mongo'
+import MongoStore from 'connect-mongo';
 import helmet from 'helmet';
 import passport from 'passport';
-const LocalStrategy = require("passport-local");
-const app = express();
 import cors from 'cors';
 import dotenv from 'dotenv';
 import crypto from 'crypto';
 
-//Other imports
+// Routes and models
 import User from './models/user';
 import userRoutes from './routes/users';
 import teaRoutes from './routes/tea';
 import reviewRoutes from './routes/review';
 import moderateRoutes from './routes/moderate';
 
-//JSON setup for React
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// Passport local strategy
+const LocalStrategy = require('passport-local');
 
-//.env setup
 dotenv.config();
 
-export const secret = Buffer.from(
-  process.env.SECRET_KEY as string
-) as crypto.CipherKey;
+const app = express();
 
-export const secretOptional =
-  (process.env.OPTIONAL_SECRET as string) || false;
-  
-//MongoDB setup
-//const dbUrl = 'mongodb://localhost:27017/test'; //local DB for development
-const dbUrl = process.env.DB_URL; //production DB in cloud
+//Environment variables
+const PORT = process.env.PORT || 4000;
+const DB_URL = process.env.DB_URL;
+const SECRET_KEY = process.env.SECRET_KEY;
+const OPTIONAL_SECRET = process.env.OPTIONAL_SECRET || '';
+const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:3000';
 
-if (!dbUrl) {
-  throw new Error("Missing DB_URL in environment variables");
-}
+if (!DB_URL) throw new Error('Missing DB_URL in environment variables');
+if (!SECRET_KEY) throw new Error('Missing SECRET_KEY in environment variables');
 
-mongoose
-  .connect(dbUrl)
-  .then(() => {
-    console.log('Mongo connection succesful!');
-  })
-  .catch((err) => {
-    console.log('Mongo error!');
-    console.log(err);
-  });
+//Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(helmet());
 
-//Cors setup
 app.use(
   cors({
-    origin: [
-      "http://localhost:3000",
-      process.env.FRONTEND_URL || ""
-    ],
+    origin: [FRONTEND_URL, 'http://localhost:3000'],
     credentials: true,
   })
 );
 
+//Session
+app.use(
+  session({
+    secret: Buffer.from(SECRET_KEY) as crypto.CipherKey,
+    store: MongoStore.create({
+      mongoUrl: DB_URL,
+      touchAfter: 24 * 60 * 60, // 24 hours
+      crypto: { secret: OPTIONAL_SECRET },
+    }),
+    resave: false,
+    saveUninitialized: true,
+    cookie: {
+      sameSite: 'lax',
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production', // only send cookie over HTTPS in prod
+      maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
+    },
+  })
+).on('error', (e) => console.log('Session store error!', e));
 
-//Session setup
-app.use(session({
-  secret,
-  store: MongoStore.create({ 
-    mongoUrl: dbUrl,
-    touchAfter: 24 * 60 * 60,
-  crypto: {
-    secret: secretOptional
-  }
-}),
-  resave: false,
-  saveUninitialized: true,
-  cookie: {
-    sameSite: "lax",
-    httpOnly: true,
-    secure: false, // Enable in production with HTTPS
-    expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), // 1 week
-    maxAge: 1000 * 60 * 60 * 24 * 7
-  }
-})).on("error", function (e) {
-  console.log("session store error!", e);
-});
-
+//Save session on GET requests
 app.use((req: Request, res: Response, next: NextFunction) => {
-  if (
-    req.method === "GET" &&
-    req.path !== "/login" &&
-    req.path !== "/logout" &&
-    req.path !== "/favicon.ico" &&
-    !req.path.startsWith("/tea/stylesheets") && //Ignore CSS
-    !req.path.startsWith("/images") && //Ignore images
-    !req.path.startsWith("/scripts") //Ignore scripts
-  ) {
+  if (req.method === 'GET') {
     req.session.save((err) => {
-      if (err) console.log("Session save error:", err);
+      if (err) console.log('Session save error:', err);
     });
   }
   next();
 });
 
-app.use(helmet()); //Helmet setup
-
-//Passport setup
+//Passport
 app.use(passport.initialize());
 app.use(passport.session());
-
-// Use plugin-provided LocalStrategy
 passport.use(User.createStrategy());
-
-// Use plugin-provided session serialization
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
-//Locals setup
+//Locals
 app.use((req: Request, res: Response, next: NextFunction) => {
   res.locals.currentUser = req.user;
   res.locals.baseUrl = req.baseUrl;
@@ -123,10 +89,19 @@ app.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-//Routes setup
-app.use("/api/", userRoutes);
-app.use("/api/teas", teaRoutes);
-app.use("/api/teas", reviewRoutes);
-app.use("/api/moderate", moderateRoutes);
+//MongoDB
+mongoose
+  .connect(DB_URL)
+  .then(() => console.log('MongoDB connection successful!'))
+  .catch((err) => console.log('MongoDB connection error:', err));
 
-app.listen(4000)
+//Routes
+app.use('/api', userRoutes);
+app.use('/api/teas', teaRoutes);
+app.use('/api/teas', reviewRoutes);
+app.use('/api/moderate', moderateRoutes);
+
+//Start server
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
