@@ -25,10 +25,8 @@ router.get("/logout", isLoggedIn, logout);
 router.put("/users/:id", typeguardUser, isLoggedIn, follow);
 router.delete("/users/:id",typeguardUser, isLoggedIn, unfollow);
 router.get("/me", (req, res) => {
-  if (!req.user) {
-    return res.status(401).json({ error: "Not logged in" });
-  }
-  res.json(req.user);
+  // If user is logged in, return user, otherwise return null
+  res.status(200).json(req.user || null);
 });
 
 export default router;
