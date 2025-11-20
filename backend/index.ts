@@ -56,7 +56,7 @@ app.use(
       crypto: { secret: OPTIONAL_SECRET },
     }),
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: {
       sameSite: 'none',
       httpOnly: true,
