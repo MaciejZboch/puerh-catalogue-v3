@@ -51,10 +51,16 @@ mongoose
   });
 
 //Cors setup
-app.use(cors({
-  origin: "http://localhost:3000",
-  credentials: true //allow cookies/auth headers
-})); 
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      process.env.FRONTEND_URL || ""
+    ],
+    credentials: true,
+  })
+);
+
 
 //Session setup
 app.use(session({
