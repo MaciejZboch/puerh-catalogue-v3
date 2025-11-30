@@ -30,7 +30,7 @@ export default function ReviewSection({
      };
 
 return ( <>
-<ReviewForm onNewReview={handleAddReview} teaId={teaId}/>
+{currentUser && <ReviewForm onNewReview={handleAddReview} teaId={teaId}/>}
 
         <section>
           {reviewsArray.length > 0 && <h3 className="text-xl font-semibold mb-4">Reviews</h3>}
