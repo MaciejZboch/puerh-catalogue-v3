@@ -33,6 +33,7 @@ export interface ITea {
   createdAt?: string; // serialized date
   updatedAt?: string;
   pricePerGram: number;
+  rating? : number;
 }
 
 // if you have an image interface
