@@ -21,6 +21,7 @@ const LocalStrategy = require('passport-local');
 dotenv.config();
 
 const app = express();
+app.set("trust proxy", 1);
 
 //Environment variables
 const PORT = process.env.PORT || 4000;
