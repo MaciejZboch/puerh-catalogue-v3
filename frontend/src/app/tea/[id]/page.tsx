@@ -6,6 +6,28 @@ import EditTeaButton from "@/components/EditTeaButton";
 import DeleteTeaButton from "@/components/DeleteTeaButton";
 import { getCurrentUser } from "@/lib/api";
 
+async function getCurrentUserForServer() {
+  const cookieStore = await cookies();
+  const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+
+  const cookieString = cookieStore
+    .getAll()
+    .map(c => `${c.name}=${c.value}`)
+    .join("; ");
+
+  const res = await fetch(`${API_URL}/api/me`, {
+    method: "GET",
+    credentials: "include",
+    headers: {
+      Cookie: cookieString
+    }
+  });
+
+  if (!res.ok) return null;
+  return res.json();
+}
+
+
 export default async function TeaPage({
   params,
 }: {
@@ -18,7 +40,7 @@ export default async function TeaPage({
   const tea = data.tea;
   const reviews = data.reviews;
 
-  const currentUser = await getCurrentUser();
+  const currentUser = await getCurrentUserForServer();
   return (
     <main className="max-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8 bg-dark text-light">
       
