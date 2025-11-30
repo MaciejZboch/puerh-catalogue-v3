@@ -4,16 +4,7 @@ import { cookies } from "next/headers";
 import ReviewSection from "@/components/ReviewSection";
 import EditTeaButton from "@/components/EditTeaButton";
 import DeleteTeaButton from "@/components/DeleteTeaButton";
-
-  async function getCurrentUserForServer() {
-  const cookieStore = await cookies();
-  const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
-  const res = await fetch(`${API_URL}/api/me`, { credentials: "include", headers: {
-      cookie: cookieStore.toString()
-    }, });
-  if (!res.ok) return null;
-  return res.json();
-}
+import { getCurrentUser } from "@/lib/api";
 
 export default async function TeaPage({
   params,
@@ -27,7 +18,7 @@ export default async function TeaPage({
   const tea = data.tea;
   const reviews = data.reviews;
 
-  const currentUser = await getCurrentUserForServer();
+  const currentUser = await getCurrentUser();
   return (
     <main className="max-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8 bg-dark text-light">
       
