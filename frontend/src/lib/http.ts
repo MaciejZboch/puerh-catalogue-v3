@@ -1,5 +1,6 @@
 export async function postJson(path: string, body: any) {
-  const res = await fetch(path, {
+  const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const res = await fetch(`${API_URL}/${path}`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "include",
@@ -13,7 +14,6 @@ export async function postJson(path: string, body: any) {
     return data;
   } else {
     const text = await res.text();
-    // surface a helpful snippet
     throw new Error(`Expected JSON, got: ${text.slice(0, 200)}…`);
   }
 }
