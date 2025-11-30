@@ -13,7 +13,7 @@ export default function RegisterPage() {
     setMessage("");
 
     try {
-      const data = await postJson("/api/register", { email, username, password });
+      const data = await postJson("api/register", { email, username, password });
       setMessage("Registered successfully!");
     } catch (err: any) {
       setMessage(err.message || "Registration failed");
