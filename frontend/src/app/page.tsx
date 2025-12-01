@@ -3,7 +3,6 @@ import LatestTeas from "../components/LatestTeas";
 import LatestReviews from "@/components/LatestReviews";
 import LatestTeasSkeleton from "@/components/LatestTeasSkeleton";
 import LatestReviewsSkeleton from "@/components/LatestReviewSkeleton";
-import Footer from "@/components/Footer";
 
 
 export default function HomePage() {
@@ -33,8 +32,7 @@ export default function HomePage() {
         </Suspense>
       </main>
 
-      {/* Footer */}
-<Footer/>
+
     </div>
   );
 }
