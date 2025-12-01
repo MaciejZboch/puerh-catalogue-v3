@@ -1,12 +1,15 @@
 "use client";
 import { useState } from "react";
 import { postJson } from "@/lib/http";
+import { useRouter } from "next/navigation";
+import { login } from "@/lib/api";
 
 export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -15,6 +18,8 @@ export default function RegisterPage() {
     try {
       const data = await postJson("api/register", { email, username, password });
       setMessage("Registered successfully!");
+      await login(username, password);
+      router.push(`/`);
     } catch (err: any) {
       setMessage(err.message || "Registration failed");
     }
