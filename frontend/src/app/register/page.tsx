@@ -2,14 +2,19 @@
 import { useState } from "react";
 import { postJson } from "@/lib/http";
 import { useRouter } from "next/navigation";
-import { login } from "@/lib/api";
+import { useAuth } from "../hooks/useAuth";
 
 export default function RegisterPage() {
+  //login and navigation
+  const {login} = useAuth();
+  const router = useRouter();
+
+  //state
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
-  const router = useRouter();
+ 
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
