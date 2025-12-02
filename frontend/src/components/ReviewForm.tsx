@@ -58,7 +58,7 @@ export default function ReviewForm({teaId, onNewReview} : {teaId : string, onNew
               </option>
             ))}
           </select>
-           <button className="bg-green-accent hover:bg-green-bright rounded-xl py-2 px-4 mx-4">Submit</button>
+           <button className="bg-green-accent rounded-xl py-2 px-4 mx-4">Submit</button>
         </div>
 
         {error && <p className="text-red-500">{error}</p>}

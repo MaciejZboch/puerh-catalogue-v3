@@ -34,7 +34,7 @@ export default function UncollectButton({ tea, onRemoved }: Props) {
   return (
     <button
       onClick={handleUncollect}
-      className="px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition"
+      className="px-3 py-1 rounded bg-green-accent text-dark"
     >
       Remove
     </button>

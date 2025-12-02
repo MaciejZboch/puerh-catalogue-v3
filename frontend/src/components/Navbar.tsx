@@ -40,7 +40,7 @@ export default function Navbar() {
         />
         <button
           type="submit"
-          className="absolute right-2 top-1/2 -translate-y-1/2 text-green-accent"
+          className="nohover hover:text-green-soft absolute right-2 top-1/2 -translate-y-1/2 text-green-accent rounded-md"
         >
           Search
         </button>
@@ -59,18 +59,18 @@ export default function Navbar() {
           <>
             <Link href="/new">New tea</Link>
             <Link href={`/profile/${user._id}`}>My Profile</Link>
-            <button onClick={logout}>Logout</button>
+            <a className="rounded-md" onClick={logout}>Logout</a>
           </>
         )}
       </div>
 
       {/* Mobile hamburger */}
-      <button
+      <a
         className="md:hidden text-light"
         onClick={() => setMenuOpen(!menuOpen)}
       >
         ☰
-      </button>
+      </a>
 
       {/* Mobile dropdown */}
       {menuOpen && (
@@ -115,14 +115,14 @@ export default function Navbar() {
               >
                 My Profile
               </Link>
-              <button
+              <a
                 onClick={() => {
                   logout();
                   setMenuOpen(false);
                 }}
               >
                 Logout
-              </button>
+              </a>
             </>
           )}
         </div>

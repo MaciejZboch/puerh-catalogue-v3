@@ -157,7 +157,7 @@ async function uncollect(tea: ISearchTea) {
           <h1 className="text-2xl font-bold">{user.username}</h1>
           
           {currentUser && currentUser._id !== user._id &&
-          <button className="px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition"
+          <button className="px-3 py-1 rounded bg-green-accent text-dark"
             onClick={ !currentUser.following.includes(user._id)
             ? () => follow(userId)
             : () => unfollow(userId)}>

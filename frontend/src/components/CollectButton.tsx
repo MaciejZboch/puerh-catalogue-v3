@@ -38,7 +38,7 @@ export default function CollectButton({ tea, onCollected }: Props) {
   return (
     <button
       onClick={handleCollect}
-      className="px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition"
+      className="px-3 py-1 rounded bg-green-accent text-dark"
     >
       Collect
     </button>

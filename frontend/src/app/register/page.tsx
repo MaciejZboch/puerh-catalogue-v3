@@ -47,10 +47,10 @@ export default function RegisterPage() {
           type="password" placeholder="Password" value={password}
           onChange={(e) => setPassword(e.target.value)} required />
 
-        <button className="w-full bg-green-accent text-dark py-2 rounded-md hover:bg-green-soft transition"
+        <button className="w-full bg-green-accent text-dark py-2 rounded-md"
           type="submit">Register</button>
 
-        {message && <p className="mt-3 text-sm text-center text-gray-700">{message}</p>}
+        {message && <p className="mt-3 text-sm text-center text-light">{message}</p>}
       </form>
     </div>
   );

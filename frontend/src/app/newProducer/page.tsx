@@ -92,7 +92,7 @@ export default function Vendor() {
           {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name.message}</p>}
                   <button
           type="submit"
-          className="w-full bg-green-accent text-dark py-2 rounded-md hover:bg-green-soft transition"
+          className="w-full bg-green-accent text-dark py-2 rounded-md"
         >
           Add Producer
         </button>

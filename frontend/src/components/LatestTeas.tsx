@@ -32,11 +32,12 @@ return (
             className="w-12 h-12 rounded object-cover"
           />
                 <div>
-                  <Link href={`/tea/${tea._id}`}><h3 className="font-bold text-light">{tea.name} {tea.year}</h3></Link>
+                  <Link href={`/tea/${tea._id}`} className="font-bold text-light"><h3>{tea.name} {tea.year}</h3></Link>
                   <p className="text-mist"> {tea.type}, {tea.shape}</p>
                 </div>
               </div>
-              <Link href={`/tea/${tea._id}`} className="px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition">
+              
+              <Link href={`/tea/${tea._id}`} className="nohover px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition">
                   Details
               </Link>
               </div>

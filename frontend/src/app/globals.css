@@ -34,6 +34,22 @@
   }
 }
 
+@layer components {
+  button {
+    @apply transition-colors duration-200;
+  }
+}
+
+/*hover effects*/
+
+button:hover:not(.nohover) {
+    @apply bg-green-soft text-dark;
+  }
+
+a:hover:not(.nohover) {
+  @apply text-green-soft;
+}
+
 body {
   background: var(--background);
   color: var(--foreground);

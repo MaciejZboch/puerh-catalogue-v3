@@ -387,7 +387,7 @@ export default function New() {
           {/* Submit */}
           <button
             type="submit"
-            className="w-full bg-green-accent text-dark py-2 rounded-md hover:bg-green-soft transition"
+            className="w-full bg-green-accent text-dark py-2 rounded-md"
           >
             Add Tea
           </button>
