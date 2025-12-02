@@ -12,7 +12,6 @@ export default function LoginPage() {
   const router = useRouter();
 
   if (user) {
-    console.log(user);
     return <div>Welcome {user.username}!</div>;
   }
 

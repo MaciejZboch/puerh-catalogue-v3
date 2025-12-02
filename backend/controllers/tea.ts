@@ -197,7 +197,6 @@ export const newVendor = async (req: Request, res: Response) => {
 };
 
 export const postVendor = async (req: Request, res: Response) => {
-  console.log(req.body)
   const v = new Vendor({ name: req.body.name });
 
   await v.save();
@@ -210,7 +209,6 @@ export const newProducer = async (req: Request, res: Response) => {
 };
 
 export const postProducer = async (req: Request, res: Response) => {
-  console.log(req.body)
   const p = await new Producer({ name: req.body.name });
 
   await p.save();
