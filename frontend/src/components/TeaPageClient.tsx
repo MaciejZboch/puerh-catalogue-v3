@@ -36,9 +36,9 @@ export default function TeaPageClient({
   const isMod = currentUser?.moderator === true;
 
   return (
-    <main className="w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8 bg-dark text-light">
-      {/* Left column – tea card */}
-<div className="lg:col-span-1 bg-charcoal rounded-xl border border-green-accent/40 p-6 flex flex-col items-center shadow-md">
+<main className="w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8 bg-dark text-light">
+  {/* Left column – tea card */}
+  <div className="lg:col-span-1 bg-charcoal rounded-xl border border-green-accent/40 p-6 flex flex-col items-center shadow-md">
 
   {/* Tea Image */}
   <div className="w-full flex justify-center">
