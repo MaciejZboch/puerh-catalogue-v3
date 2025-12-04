@@ -1,5 +1,6 @@
 import {Schema, Types, model, Model} from "mongoose";
 import { Document } from 'mongoose';
+import Review from './review';
 
 interface IImage extends Document {
   url: string,
@@ -81,6 +82,18 @@ const TeaSchema = new Schema({
 TeaSchema.virtual("pricePerGram").get(function (this: ITea) {
   return this.price / this.sizeInGrams;
 });
+
+
+//get average rating method - enable if needed outside of show page
+/*
+TeaSchema.methods.getAverageRating = async function () {
+  const reviews = await Review.find({ tea: this._id });
+  if (!reviews.length) return null;
+
+  const total = reviews.reduce((sum, r) => sum + r.rating, 0);
+  return total / reviews.length;
+};
+*/
 
 //setting up an index to search in all fields
 TeaSchema.index({

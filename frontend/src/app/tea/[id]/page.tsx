@@ -12,6 +12,6 @@ export default async function TeaPage({
   const reviews = data.reviews;
 
   return (
-    <TeaPageClient tea={tea} reviews={reviews} id={id} />
+    <TeaPageClient tea={tea} reviews={reviews} id={id} average={data.average} />
   );
 }

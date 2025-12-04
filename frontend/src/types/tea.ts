@@ -32,11 +32,10 @@ export interface ITea {
   price: number;
   createdAt?: string; // serialized date
   updatedAt?: string;
-  pricePerGram: number;
-  rating? : number;
+  pricePerGram?: number;
 }
 
-// if you have an image interface
+
 export interface IImage {
   url: string;
   alt?: string;

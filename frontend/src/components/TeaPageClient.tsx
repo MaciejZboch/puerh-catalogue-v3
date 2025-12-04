@@ -14,10 +14,12 @@ export default function TeaPageClient({
   tea,
   reviews,
   id,
+  average
 }: {
   tea: ITea;
   reviews: IPopulatedReview[];
   id: string;
+  average: number;
 }) {
   const [currentUser, setCurrentUser] = useState<IUser | null>(null);
 
@@ -72,11 +74,10 @@ export default function TeaPageClient({
 
   {/* Divider */}
   <div className="w-full h-px bg-green-accent/30 my-6" />
-
   {/* Rating */}
   <div className="text-center">
     <p className="text-4xl font-extrabold text-green-accent">
-      {tea.rating ? tea.rating.toFixed(2) : "0.00"}
+      {average ? average.toFixed(2) : "0.00"}
     </p>
     <p className="text-sm text-gray-400">
       from 2137 ratings
