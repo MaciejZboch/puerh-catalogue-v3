@@ -9,9 +9,10 @@ export default async function TeaPage({
   const { id } = await params;
   const data = await getTea(id);
   const tea = data.tea;
+  const numberOfRatings = data.numberOfRatings;
   const reviews = data.reviews;
 
   return (
-    <TeaPageClient tea={tea} reviews={reviews} id={id} average={data.average} />
+    <TeaPageClient tea={tea} reviews={reviews} id={id} average={data.average} numberOfRatings={numberOfRatings} />
   );
 }

@@ -104,6 +104,7 @@ export const show = async (req: Request, res: Response) => {
 
   //calculate user's average rating for this tea
   let average = null;
+  const numberOfRatings = reviews.length;
   if (reviews.length > 0) {
     const ratings = reviews.map((r) => r.rating);
     average = ratings.reduce((a, b) => a + b, 0) / ratings.length;
@@ -121,7 +122,7 @@ export const show = async (req: Request, res: Response) => {
   } else {
     myRatings = false;
   }
-  res.json({ tea, reviews, myRatings, average });
+  res.json({ tea, reviews, myRatings, average, numberOfRatings });
 };
 
 export const editForm = async (req: Request, res: Response) => {

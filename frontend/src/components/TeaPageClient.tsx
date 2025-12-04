@@ -14,12 +14,14 @@ export default function TeaPageClient({
   tea,
   reviews,
   id,
-  average
+  average,
+  numberOfRatings
 }: {
   tea: ITea;
   reviews: IPopulatedReview[];
   id: string;
   average: number;
+  numberOfRatings: number;
 }) {
   const [currentUser, setCurrentUser] = useState<IUser | null>(null);
 
@@ -80,7 +82,7 @@ export default function TeaPageClient({
       {average ? average.toFixed(2) : "0.00"}
     </p>
     <p className="text-sm text-gray-400">
-      from 2137 ratings
+      from {numberOfRatings ? numberOfRatings : 0} ratings
     </p>
   </div>
 </div>
