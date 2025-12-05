@@ -13,8 +13,7 @@ export default function CollectButton({ tea, onCollected }: Props) {
       const res = await fetch(
         `${API_URL}/teas/${tea._id}/add`,
         {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
+          method: "PUT",
           credentials: "include",
         }
       );
