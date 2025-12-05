@@ -11,7 +11,7 @@ export default function CollectButton({ tea, onCollected }: Props) {
     const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
     try {
       const res = await fetch(
-        `${API_URL}/teas/${tea._id}/add`,
+        `${API_URL}/api/teas/${tea._id}/add`,
         {
           method: "PUT",
           credentials: "include",
