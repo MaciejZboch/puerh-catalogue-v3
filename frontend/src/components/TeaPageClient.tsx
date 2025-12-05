@@ -40,9 +40,9 @@ export default function TeaPageClient({
   const isMod = currentUser?.moderator === true;
 
   return (
-<main className="flex-1 w-full mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8 bg-dark text-light">
+<main className="flex-1 w-full mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-8 bg-dark text-light">
   {/* Left column – tea card */}
-  <div className="lg:col-span-1 bg-charcoal rounded-xl border border-green-accent/40 p-6 flex flex-col items-center shadow-md">
+  <div className="md:col-span-1 bg-charcoal rounded-xl border border-green-accent/40 p-6 flex flex-col items-center shadow-md max-h-150">
 
   {/* Tea Image */}
   <div className="w-full flex justify-center">
@@ -89,7 +89,7 @@ export default function TeaPageClient({
 
 
       {/* Right column */}
-      <div className="lg:col-span-2 space-y-8">
+      <div className="md:col-span-2 space-y-8">
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-semibold">Tea info</h3>
 
