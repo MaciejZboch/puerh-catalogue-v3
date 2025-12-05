@@ -139,73 +139,68 @@ async function uncollect(tea: ISearchTea) {
 
   return (
     <div className="p-6 bg-dark text-light min-h-screen">
-      <div className="flex items-center gap-4 mb-6">
-        {user.image?.url ? (
-          <img
-            src={user.image.url}
-            alt={user.username}
-            className="h-16 w-16 rounded-full object-cover"
-          />
-        ) : (
-          <img
-            src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
-            alt={user.username}
-            className="h-16 w-16 rounded-full object-cover"
-          />
-        )}
-        <div>
-          <h1 className="text-2xl font-bold">{user.username}</h1>
-          
-          {currentUser && currentUser._id !== user._id &&
-          <button className="px-3 py-1 rounded bg-green-accent text-dark"
-            onClick={ !currentUser.following.includes(user._id)
-            ? () => follow(userId)
-            : () => unfollow(userId)}>
-            {!currentUser.following.includes(user._id) ? "Follow" : "Unfollow"}</button>}
-          {user.email && <p className="text-mist">{user.email}</p>}
-        
-        </div>
-      </div>
-            {/* Followed users */}
-      <div className="mb-8">
-        <h2 className="text-xl font-semibold mb-2">
-          {user.username} follows:
-        </h2>
-        {followedUsers.length === 0 ? (
-          <p className="text-mist">{user.username} isn’t following anyone yet.</p>
-        ) : (
-          <ul className="space-y-2">
-            {followedUsers.map((fu) => (
-              <li key={fu._id}>
-                <Link
-                  href={`/profile/${fu._id}`}
-                  className="flex items-center gap-2 text-green-accent hover:underline"
-                >
-                  {fu.image?.url ? (
-                    <img
-                      src={fu.image.url}
-                      alt={fu.username}
-                      className="h-8 w-8 rounded-full object-cover"
-                    />
-                  ) : (
-                    <img
-                      src="https://cdn-icons-png.flaticon.com/512/847/847969.png"
-                      alt={fu.username}
-                      className="h-8 w-8 rounded-full object-cover"
-                    />
-                  )}
-                  {fu.username}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+      <div className="w-full max-w-2xl mx-auto p-6 bg-charcoal rounded-2xl shadow-xl border border-green-accent/40">
+
+  {/* Profile header */}
+  <div className="flex items-center gap-4 mb-6">
+    <img
+      src={user.image?.url || "https://cdn-icons-png.flaticon.com/512/847/847969.png"}
+      alt={user.username}
+      className="h-20 w-20 rounded-full object-cover"
+    />
+    <div>
+      <h1 className="text-3xl font-bold">{user.username}</h1>
+      {user.email && <p className="text-mist">{user.email}</p>}
+
+      {currentUser && currentUser._id !== user._id && (
+        <button
+          className="mt-2 px-3 py-1 rounded bg-green-accent text-dark font-semibold"
+          onClick={
+            !currentUser.following.includes(user._id)
+              ? () => follow(userId)
+              : () => unfollow(userId)
+          }
+        >
+          {!currentUser.following.includes(user._id) ? "Follow" : "Unfollow"}
+        </button>
+      )}
+    </div>
+  </div>
+
+  {/* Followed users */}
+  <div className="mt-4">
+    <h2 className="text-xl font-semibold mb-2">{user.username} follows:</h2>
+    {followedUsers.length === 0 ? (
+      <p className="text-mist">{user.username} isn’t following anyone yet.</p>
+    ) : (
+      <ul className="space-y-2">
+        {followedUsers.map((fu) => (
+          <li key={fu._id}>
+            <Link
+              href={`/profile/${fu._id}`}
+              className="flex items-center gap-2 text-green-accent hover:underline"
+            >
+              <img
+                src={fu.image?.url || "https://cdn-icons-png.flaticon.com/512/847/847969.png"}
+                className="h-8 w-8 rounded-full object-cover"
+                alt={fu.username}
+              />
+              {fu.username}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    )}
+  </div>
+
+</div>
+
+     
 
       {teas.length === 0 ? (
-        <p className="text-mist">{user.username} hasn’t added any teas yet.</p>
+        <p className="text-mist pt-4">{user.username} hasn’t added any teas yet.</p>
       ) : ( <>
-        <h2 className="text-xl font-semibold mb-2">{user.username}'s tea collection:</h2>
+        <h2 className="text-xl font-semibold mb-2 pt-4">{user.username}'s tea collection:</h2>
         <div className="overflow-x-auto">
         <table className="w-full text-left border-collapse">
           <thead>
@@ -243,9 +238,11 @@ async function uncollect(tea: ISearchTea) {
                 className="border-b border-gray-700 hover:bg-charcoal/50"
               >
                 <td className="p-2 flex items-center gap-2">
-                  <UncollectButton tea={tea}
-                  onRemoved={(teaId) => setTeas(prev => prev.filter(t => t._id !== teaId))}
-                  />
+                  {currentUser && currentUser._id === user._id &&
+                    <UncollectButton tea={tea}
+                    onRemoved={(teaId) => setTeas(prev => prev.filter(t => t._id !== teaId))}
+                    />
+                  }
                   {tea.image?.url ? (
                     <img
                       src={tea.image.url}
