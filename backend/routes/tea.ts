@@ -57,7 +57,7 @@ router
 
 router
   .route("/:id/add")
-  .post(isLoggedIn, catchAsync(addToCollection))
+  .put(isLoggedIn, catchAsync(addToCollection))
   .delete(isLoggedIn, catchAsync(removeFromCollection));
 
 export default router;
