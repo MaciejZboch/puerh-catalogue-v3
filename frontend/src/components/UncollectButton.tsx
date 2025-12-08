@@ -4,9 +4,10 @@ import ISearchTea from "@/types/searchtea";
 interface Props {
   tea: ISearchTea;
   onRemoved: (teaId: string) => void;
+  text: string;
 }
 
-export default function UncollectButton({ tea, onRemoved }: Props) {
+export default function UncollectButton({ tea, onRemoved, text }: Props) {
   async function handleUncollect() {
     const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
     try {
@@ -36,7 +37,7 @@ export default function UncollectButton({ tea, onRemoved }: Props) {
       onClick={handleUncollect}
       className="px-3 py-1 rounded bg-green-accent text-dark"
     >
-      Remove
+      {text}
     </button>
   );
 }

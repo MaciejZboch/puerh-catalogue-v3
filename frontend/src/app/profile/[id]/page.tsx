@@ -242,6 +242,7 @@ async function uncollect(tea: ISearchTea) {
                   {currentUser && currentUser._id === user._id &&
                     <UncollectButton tea={tea}
                     onRemoved={(teaId) => setTeas(prev => prev.filter(t => t._id !== teaId))}
+                    text={"X"}
                     />
                   }
                   </div>

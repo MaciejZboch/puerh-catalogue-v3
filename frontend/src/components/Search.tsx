@@ -158,6 +158,7 @@ export default function Search() {
 
           {currentUser && isCollected && (
             <UncollectButton
+              text={"Remove"}
               tea={tea}
               onRemoved={(teaId) => {
                 setResults(prev =>
