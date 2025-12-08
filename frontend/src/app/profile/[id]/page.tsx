@@ -238,22 +238,24 @@ async function uncollect(tea: ISearchTea) {
                 className="border-b border-gray-700 hover:bg-charcoal/50"
               >
                 <td className="p-2 flex items-center gap-2">
+                  <div className="flex items-center gap-2 min-w-0">
                   {currentUser && currentUser._id === user._id &&
                     <UncollectButton tea={tea}
                     onRemoved={(teaId) => setTeas(prev => prev.filter(t => t._id !== teaId))}
                     />
                   }
+                  </div>
                   {tea.image?.url ? (
                     <img
                       src={tea.image.url}
                       alt={tea.name}
-                      className="h-6 w-6 object-cover rounded"
+                      className="h-6 w-6 object-cover rounded shrink-0"
                     />
                   ) : (
                     <img
                       src="https://cdn-icons-png.flaticon.com/256/712/712255.png"
                       alt={tea.name}
-                      className="h-6 w-6 object-cover rounded"
+                      className="h-6 w-6 object-cover rounded shrink-0"
                     />
                   )}
                   <Link
