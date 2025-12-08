@@ -202,7 +202,7 @@ async function uncollect(tea: ISearchTea) {
       ) : ( <>
         <h2 className="text-xl font-semibold mb-2 pt-4">{user.username}'s tea collection:</h2>
         <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse">
+        <table className="w-full text-left border-collapse table-fixed">
           <thead>
             <tr className="border-b border-green-accent text-mist">
               <th
