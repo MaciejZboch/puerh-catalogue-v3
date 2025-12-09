@@ -42,7 +42,7 @@ export default function TeaPageClient({
   return (
 <main className="flex-1 w-full mx-auto p-6 grid grid-cols-1 md:grid-cols-3 gap-8 bg-dark text-light">
   {/* Left column – tea card */}
-  <div className="md:col-span-1 bg-charcoal rounded-xl border border-green-accent/40 p-6 flex flex-col items-center shadow-md max-h-150">
+  <div className="md:col-span-1 bg-charcoal rounded-xl border border-green-accent/40 p-6 flex flex-col items-center shadow-md h-auto">
 
   {/* Tea Image */}
   <div className="w-full flex justify-center">
@@ -66,11 +66,11 @@ export default function TeaPageClient({
     </h1>
 
     <p className="text-lg text-mist">
-      {tea.producer ? tea.producer.name : tea.vendor.name}
+      {tea.producer ? tea.producer.name : (tea.vendor && tea.vendor.name) || "Unknown vendor"}
     </p>
 
     <p className="text-sm text-gray-400">
-      Vendor: {tea.vendor.name}
+      Vendor: {tea.vendor && tea.vendor.name}
     </p>
   </div>
 
