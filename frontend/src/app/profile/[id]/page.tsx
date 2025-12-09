@@ -139,7 +139,7 @@ async function uncollect(tea: ISearchTea) {
 
   return (
     <div className="p-6 bg-dark text-light min-h-screen">
-      <div className="w-full max-w-2xl mx-auto p-6 bg-charcoal rounded-2xl shadow-xl border border-green-accent/40">
+      <div className="w-full max-w-full sm:max-w-2xl mx-auto p-6 bg-charcoal rounded-2xl shadow-xl border border-green-accent/40 overflow-hidden">
 
   {/* Profile header */}
   <div className="flex items-center gap-4 mb-6">
@@ -201,79 +201,101 @@ async function uncollect(tea: ISearchTea) {
         <p className="text-mist pt-4">{user.username} hasn’t added any teas yet.</p>
       ) : ( <>
         <h2 className="text-xl font-semibold mb-2 pt-4">{user.username}'s tea collection:</h2>
-        <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse table-fixed">
-          <thead>
-            <tr className="border-b border-green-accent text-mist">
-              <th
-                className="cursor-pointer p-2"
-                onClick={() => handleSort("name")}
+        <div className="overflow-x-auto max-w-full">
+  <table className="w-full table-auto sm-table-fixed border-collapse text-left">
+    <thead>
+      <tr className="border-b border-green-accent text-mist">
+        {/* Column 1: action button column */}
+        <th className="w-16 p-1 sm-p2"></th>
+
+        <th
+          className="p-1 sm-p-2 cursor-pointer"
+          onClick={() => handleSort("name")}
+        >
+          Name {sortKey === "name" && (sortAsc ? "▲" : "▼")}
+        </th>
+
+        <th
+          className="p-1 sm-p2 cursor-pointer text-center"
+          onClick={() => handleSort("year")}
+        >
+          Year {sortKey === "year" && (sortAsc ? "▲" : "▼")}
+        </th>
+
+        <th
+          className="p-1 sm-p2 cursor-pointer text-center"
+          onClick={() => handleSort("vendor")}
+        >
+          Vendor {sortKey === "vendor" && (sortAsc ? "▲" : "▼")}
+        </th>
+
+        <th
+          className="p-1 sm-p2 cursor-pointer text-center"
+          onClick={() => handleSort("producer")}
+        >
+          Producer {sortKey === "producer" && (sortAsc ? "▲" : "▼")}
+        </th>
+      </tr>
+    </thead>
+
+    <tbody>
+      {sortedTeas.map((tea) => (
+        <tr
+          key={tea._id}
+          className="border-b border-gray-700 hover:bg-charcoal/50"
+        >
+          {/* Column 1: button (optional) */}
+          <td className="w-12 sm-w-16 p-1 sm-p-2 text-center">
+            {currentUser && currentUser._id === user._id && (
+              <UncollectButton
+                tea={tea}
+                text="X"
+                onRemoved={(teaId) =>
+                  setTeas((prev) => prev.filter((t) => t._id !== teaId))
+                }
+              />
+            )}
+          </td>
+
+          {/* Column 2: image + tea name */}
+          <td className="p-1 sm-p-2 min-w-0">
+            <div className="flex items-center gap-2 min-w-0">
+              <img
+                src={
+                  tea.image?.url ||
+                  "https://cdn-icons-png.flaticon.com/256/712/712255.png"
+                }
+                alt={tea.name}
+                className="h-5 w-5 sm-h-6 sm-w-6 rounded object-cover shrink-0"
+              />
+
+              <Link
+                href={`/tea/${tea._id}`}
+                className="text-green-accent hover:underline truncate"
               >
-                Name {sortKey === "name" && (sortAsc ? "▲" : "▼")}
-              </th>
-              <th
-                className="cursor-pointer p-2"
-                onClick={() => handleSort("year")}
-              >
-                Year {sortKey === "year" && (sortAsc ? "▲" : "▼")}
-              </th>
-              <th
-                className="cursor-pointer p-2"
-                onClick={() => handleSort("vendor")}
-              >
-                Vendor {sortKey === "vendor" && (sortAsc ? "▲" : "▼")}
-              </th>
-              <th
-                className="cursor-pointer p-2"
-                onClick={() => handleSort("producer")}
-              >
-                Producer {sortKey === "producer" && (sortAsc ? "▲" : "▼")}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {sortedTeas.map((tea) => (
-              <tr
-                key={tea._id}
-                className="border-b border-gray-700 hover:bg-charcoal/50"
-              >
-                <td className="p-2 flex items-center gap-2">
-                  <div className="flex items-center gap-2 min-w-0">
-                  {currentUser && currentUser._id === user._id &&
-                    <UncollectButton tea={tea}
-                    onRemoved={(teaId) => setTeas(prev => prev.filter(t => t._id !== teaId))}
-                    text={"X"}
-                    />
-                  }
-                  </div>
-                  {tea.image?.url ? (
-                    <img
-                      src={tea.image.url}
-                      alt={tea.name}
-                      className="h-6 w-6 object-cover rounded shrink-0"
-                    />
-                  ) : (
-                    <img
-                      src="https://cdn-icons-png.flaticon.com/256/712/712255.png"
-                      alt={tea.name}
-                      className="h-6 w-6 object-cover rounded shrink-0"
-                    />
-                  )}
-                  <Link
-                    href={`/tea/${tea._id}`}
-                    className="text-green-accent hover:underline"
-                  >
-                    {tea.name}
-                  </Link>
-                </td>
-                <td className="p-2 text-center">{tea.year || "-"}</td>
-                <td className="p-2 text-center">{tea.vendor?.name || "-"}</td>
-                <td className="p-2 text-center">{tea.producer?.name || "-"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        </div>
+                {tea.name}
+              </Link>
+            </div>
+          </td>
+
+          {/* Year */}
+          <td className="p-1 sm-p-2 text-center">{tea.year || "-"}</td>
+
+          {/* Vendor */}
+          <td className="p-1 sm-p-2 text-center truncate min-w-0">
+            {tea.vendor?.name || "-"}
+          </td>
+
+          {/* Producer */}
+          <td className="p-1 sm-p-2 text-center truncate min-w-0">
+            {tea.producer?.name || "-"}
+          </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
         </>
       )}
     </div>
