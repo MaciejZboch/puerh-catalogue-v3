@@ -178,7 +178,7 @@ async function uncollect(tea: ISearchTea) {
           <li key={fu._id}>
             <Link
               href={`/profile/${fu._id}`}
-              className="flex items-center gap-2 text-green-accent hover:underline"
+              className="flex items-center gap-1 sm-gap-2 text-green-accent hover:underline"
             >
               <img
                 src={fu.image?.url || "https://cdn-icons-png.flaticon.com/512/847/847969.png"}
@@ -259,7 +259,7 @@ async function uncollect(tea: ISearchTea) {
 
           {/* Column 2: image + tea name */}
           <td className="p-1 sm-p-2 min-w-0">
-            <div className="flex items-center gap-2 min-w-0">
+            <div className="flex items-center gap-1 sm-gap-2 min-w-0 w-full">
               <img
                 src={
                   tea.image?.url ||
@@ -271,7 +271,7 @@ async function uncollect(tea: ISearchTea) {
 
               <Link
                 href={`/tea/${tea._id}`}
-                className="text-green-accent hover:underline truncate"
+                className="text-green-accent hover:underline truncate min-w-0 block max-w-[140px] sm:max-w-none"
               >
                 {tea.name}
               </Link>
