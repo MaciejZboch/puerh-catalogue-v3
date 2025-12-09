@@ -140,7 +140,7 @@ export default function TeaPageClient({
           {tea.price && tea.sizeInGrams && (
             <li>
               <span className="text-mist">Price per gram:</span>{" "}
-              {tea.pricePerGram} USD / gram
+              {tea.pricePerGram?.toFixed(2)} USD / gram
             </li>
           )}
         </ul>
