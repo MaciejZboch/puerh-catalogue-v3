@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../app/hooks/useAuth";
+import { NavbarLoader } from "./NavbarLoader";
 
 export default function Navbar() {
   const { user, logout, loading } = useAuth();
@@ -47,9 +48,9 @@ export default function Navbar() {
       </form>
 
       {/* Desktop links */}
-      <div className="hidden md:flex gap-4 text-light">
+      <div className="hidden md:flex gap-4 text-light min-w-[238px] justify-end items-center">
         {loading ? (
-          <span className="text-mist">Loading...</span>
+          <NavbarLoader/>
         ) : !user ? (
           <>
             <Link href="/login">Login</Link>
@@ -94,7 +95,7 @@ export default function Navbar() {
 
           {/* Mobile links */}
           {loading ? (
-            <span className="text-mist">Loading...</span>
+            <NavbarLoader/>
           ) : !user ? (
             <>
               <Link href="/login" onClick={() => setMenuOpen(false)}>

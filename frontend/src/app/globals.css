@@ -19,12 +19,15 @@
   --color-light: #F8F9FA;
 
   /* Greens */
-  --color-green-deep: #1F3A29;   /* very dark green, good for backgrounds */
+  --color-green-deep: #1F3A29;   /* very dark green*/
   --color-green-dark: #2E5B3C;   /* darker shade for contrast */
-  --color-green-accent: #68AB7C;   /* accent (main brand green) */
-  --color-green-bright: #88C799; /* slightly lighter and fresher */
-  --color-green-soft: #A8D9B7;   /* pastel-like, good for hover states */
+  --color-green-accent: #68AB7C;   /* accent */
+  --color-green-bright: #88C799; /* slightly lighter */
+  --color-green-soft: #A8D9B7;   /* pastel-like*/
   --color-green-mist: #D4EDE0;   /* very light, good as a subtle background */
+
+  /* Blue */
+  --color-navy: rgba(32,34,65,1);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -39,6 +42,71 @@
     @apply transition-colors duration-200;
   }
 }
+
+/*Animations*/
+
+
+
+@layer utilities {
+  @keyframes orbit {
+    0%   { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .animate-orbit {
+    animation: orbit 1.2s linear infinite;
+  }
+}
+
+@layer utilities {
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(200%); }
+  }
+
+  .animate-shimmer {
+    animation: shimmer 1.2s ease-in-out infinite;
+  }
+}
+
+@layer utilities {
+  /* Fade + scale pulse */
+  @keyframes pulse-scale {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50% { transform: scale(1.15); opacity: 1; }
+  }
+  .animate-pulse-scale {
+    animation: pulse-scale 1.4s ease-in-out infinite;
+  }
+
+  /* Smooth rotating ring */
+  @keyframes spin-smooth {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+  .animate-spin-smooth {
+    animation: spin-smooth 1.2s linear infinite;
+  }
+
+  /* Professional bar loader */
+  @keyframes bar-loader {
+    0% { transform: translateX(-100%); }
+    50% { transform: translateX(0%); }
+    100% { transform: translateX(100%); }
+  }
+  .animate-bar-loader {
+    animation: bar-loader 1.6s ease-in-out infinite;
+  }
+
+  /* Dot bounce */
+  @keyframes dot-bounce {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+  }
+  .animate-dot-bounce {
+    animation: dot-bounce 1.4s infinite;
+  }
+}
+
 
 /*hover effects*/
 
