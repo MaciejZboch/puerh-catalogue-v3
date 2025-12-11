@@ -45,6 +45,15 @@
 
 /*Animations*/
 
+/*Tea leaf spin loader*/
+@layer utilities {
+  @keyframes leaf-rotate {
+    to { transform: rotate(360deg); }
+  }
+  .animate-leaf-rotate { animation: leaf-rotate 2.8s linear infinite; }
+}
+
+
 
 
 @layer utilities {
