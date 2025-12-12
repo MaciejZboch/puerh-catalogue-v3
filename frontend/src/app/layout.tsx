@@ -32,7 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col bg-dark`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col bg-dark min-h-screen`}
       >
         <AuthProvider>
         <Navbar/>
