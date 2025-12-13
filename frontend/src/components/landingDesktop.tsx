@@ -26,7 +26,7 @@ The best place to rate, review, search and see last known prices of Pu-Erh tea.
 </p>
 
 
-<Link href="/register" className="nohover bg-cyan-800 hover:bg-cyan-600 transition-all text-white font-semibold px-6 py-3 rounded-full shadow-lg">
+<Link href="/register" className="nohover bg-orange-muted hover:bg-cyan-600 transition-all text-white font-semibold px-6 py-3 rounded-full shadow-lg">
 Start steeping!
 </Link>
 </div>
@@ -35,7 +35,7 @@ Start steeping!
 {/* Right Illustration */}
 <div className="flex justify-center">
 <Image
-src="/images/abstract_tea.png"
+src="/images/teapot_transparent.png"
 alt="Pu-erh Illustration"
 width={380}
 height={380}

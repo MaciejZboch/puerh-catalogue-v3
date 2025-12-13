@@ -23,11 +23,17 @@
   --color-green-dark: #2E5B3C;   /* darker shade for contrast */
   --color-green-accent: #68AB7C;   /* accent */
   --color-green-bright: #88C799; /* slightly lighter */
-  --color-green-soft: #A8D9B7;   /* pastel-like*/
-  --color-green-mist: #D4EDE0;   /* very light, good as a subtle background */
+  --color-green-soft: #A8D9B7;   /* pastel-like */
+  --color-green-mist: #D4EDE0;   /* very light */
 
   /* Blue */
   --color-navy: rgba(32,34,65,1);
+
+  /* Reds */
+  --color-red-pale: #D98282;
+
+  /* Oranges */
+  --color-orange-muted: #FF8A3D;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -45,7 +51,7 @@
 
 /*Animations*/
 
-/*Tea leaf spin loader*/
+/*Large tea leaf spin loader*/
 @layer utilities {
   @keyframes leaf-rotate {
     to { transform: rotate(360deg); }
