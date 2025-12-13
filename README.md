@@ -1,4 +1,4 @@
-<h1 align="center"The Pu-erh Catalogue<img width="50px"/></h1>
+<h1 align="center"The Pu-erh Catalogue</h1>
 
 <h3 align="center">A website for tea enthusiasts <br/> <br/>
 
@@ -16,6 +16,5 @@
   <li>A large database of teas, both <b>scraped</b> from stores and user-added</li>
   <li>Curated vendors and producers</li>
   <li>Moderation system to <b>avoid double or broken entries</b></li>
-  <li></li>
-  <li></li>
+  <li>Ability to see last known prices for tea</li>
 </ul>
