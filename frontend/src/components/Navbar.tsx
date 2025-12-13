@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../app/hooks/useAuth";
 import { NavbarLoader } from "./NavbarLoader";
+import Image from "next/image";
 
 export default function Navbar() {
   const { user, logout, loading } = useAuth();
@@ -21,10 +22,10 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="relative flex items-center justify-between p-4 bg-charcoal">
+    <nav className="z-50 relative flex items-center justify-between p-4 bg-charcoal">
       {/* Logo */}
-      <Link href="/" className="font-bold text-light">
-        The Pu-Erh Catalogue
+      <Link href="/" className="flex items-center gap-1 font-bold text-light">
+        <Image alt="Pu-erh Catalogue Logo" src="/images/puerh-orange.png" height="50" width="50"/>The Pu-Erh Catalogue
       </Link>
 
       {/* Desktop search */}
