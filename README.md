@@ -11,8 +11,10 @@
 
 ## Features
 <ul>
-  <li></li>
-  <li></li>
+  <li>Dynamic data feed for newly added teas and reviews</li>
+  <li>A large database of teas, both <b>scraped<b/> from stores and user-added</li>
+  <li>Curated vendors and producers</li>
+  <li>Moderation system to <b>avoid double or broken entries</b></li>
   <li></li>
   <li></li>
 </ul>
