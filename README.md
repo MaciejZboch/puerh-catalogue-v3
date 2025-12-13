@@ -1,4 +1,5 @@
-<h1 align="center">The Pu-erh Catalogue</h1>
+<img width="50" height="50" alt="puerh-orange" src="https://github.com/user-attachments/assets/4549de52-a7c1-40fb-a130-3230da2170e2" /><h1 align="center">The Pu-erh Catalogue</h1>
+
 
 <h3 align="center">A website for tea enthusiasts <br/> <br/>
 
