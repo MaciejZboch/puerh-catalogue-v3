@@ -2,7 +2,7 @@
 
 
 <h3 align="center">A website for tea enthusiasts <br/> <br/>
-
+<img  height="175" alt="teapot_rectangular" src="https://github.com/user-attachments/assets/598d8d2b-1469-4e78-ba45-731d4e93cb67" />
 </h3>
 
 ## Description
