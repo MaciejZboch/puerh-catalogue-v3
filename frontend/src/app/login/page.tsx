@@ -11,10 +11,6 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  if (user) {
-    return <div>Welcome {user.username}!</div>;
-  }
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
