@@ -1,4 +1,4 @@
-<h1 align="center"The Pu-erh Catalogue</h1>
+<h1 align="center">The Pu-erh Catalogue</h1>
 
 <h3 align="center">A website for tea enthusiasts <br/> <br/>
 
@@ -6,8 +6,8 @@
 
 ## Description
 <p>
-  <b>The Pu-erh Catalogue</b> is a website that allows users to review, rate, collect and search for <b> Pu-erh tea</b>. </br>.
-  The goal is to provide a space for tea enthusiasts to discover new teas, catalogue their collection, and follow users whose tea reviews they find useful.
+  <b>The Pu-erh Catalogue</b> is a website that allows users to review, rate, collect and search for <b> Pu-erh tea</b>. </br>
+  The goal is to provide a space for tea enthusiasts to discover new teas, catalogue their collection, and follow users whose tea reviews they find useful. </br>
 </p>
 
 ## Features
