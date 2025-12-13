@@ -7,6 +7,7 @@ import { IUser } from "@/types/user";
 import { getCurrentUser } from "@/lib/api";
 import UncollectButton from "@/components/UncollectButton";
 import ISearchTea from "@/types/searchtea";
+import LoadingLarge from "@/components/LoadingLarge";
 
 export default function ProfilePage() {
     const params = useParams();
@@ -134,7 +135,7 @@ async function uncollect(tea: ISearchTea) {
       : String(strB).localeCompare(String(strA));
   });
 
-  if (loading || loadingCurrentUser) return <div className="p-6 bg-dark text-light min-h-screen items-center"> <p className="p-4">Loading profile...</p></div>;
+  if (loading || loadingCurrentUser) return <LoadingLarge/>;
   if (!user) return <p className="p-4 text-light">User not found.</p>;
 
   return (
