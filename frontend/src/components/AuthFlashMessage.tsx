@@ -11,7 +11,7 @@ export default function AuthNotice() {
   useEffect(() => {
     // Login detected
     if (!prevUserRef.current && user) {
-      setMessage(`Welcome back, ${user.username} 🍵`);
+      setMessage(`Welcome back, ${user.username}! 🍵`);
     }
 
     // Logout detected
@@ -30,10 +30,15 @@ export default function AuthNotice() {
   }, [message]);
 
   if (!message) return null;
+  const isLogout = message.includes("logged out");
 
   return (
     <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50">
-      <div className="bg-green-accent text-dark px-4 py-2 rounded-lg shadow-lg">
+      <div className={`px-4 py-2 rounded-lg shadow-lg
+        transition-opacity duration-300
+        ${message ? "opacity-100" : "opacity-0"}
+        ${isLogout ? "bg-charcoal text-light" : "bg-green-accent text-dark"}
+        `}>
         {message}
       </div>
     </div>
