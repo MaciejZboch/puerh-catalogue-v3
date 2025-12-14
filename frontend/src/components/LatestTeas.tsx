@@ -37,7 +37,10 @@ return (
                 </div>
               </div>
               
-              <Link href={`/tea/${tea._id}`} className="nohover px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition">
+              <Link href={`/tea/${tea._id}`} className="nohover px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition
+                  shadow-lg
+     transition-transform duration-150
+    active:scale-95">
                   Details
               </Link>
               </div>

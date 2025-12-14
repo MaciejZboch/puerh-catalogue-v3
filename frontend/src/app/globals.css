@@ -122,6 +122,13 @@
   }
 }
 
+/*button animations*/
+
+button {
+  @apply transition-transform duration-150;
+  @apply active:scale-95;
+}
+
 
 /*hover effects*/
 
