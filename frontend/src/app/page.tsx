@@ -3,8 +3,8 @@ import LatestTeas from "../components/LatestTeas";
 import LatestReviews from "@/components/LatestReviews";
 import LatestTeasSkeleton from "@/components/LatestTeasSkeleton";
 import LatestReviewsSkeleton from "@/components/LatestReviewSkeleton";
-import LandingHero from "../components/landingDesktop";
-import LandingMobile from "../components/landingMobile";
+import LandingHero from "@/components/LandingDesktop";
+import LandingMobile from "@/components/LandingMobile";
 
 
 export default function HomePage() {
@@ -12,7 +12,7 @@ export default function HomePage() {
     <div className="min-h-screen flex flex-col bg-dark text-light">
 
       {/* Landing sections */}
-      <div className="hidden md:block">
+      <div className="hidden md:block relative">
         <LandingHero/>
       </div>
       <div className="block md:hidden">
@@ -20,7 +20,7 @@ export default function HomePage() {
       </div>
 
       {/* Main Content */}
-      <main className="flex-1 px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-10">
+      <main className="relative flex-1 px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-10">
 
         {/* Latest Teas */}
         <Suspense fallback={<LatestTeasSkeleton/>}>
