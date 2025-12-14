@@ -3,8 +3,8 @@ import LatestTeas from "../components/LatestTeas";
 import LatestReviews from "@/components/LatestReviews";
 import LatestTeasSkeleton from "@/components/LatestTeasSkeleton";
 import LatestReviewsSkeleton from "@/components/LatestReviewSkeleton";
-import LandingHero from "@/components/LandingDesktop";
-import LandingMobile from "@/components/LandingMobile";
+import LandingHero from "@/components/landingDesktop";
+import LandingMobile from "@/components/landingMobile";
 
 
 export default function HomePage() {
