@@ -8,10 +8,36 @@ export default function ReviewForm({teaId, onNewReview} : {teaId : string, onNew
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
+    //character length
+    const MIN_LENGTH = 10;
+    const MAX_LENGTH = 300;
+
+    //validations
+
+    const isTooShort = body.trim().length > 0 && body.trim().length < MIN_LENGTH;
+    const isTooLong = body.length > MAX_LENGTH;
+    const isInvalid = isTooShort || isTooLong;
+
+
     async function handleSubmit(e: React.FormEvent) {
       const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+      
+ 
+
         e.preventDefault();
+
+          if (isInvalid) {
+            setError(
+            isTooShort
+            ? `Review must be at least ${MIN_LENGTH} characters`
+            : `Review must be at most ${MAX_LENGTH} characters`
+            );
+            return;
+          }
+
+        setError(null);
         setLoading(true);
+
         try {
             const res = await fetch(`${API_URL}/api/teas/${teaId}/review/`, {
               method: "POST", credentials: "include", headers: { "Content-Type": "application/json" },
@@ -45,6 +71,19 @@ export default function ReviewForm({teaId, onNewReview} : {teaId : string, onNew
             placeholder="Short notes about this tea..." value={body}
             onChange={(e) => setBody(e.target.value)}
             ></textarea>
+            <div className="flex justify-between text-sm mb-3">
+  <span className={isInvalid ? "text-red-400" : "text-muted"}>
+    {body.trim().length < MIN_LENGTH
+      ? `Minimum ${MIN_LENGTH} characters`
+      : `Maximum ${MAX_LENGTH} characters`}
+  </span>
+
+  <span
+    className={body.length > MAX_LENGTH ? "text-red-400" : "text-muted"}
+  >
+    {body.length}/{MAX_LENGTH}
+  </span>
+</div>
                     <div>
           <label className="block mb-1">Rating</label>
           <select
