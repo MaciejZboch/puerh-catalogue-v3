@@ -17,5 +17,5 @@ export default function DeleteTeaButton ({teaId}: {teaId: string}) {
             alert("Failed to delete this tea.")
         }
     }
-    return <button onClick={() => handleDelete()} className="text-green-accent rounded-xl py-2 px-4 mx-4">Delete</button>
+    return <button onClick={() => handleDelete()} className="nohover hover:text-green-accent text-green-dark rounded-xl py-2 px-4 mx-4">Delete</button>
 }
