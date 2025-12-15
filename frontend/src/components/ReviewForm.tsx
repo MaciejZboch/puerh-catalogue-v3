@@ -71,12 +71,9 @@ export default function ReviewForm({teaId, onNewReview} : {teaId : string, onNew
             placeholder="Short notes about this tea..." value={body}
             onChange={(e) => setBody(e.target.value)}
             ></textarea>
-            <div className="flex justify-between text-sm mb-3">
-  <span className={isInvalid ? "text-red-400" : "text-muted"}>
-    {body.trim().length < MIN_LENGTH
-      ? `Minimum ${MIN_LENGTH} characters`
-      : `Maximum ${MAX_LENGTH} characters`}
-  </span>
+          <div className="flex justify-between text-sm mb-3">
+
+  {error && <p className="text-red-400 :">{error}</p>}
 
   <span
     className={body.length > MAX_LENGTH ? "text-red-400" : "text-muted"}
@@ -84,7 +81,7 @@ export default function ReviewForm({teaId, onNewReview} : {teaId : string, onNew
     {body.length}/{MAX_LENGTH}
   </span>
 </div>
-                    <div>
+        <div>
           <label className="block mb-1">Rating</label>
           <select
             className="p-2 rounded-md bg-charcoal border-b border-green-accent"
@@ -99,8 +96,6 @@ export default function ReviewForm({teaId, onNewReview} : {teaId : string, onNew
           </select>
            <button className="bg-green-accent rounded-xl py-2 px-4 mx-4">Submit</button>
         </div>
-
-        {error && <p className="text-red-500">{error}</p>}
            
         </form>
         </section>
