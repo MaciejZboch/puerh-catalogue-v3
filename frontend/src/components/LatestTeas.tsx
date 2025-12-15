@@ -33,14 +33,14 @@ return (
           />
                 <div>
                   <Link href={`/tea/${tea._id}`} className="font-bold text-light"><h3>{tea.name} {tea.year}</h3></Link>
-                  <p className="text-mist"> {tea.type}, {tea.shape}</p>
+                  <p className="text-mist"> {tea.type}{tea.shape && `, ${tea.shape}`}</p>
                 </div>
               </div>
               
               <Link href={`/tea/${tea._id}`} className="nohover px-3 py-1 rounded bg-green-accent text-dark hover:bg-green-soft transition
                   shadow-lg
-     transition-transform duration-150
-    active:scale-95">
+                  transition-transform duration-150
+                  active:scale-95">
                   Details
               </Link>
               </div>

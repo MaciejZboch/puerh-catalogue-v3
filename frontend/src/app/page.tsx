@@ -20,7 +20,7 @@ export default function HomePage() {
       </div>
 
       {/* Main Content */}
-      <main className="relative flex-1 px-6 py-12 grid grid-cols-1 md:grid-cols-3 gap-10">
+      <main className="relative flex-1 px-36 py-12 grid grid-cols-1 md:grid-cols-3 gap-30">
 
         {/* Latest Teas */}
         <Suspense fallback={<LatestTeasSkeleton/>}>

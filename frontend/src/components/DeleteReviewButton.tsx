@@ -21,7 +21,7 @@ export default function DeleteReviewButton({ reviewId, onDelete }: Props) {
   };
 
   return (
-    <button className="nohover text-green-accent" onClick={handleDelete}>
+    <button className="nohover hover:text-green-mist text-green-accent" onClick={handleDelete}>
       Delete
     </button>
   );
