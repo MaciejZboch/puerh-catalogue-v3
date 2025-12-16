@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useAuth } from "../hooks/useAuth";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 
 export default function LoginPage() {
   const { login, user } = useAuth();
@@ -25,13 +26,20 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-124px)] items-center justify-center bg-dark">
+    <div className="flex min-h-[calc(100vh-124px)] items-center justify-center bg-dark pt-8">
       <form
         onSubmit={handleSubmit}
         className="w-full max-w-md p-4 sm:p-6 bg-charcoal shadow rounded-xl text-light border-b border-green-accent"
       >
         <h1 className="text-2xl font-semibold mb-4">Login</h1>
-
+        <div className="relative max-w-[340p] aspect-video mb-4">
+        <Image
+        src="/images/teapot_rectangular.png"
+        alt="Pu-erh Illustration"
+        fill
+        className="drop-shadow-2xl rounded-2xl object-cover"
+        />
+        </div>
         <input
           className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
           type="text"

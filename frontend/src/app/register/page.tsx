@@ -3,6 +3,7 @@ import { useState } from "react";
 import { postJson } from "@/lib/http";
 import { useRouter } from "next/navigation";
 import { useAuth } from "../hooks/useAuth";
+import Image from "next/image";
 
 export default function RegisterPage() {
   //login and navigation
@@ -31,14 +32,22 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="flex min-h-[calc(100vh-124px)] items-center justify-center bg-dark">
+    <div className="flex min-h-[calc(100vh-124px)] items-center justify-center bg-dark pt-8">
       <form onSubmit={handleSubmit} className="w-full max-w-md p-6 bg-charcoal shadow rounded-xl text-light border-b border-green-accent ">
         <h1 className="text-2xl font-semibold mb-4">Register</h1>
 
+        <div className="relative max-w-[340p] aspect-video mb-4">
+        <Image
+        src="/images/teapot_rectangular.png"
+        alt="Pu-erh Illustration"
+        fill
+        className="drop-shadow-2xl rounded-2xl object-cover"
+        />
+        </div>        
         <input className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
           type="email" placeholder="Email" value={email}
           onChange={(e) => setEmail(e.target.value)} required />
-
+        <div className="flex gap-5">
         <input className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
           type="text" placeholder="Username" value={username}
           onChange={(e) => setUsername(e.target.value)} required />
@@ -46,6 +55,7 @@ export default function RegisterPage() {
         <input className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
           type="password" placeholder="Password" value={password}
           onChange={(e) => setPassword(e.target.value)} required />
+          </div>
 
         <button className="w-full bg-green-accent text-dark py-2 rounded-md"
           type="submit">Register</button>
