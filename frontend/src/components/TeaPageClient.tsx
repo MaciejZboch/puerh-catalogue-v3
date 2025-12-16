@@ -45,19 +45,21 @@ export default function TeaPageClient({
   <div className="md:col-span-1 bg-charcoal rounded-xl border border-green-accent/40 p-6 flex flex-col items-center shadow-md h-auto">
 
   {/* Tea Image */}
-  <div className="w-full flex justify-center">
-    <Image
-      src={
-        tea.images?.[1]?.url ||
-        "https://res.cloudinary.com/dlem22ukx/image/upload/w_500,ar_1:1,c_fill,g_auto/v1734459128/chinese-pu-erh-tea-with-two-cups-and-pot_xemcbr.jpg"
-      }
-      alt={`${tea.name} cake`}
-      width={400}
-      height={400}
-      className="rounded-2xl w-full max-w-[340px] shadow-lg"
-      sizes="(max-width: 768px) 90vw, 340px"
-    />
-  </div>
+{/* Tea Image */}
+<div className="w-full max-w-[340px] aspect-square relative">
+  <Image
+    src={
+      tea.images?.[1]?.url ||
+      "https://res.cloudinary.com/dlem22ukx/image/upload/w_500,ar_1:1,c_fill,g_auto/v1734459128/chinese-pu-erh-tea-with-two-cups-and-pot_xemcbr.jpg"
+    }
+    alt={`${tea.name} cake`}
+    fill
+    className="rounded-2xl object-cover shadow-lg"
+    sizes="(max-width: 768px) 90vw, 340px"
+    priority
+  />
+</div>
+
 
   {/* Title + Producer */}
   <div className="mt-6 text-center space-y-1">
