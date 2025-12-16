@@ -50,7 +50,7 @@ export default function TeaPageClient({
   <Image
     src={
       tea.images?.[1]?.url ||
-      "https://res.cloudinary.com/dlem22ukx/image/upload/w_500,ar_1:1,c_fill,g_auto/v1734459128/chinese-pu-erh-tea-with-two-cups-and-pot_xemcbr.jpg"
+      "/images/cake_square.jpeg"
     }
     alt={`${tea.name} cake`}
     fill
