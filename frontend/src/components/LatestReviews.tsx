@@ -14,7 +14,7 @@ const res = await fetch(`${API_URL}/api/teas`, {
   const data = await res.json();
   const reviews: IPopulatedReview[] = data.reviews;
 
-return (<aside className="col-span-1">
+return (<aside className="col-span-2 md:col-span-1 w-full px-4 md:px-0">
   <h2 className="text-2xl font-semibold mb-6 text-light">
     Latest Reviews
   </h2>
@@ -23,7 +23,8 @@ return (<aside className="col-span-1">
       
       <li
         key={review._id}
-        className="p-5 bg-charcoal shadow rounded-lg flex items-center justify-between border-b border-green-accent "
+        className="p-5 bg-charcoal shadow rounded-lg
+        w-full flex items-center justify-between border-b border-green-accent"
       >
         
         <div>

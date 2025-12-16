@@ -23,7 +23,7 @@ export default function LatestReviews() {
   const skeletons = Array.from({ length: 7 }); // 7 placeholder items
 
   return (
-    <aside>
+    <aside className="col-span-2 md:col-span-1 w-full px-4 md:px-0">
       <h2 className="text-2xl font-semibold mb-6 text-light">Latest Reviews</h2>
       <ul className="space-y-3">
         {loading
