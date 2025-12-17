@@ -1,16 +1,19 @@
-"use client"
+"use client";
 
 import { deleteReview } from "@/lib/api";
 interface Props {
-    reviewId: string;
-    onDelete: () => void;
+  reviewId: string;
+  onDelete: () => void;
 }
-
 
 export default function DeleteReviewButton({ reviewId, onDelete }: Props) {
   const handleDelete = async () => {
-    const confirmed = confirm("Are you sure you want to delete this review? This action cannot be undone.");
-    if (!confirmed) {return};
+    const confirmed = confirm(
+      "Are you sure you want to delete this review? This action cannot be undone.",
+    );
+    if (!confirmed) {
+      return;
+    }
 
     try {
       await deleteReview(reviewId);
@@ -21,7 +24,10 @@ export default function DeleteReviewButton({ reviewId, onDelete }: Props) {
   };
 
   return (
-    <button className="nohover hover:text-green-mist text-green-accent" onClick={handleDelete}>
+    <button
+      className="nohover hover:text-green-mist text-green-accent"
+      onClick={handleDelete}
+    >
       Delete
     </button>
   );

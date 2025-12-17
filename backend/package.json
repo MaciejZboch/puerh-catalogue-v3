@@ -27,7 +27,6 @@
     "passport": "^0.7.0",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^8.0.0",
-    "prettier": "^3.6.2",
     "sanitize-html": "^2.17.0"
   },
   "devDependencies": {
@@ -42,6 +41,7 @@
     "@types/passport-local": "^1.0.38",
     "@types/passport-local-mongoose": "^6.1.5",
     "@types/sanitize-html": "^2.16.0",
+    "prettier": "^3.7.4",
     "ts-node": "^10.9.2",
     "typescript": "^5.8.3"
   }

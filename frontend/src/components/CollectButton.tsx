@@ -10,13 +10,10 @@ export default function CollectButton({ tea, onCollected }: Props) {
   async function handleCollect() {
     const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
     try {
-      const res = await fetch(
-        `${API_URL}/api/teas/${tea._id}/add`,
-        {
-          method: "PUT",
-          credentials: "include",
-        }
-      );
+      const res = await fetch(`${API_URL}/api/teas/${tea._id}/add`, {
+        method: "PUT",
+        credentials: "include",
+      });
 
       if (!res.ok) {
         const err = await res.json();
@@ -24,13 +21,13 @@ export default function CollectButton({ tea, onCollected }: Props) {
         return;
       }
 
-       const updatedTea = await fetch(
-      `${API_URL}/api/teas/${tea._id}`
-      ).then((r) => r.json());
+      const updatedTea = await fetch(`${API_URL}/api/teas/${tea._id}`).then(
+        (r) => r.json(),
+      );
 
       onCollected(updatedTea); // pass full updated object
     } catch (err) {
-    console.error("Error updating collection:", err);
+      console.error("Error updating collection:", err);
     }
   }
 

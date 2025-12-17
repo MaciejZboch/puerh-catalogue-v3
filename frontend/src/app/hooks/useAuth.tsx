@@ -1,8 +1,18 @@
 "use client";
 
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
+import {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  ReactNode,
+} from "react";
 import { IUser } from "@/types/user";
-import { getCurrentUser, login as apiLogin, logout as apiLogout } from "@/lib/api";
+import {
+  getCurrentUser,
+  login as apiLogin,
+  logout as apiLogout,
+} from "@/lib/api";
 
 interface AuthContextType {
   user: IUser | null;

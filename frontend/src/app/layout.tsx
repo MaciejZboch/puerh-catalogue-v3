@@ -36,11 +36,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col bg-dark min-h-screen`}
       >
         <AuthProvider>
-        <Navbar/>
-        <AuthFlashMessage/>
-        {children}
-        {/* Footer */}
-        <Footer/>
+          <Navbar />
+          <AuthFlashMessage />
+          {children}
+          {/* Footer */}
+          <Footer />
         </AuthProvider>
       </body>
     </html>

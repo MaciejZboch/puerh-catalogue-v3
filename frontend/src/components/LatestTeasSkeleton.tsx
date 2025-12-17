@@ -1,9 +1,7 @@
 export default function LatestTeasSkeleton() {
   return (
     <section className="col-span-2">
-      <h2 className="text-2xl font-semibold mb-6 text-light">
-        Latest Teas
-      </h2>
+      <h2 className="text-2xl font-semibold mb-6 text-light">Latest Teas</h2>
       <div className="grid gap-4">
         {Array.from({ length: 10 }).map((_, idx) => (
           <div

@@ -2,20 +2,31 @@
 import { deleteTea } from "@/lib/api";
 import { useRouter } from "next/navigation";
 
-export default function DeleteTeaButton ({teaId}: {teaId: string}) {
-    const router = useRouter();
+export default function DeleteTeaButton({ teaId }: { teaId: string }) {
+  const router = useRouter();
 
-    function handleDelete() {
-        const confirmed = confirm("Are you sure you want to delete this tea? This action cannot be undone.");
-        if (!confirmed) {return};
-        
-        try {
-            deleteTea(teaId)
-            router.push("/");  
-        } catch (err) {
-            console.error(err);
-            alert("Failed to delete this tea.")
-        }
+  function handleDelete() {
+    const confirmed = confirm(
+      "Are you sure you want to delete this tea? This action cannot be undone.",
+    );
+    if (!confirmed) {
+      return;
     }
-    return <button onClick={() => handleDelete()} className="nohover hover:text-green-accent text-green-dark rounded-xl py-2 px-4 mx-4">Delete</button>
+
+    try {
+      deleteTea(teaId);
+      router.push("/");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete this tea.");
+    }
+  }
+  return (
+    <button
+      onClick={() => handleDelete()}
+      className="nohover hover:text-orange-muted text-orange-500 rounded-xl py-2 px-4 mx-4"
+    >
+      Delete
+    </button>
+  );
 }

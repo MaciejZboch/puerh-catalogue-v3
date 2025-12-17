@@ -1,25 +1,17 @@
-import express from 'express';
-import catchAsync from '../utilities/catchAsync';
+import express from "express";
+import catchAsync from "../utilities/catchAsync";
 const router = express.Router();
-import { isMod } from '../expressmiddleware';
-import {index, changeVendorStatus, changeProducerStatus} from '../controllers/moderate'
+import { isMod } from "../expressmiddleware";
+import {
+  index,
+  changeVendorStatus,
+  changeProducerStatus,
+} from "../controllers/moderate";
 
-router.get(
-  "/",
-  isMod,
-  catchAsync(index)
-);
+router.get("/", isMod, catchAsync(index));
 
-router.put(
-  "/vendor/:id",
-  isMod,
-  catchAsync(changeVendorStatus)
-);
+router.put("/vendor/:id", isMod, catchAsync(changeVendorStatus));
 
-router.put(
-  "/producer/:id",
-  isMod,
-  catchAsync(changeProducerStatus)
-);
+router.put("/producer/:id", isMod, catchAsync(changeProducerStatus));
 
 export default router;

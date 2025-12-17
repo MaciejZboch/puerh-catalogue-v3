@@ -32,10 +32,14 @@ export default function LatestReviews() {
                 key={index}
                 className="p-5 bg-charcoal shadow rounded-lg flex flex-col space-y-2 animate-pulse"
               >
-                <div className="h-4 bg-gray-600 rounded w-1/3"></div> {/* username */}
-                <div className="h-4 bg-gray-500 rounded w-1/2"></div> {/* reviewed tea */}
-                <div className="h-3 bg-gray-500 rounded w-1/6 mt-2"></div> {/* rating */}
-                <div className="h-4 bg-gray-700 rounded w-full mt-1"></div> {/* review body */}
+                <div className="h-4 bg-gray-600 rounded w-1/3"></div>{" "}
+                {/* username */}
+                <div className="h-4 bg-gray-500 rounded w-1/2"></div>{" "}
+                {/* reviewed tea */}
+                <div className="h-3 bg-gray-500 rounded w-1/6 mt-2"></div>{" "}
+                {/* rating */}
+                <div className="h-4 bg-gray-700 rounded w-full mt-1"></div>{" "}
+                {/* review body */}
               </li>
             ))
           : reviews?.map((review) => (
@@ -51,12 +55,17 @@ export default function LatestReviews() {
                     {review.author.username}
                   </Link>
                   <span className="text-mist"> reviewed </span>
-                  <Link className="text-green-accent" href={`/tea/${review.tea._id}`}>
+                  <Link
+                    className="text-green-accent"
+                    href={`/tea/${review.tea._id}`}
+                  >
                     {review.tea.name}
                   </Link>
 
                   <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm text-light">{review.rating.toFixed(1)} ★</span>
+                    <span className="text-sm text-light">
+                      {review.rating.toFixed(1)} ★
+                    </span>
                   </div>
 
                   <p className="text-mist">{review.body}</p>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -11,39 +11,37 @@ import { ITea } from "@/types/tea";
 import { IVendor } from "@/types/vendor";
 import { IProducer } from "@/types/producer";
 
-
 export default function Edit() {
-
   const params = useParams();
   const teaId = params?.id as string;
-  const searchParams = useSearchParams()
-  const userId = searchParams.get("user")
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("user");
   const [vendors, setVendors] = useState<IVendor[]>([]);
   const [producers, setProducers] = useState<IProducer[]>([]);
   const router = useRouter();
 
   const emptyTea: ITea = {
-  _id: "",
-  name: "",
-  description: "",
-  images: [],
-  type: "Raw / Sheng",
-  year: new Date().getFullYear(),
-  region: "",
-  village: "",
-  ageing_location: "",
-  ageing_conditions: "Dry",
-  shape: "Cake",
-  producer: null,
-  vendor: null,
-  author: "unknown",
-  owners: [],
-  sizeInGrams: 0,
-  price: 0,
-  pricePerGram: 0
-};
+    _id: "",
+    name: "",
+    description: "",
+    images: [],
+    type: "Raw / Sheng",
+    year: new Date().getFullYear(),
+    region: "",
+    village: "",
+    ageing_location: "",
+    ageing_conditions: "Dry",
+    shape: "Cake",
+    producer: null,
+    vendor: null,
+    author: "unknown",
+    owners: [],
+    sizeInGrams: 0,
+    price: 0,
+    pricePerGram: 0,
+  };
 
-const [t, setT] = useState<ITea>(emptyTea);
+  const [t, setT] = useState<ITea>(emptyTea);
 
   useEffect(() => {
     async function fetchFormData() {
@@ -52,152 +50,190 @@ const [t, setT] = useState<ITea>(emptyTea);
         setVendors(data.vendors || []);
         setProducers(data.producers || []);
         reset({
-        ...data.t,
-        vendor: data.t.vendor?._id || "",   // use id as key and value
-        producer: data.t.producer?._id || "",
-      });
-
-      }
-      catch (err) {
+          ...data.t,
+          vendor: data.t.vendor?._id || "", // use id as key and value
+          producer: data.t.producer?._id || "",
+        });
+      } catch (err) {
         console.error("failed to fetch tea form data", err);
       }
     }
     fetchFormData();
-  }, [])
+  }, []);
 
-const currentYear = new Date().getFullYear();
+  const currentYear = new Date().getFullYear();
 
-const schema = yup.object({
-  name: yup.string().required("Name is required").min(3).max(20),
-  type: yup.string().required("Type is required"),
-  year: yup
-    .number()
-    .notRequired()
-    .typeError("Year must be a number")
-    .min(1900, "Year cannot be earlier than 1900")
-    .max(currentYear, `Year cannot be later than ${currentYear}`)
-    .integer()
-    .transform((curr, orig) => (orig === "" ? null : curr))
-    .nullable(),
-  vendor: yup.string().required("Vendor is required"),
-  producer: yup
-  .string()
-  .notRequired()
-  .nullable()
-  .transform((v) => (v === "" ? null : v)),
-  region: yup.string().min(3).max(20).notRequired().nullable().transform((v) => (v === "" ? null : v)),
-  village: yup.string().min(3).max(20).notRequired().nullable().transform((v) => (v === "" ? null : v)),
-  ageing_location: yup.string().min(3).max(20).notRequired().nullable().transform((v) => (v === "" ? null : v)),
-  ageing_conditions: yup.string().notRequired().nullable().transform((v) => (v === "" ? null : v)),
-  description: yup.string().min(3).max(200).notRequired().nullable().transform((v) => (v === "" ? null : v)),
-  shape: yup.string().required("Shape is required"),
-  images: yup
-    .mixed<FileList>()
-    .test("fileType", "Only image files are allowed", (files) => {
-      if (!files || files.length === 0) return true;
-      return Array.from(files).every((file) =>
-        ["image/jpeg", "image/png", "image/jpg"].includes(file.type)
-      );
-    })
-    .notRequired(),
-    price: yup.number().notRequired().nullable().transform((curr, orig) => (orig === "" ? null : curr)),
-      sizeInGrams: yup.number().notRequired().nullable().transform((curr, orig) => (orig === "" ? null : curr))
-});
+  const schema = yup.object({
+    name: yup.string().required("Name is required").min(3).max(20),
+    type: yup.string().required("Type is required"),
+    year: yup
+      .number()
+      .notRequired()
+      .typeError("Year must be a number")
+      .min(1900, "Year cannot be earlier than 1900")
+      .max(currentYear, `Year cannot be later than ${currentYear}`)
+      .integer()
+      .transform((curr, orig) => (orig === "" ? null : curr))
+      .nullable(),
+    vendor: yup.string().required("Vendor is required"),
+    producer: yup
+      .string()
+      .notRequired()
+      .nullable()
+      .transform((v) => (v === "" ? null : v)),
+    region: yup
+      .string()
+      .min(3)
+      .max(20)
+      .notRequired()
+      .nullable()
+      .transform((v) => (v === "" ? null : v)),
+    village: yup
+      .string()
+      .min(3)
+      .max(20)
+      .notRequired()
+      .nullable()
+      .transform((v) => (v === "" ? null : v)),
+    ageing_location: yup
+      .string()
+      .min(3)
+      .max(20)
+      .notRequired()
+      .nullable()
+      .transform((v) => (v === "" ? null : v)),
+    ageing_conditions: yup
+      .string()
+      .notRequired()
+      .nullable()
+      .transform((v) => (v === "" ? null : v)),
+    description: yup
+      .string()
+      .min(3)
+      .max(200)
+      .notRequired()
+      .nullable()
+      .transform((v) => (v === "" ? null : v)),
+    shape: yup.string().required("Shape is required"),
+    images: yup
+      .mixed<FileList>()
+      .test("fileType", "Only image files are allowed", (files) => {
+        if (!files || files.length === 0) return true;
+        return Array.from(files).every((file) =>
+          ["image/jpeg", "image/png", "image/jpg"].includes(file.type),
+        );
+      })
+      .notRequired(),
+    price: yup
+      .number()
+      .notRequired()
+      .nullable()
+      .transform((curr, orig) => (orig === "" ? null : curr)),
+    sizeInGrams: yup
+      .number()
+      .notRequired()
+      .nullable()
+      .transform((curr, orig) => (orig === "" ? null : curr)),
+  });
 
+  type TeaFormInputs = yup.InferType<typeof schema>;
 
-type TeaFormInputs = yup.InferType<typeof schema>;
-
-const {
-  register,
-  handleSubmit,
-  formState: { errors },
-  reset
-} = useForm<TeaFormInputs>({
-  resolver: yupResolver(schema) as any,
-  defaultValues: {
-    name: "",
-    type: "Raw / Sheng",
-    vendor: vendors[0]?.name || "",
-    producer: producers[0]?.name || null,
-    ageing_conditions: "Unknown",
-    shape: "Cake",
-  },
-});
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<TeaFormInputs>({
+    resolver: yupResolver(schema) as any,
+    defaultValues: {
+      name: "",
+      type: "Raw / Sheng",
+      vendor: vendors[0]?.name || "",
+      producer: producers[0]?.name || null,
+      ageing_conditions: "Unknown",
+      shape: "Cake",
+    },
+  });
 
   const onSubmit: SubmitHandler<TeaFormInputs> = async (data) => {
     const formData = new FormData();
-    
-formData.append("name", data.name);
-formData.append("type", data.type);
 
-if (data.year) {
-  formData.append("year", String(data.year));
-}
+    formData.append("name", data.name);
+    formData.append("type", data.type);
 
-formData.append("vendor", data.vendor);
-if (data.producer) {
-  formData.append("producer", data.producer);
-}
+    if (data.year) {
+      formData.append("year", String(data.year));
+    }
 
-if (data.region) {
-  formData.append("region", data.region);
-}
+    formData.append("vendor", data.vendor);
+    if (data.producer) {
+      formData.append("producer", data.producer);
+    }
 
-if (data.village) {
-  formData.append("village", data.village);
-}
+    if (data.region) {
+      formData.append("region", data.region);
+    }
 
-if (data.ageing_location) {
-  formData.append("ageing_location", data.ageing_location);
-}
+    if (data.village) {
+      formData.append("village", data.village);
+    }
 
-if (data.ageing_conditions) {
-  formData.append("ageing_conditions", data.ageing_conditions);
-}
+    if (data.ageing_location) {
+      formData.append("ageing_location", data.ageing_location);
+    }
 
-if (data.description) {
-  formData.append("description", data.description);
-}
+    if (data.ageing_conditions) {
+      formData.append("ageing_conditions", data.ageing_conditions);
+    }
 
-if (data.shape) {
-  formData.append("shape", data.shape);
-}
+    if (data.description) {
+      formData.append("description", data.description);
+    }
 
-if (data.price) {
-  formData.append("price", String(data.price));
-}
+    if (data.shape) {
+      formData.append("shape", data.shape);
+    }
 
-if (data.sizeInGrams) {
-  formData.append("sizeInGrams", String(data.sizeInGrams));
-}
+    if (data.price) {
+      formData.append("price", String(data.price));
+    }
 
-  // Add files
-  if (data.images && data.images.length > 0) {
-    Array.from(data.images).forEach((file) => {
-      formData.append("images", file);
-    });
-  }
+    if (data.sizeInGrams) {
+      formData.append("sizeInGrams", String(data.sizeInGrams));
+    }
 
-  try {
-    const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
-    const res = await fetch(`${API_URL}/api/teas/${teaId}`,
-      { method: "PUT", body: formData, credentials: "include"});
+    // Add files
+    if (data.images && data.images.length > 0) {
+      Array.from(data.images).forEach((file) => {
+        formData.append("images", file);
+      });
+    }
 
-    if (!res.ok) throw new Error("Failed to add new tea!");
-    const data = await res.json();
+    try {
+      const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+      const res = await fetch(`${API_URL}/api/teas/${teaId}`, {
+        method: "PUT",
+        body: formData,
+        credentials: "include",
+      });
 
-    //redirect to the edited tea page
-    router.push(`/tea/${data.tea._id}`);
-  } catch (err) {
-    console.error(err);
-    alert("Error editing tea. Please try again.");
-  }
+      if (!res.ok) throw new Error("Failed to add new tea!");
+      const data = await res.json();
+
+      //redirect to the edited tea page
+      router.push(`/tea/${data.tea._id}`);
+    } catch (err) {
+      console.error(err);
+      alert("Error editing tea. Please try again.");
+    }
   };
-  
+
   return (
     <div className="min-h-screen flex flex-col bg-dark text-light">
       <div className="max-w-5xl mx-auto px-6 py-10 bg-dark">
-        <h1 className="text-center text-3xl font-bold text-light mb-8">Add a New Tea</h1>
+        <h1 className="text-center text-3xl font-bold text-light mb-8">
+          Add a New Tea
+        </h1>
 
         <form
           onSubmit={handleSubmit(onSubmit)}

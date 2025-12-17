@@ -1,6 +1,5 @@
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
-
 export async function login(username: string, password: string) {
   const res = await fetch(`${API_URL}/api/login`, {
     method: "POST",
@@ -8,7 +7,7 @@ export async function login(username: string, password: string) {
     credentials: "include", // send cookies
     body: JSON.stringify({ username, password }),
   });
-    if (!res.ok) {
+  if (!res.ok) {
     const errorText = await res.text();
     throw new Error(`Login failed: ${res.status} ${errorText}`);
   }
@@ -30,55 +29,96 @@ export async function getCurrentUser() {
 
 export async function getIndex() {
   const res = await fetch(`${API_URL}/api/`);
-  if (!res.ok) {throw new Error("Failed to fetch teas!");}
+  if (!res.ok) {
+    throw new Error("Failed to fetch teas!");
+  }
   return res.json();
 }
 
-
 export async function removeFromCollection(teaId: string) {
-  const res = await fetch(`${API_URL}/api/teas/${teaId}/remove`, { method: "DELETE", credentials: "include"});
-  if (!res.ok) {throw new Error("Failed to collect!");}
+  const res = await fetch(`${API_URL}/api/teas/${teaId}/remove`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to collect!");
+  }
   return res.json();
 }
 
 export async function getNewTeaForm() {
-  const res = await fetch(`${API_URL}/api/teas/new`, { method: "GET", credentials: "include"});
-  if (!res.ok) {throw new Error("Failed to get form!");}
+  const res = await fetch(`${API_URL}/api/teas/new`, {
+    method: "GET",
+    credentials: "include",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to get form!");
+  }
   return res.json();
 }
 
 export async function getNewVendorForm() {
-  const res = await fetch(`${API_URL}/api/teas/newVendor`, { method: "GET", credentials: "include"});
-  if (!res.ok) {throw new Error("Failed to get form!");}
+  const res = await fetch(`${API_URL}/api/teas/newVendor`, {
+    method: "GET",
+    credentials: "include",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to get form!");
+  }
   return res.json();
 }
 
 export async function getNewProducerForm() {
-  const res = await fetch(`${API_URL}/api/teas/newProducer`, { method: "GET", credentials: "include"});
-  if (!res.ok) {throw new Error("Failed to get form!");}
+  const res = await fetch(`${API_URL}/api/teas/newProducer`, {
+    method: "GET",
+    credentials: "include",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to get form!");
+  }
   return res.json();
 }
 
 export async function getEditTeaForm(teaId: string, userId: string | null) {
-  const res = await fetch(`${API_URL}/api/teas/${teaId}/edit`, { method: "GET", credentials: "include"});
-  if (!res.ok) {throw new Error("Failed to get form!");}
+  const res = await fetch(`${API_URL}/api/teas/${teaId}/edit`, {
+    method: "GET",
+    credentials: "include",
+  });
+  if (!res.ok) {
+    throw new Error("Failed to get form!");
+  }
   return res.json();
 }
 
 export async function getTea(teaId: string) {
-  const res = await fetch(`${API_URL}/api/teas/${teaId}`, { method: "GET", credentials: "include"});
-  if (!res.ok) {throw new Error("No tea with that id!");}
+  const res = await fetch(`${API_URL}/api/teas/${teaId}`, {
+    method: "GET",
+    credentials: "include",
+  });
+  if (!res.ok) {
+    throw new Error("No tea with that id!");
+  }
   return res.json();
 }
 
 export async function deleteReview(reviewId: string) {
-const res = await fetch(`${API_URL}/api/teas/review/${reviewId}`, { method: "DELETE", credentials: "include"});
-    if (!res.ok) {throw new Error("No review with that id!");}
-    return res.json();
+  const res = await fetch(`${API_URL}/api/teas/review/${reviewId}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+  if (!res.ok) {
+    throw new Error("No review with that id!");
+  }
+  return res.json();
 }
 
 export async function deleteTea(teaId: string) {
-const res = await fetch(`${API_URL}/api/teas/${teaId}`, { method: "DELETE", credentials: "include"});
-    if (!res.ok) {throw new Error("No tea with that id!");}
-    return res.json();
+  const res = await fetch(`${API_URL}/api/teas/${teaId}`, {
+    method: "DELETE",
+    credentials: "include",
+  });
+  if (!res.ok) {
+    throw new Error("No tea with that id!");
+  }
+  return res.json();
 }

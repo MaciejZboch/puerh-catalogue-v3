@@ -1,4 +1,4 @@
-import User, {IUser}  from "../models/user";
+import User, { IUser } from "../models/user";
 import passport from "passport";
 import { Request, Response, NextFunction } from "express";
 import { Types } from "mongoose";
@@ -7,7 +7,11 @@ interface UserWithId extends IUser {
   _id: Types.ObjectId;
 }
 
-export const register = async (req: Request, res: Response, next: NextFunction) => {
+export const register = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
   //validations
   function hasWhiteSpace(s: string) {
     return s.indexOf(" ") >= 0;
@@ -19,7 +23,12 @@ export const register = async (req: Request, res: Response, next: NextFunction) 
     hasWhiteSpace(password) ||
     hasWhiteSpace(username)
   ) {
-return res.status(400).json({ error: "Please make sure your username and password are at least 6 letter long and contain no spaces!" });
+    return res
+      .status(400)
+      .json({
+        error:
+          "Please make sure your username and password are at least 6 letter long and contain no spaces!",
+      });
   } else {
     //actual user creation
     try {
@@ -31,38 +40,53 @@ return res.status(400).json({ error: "Please make sure your username and passwor
       const registeredUser = await User.register(user, password);
       req.login(<UserWithId>registeredUser, (err) => {
         if (err) return next(err);
-        return res.status(201).json({ message: "Welcome!", user: registeredUser });
+        return res
+          .status(201)
+          .json({ message: "Welcome!", user: registeredUser });
       });
     } catch (e: any) {
       if (e.code === 11000) {
-      return res.status(400).json({
-        error: "This email is taken! An account with this email already exists.",
-      });
+        return res.status(400).json({
+          error:
+            "This email is taken! An account with this email already exists.",
+        });
       } else if (e.name === "UserExistsError") {
-return res.status(400).json({
-       error:
-          "This username is taken! An account with this username already exists.",
-      });
+        return res.status(400).json({
+          error:
+            "This username is taken! An account with this username already exists.",
+        });
       } else {
-        return res.status(500).json({ error: e.message || "Registration failed" });
+        return res
+          .status(500)
+          .json({ error: e.message || "Registration failed" });
       }
     }
   }
 };
 
-export const login = async (req: Request, res: Response, next: NextFunction) => {
-
-  passport.authenticate("local", (err: Error | null, user: Express.User | false, info: { message?: string } | undefined) => {
-    if (err) return next(err);
-    if (!user) {
-  return res.status(401).json({ error: "Invalid credentials!" });
-    }
-
-    req.logIn(user, (err) => {
+export const login = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  passport.authenticate(
+    "local",
+    (
+      err: Error | null,
+      user: Express.User | false,
+      info: { message?: string } | undefined,
+    ) => {
       if (err) return next(err);
-      return res.status(200).json(user);
-    });
-  })(req, res, next);
+      if (!user) {
+        return res.status(401).json({ error: "Invalid credentials!" });
+      }
+
+      req.logIn(user, (err) => {
+        if (err) return next(err);
+        return res.status(200).json(user);
+      });
+    },
+  )(req, res, next);
 };
 
 export const logout = (req: Request, res: Response, next: NextFunction) => {
@@ -74,17 +98,22 @@ export const logout = (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
-export const follow = async (req: Request, res: Response, next: NextFunction) => {
-      if (!req.user) {
-  return res.status(401).json({ error: "Unauthorized!" });
-}
+export const follow = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthorized!" });
+  }
   const currentUserId = req.user._id;
   const currentUser = await User.findById(currentUserId);
-   const userIdToFollow = new Types.ObjectId(req.params.id);
-  
+  const userIdToFollow = new Types.ObjectId(req.params.id);
+
   // Null guard
-  if (currentUser == null)
-  {return res.status(401).json({ error: "Unauthorized!" })}
+  if (currentUser == null) {
+    return res.status(401).json({ error: "Unauthorized!" });
+  }
 
   // Avoid duplicates
   if (
@@ -95,20 +124,27 @@ export const follow = async (req: Request, res: Response, next: NextFunction) =>
     await currentUser.save();
     return res.status(200).json({ message: "Following user!" });
   } else {
-    return res.status(400).json({ error: "You're already following this user!" });
+    return res
+      .status(400)
+      .json({ error: "You're already following this user!" });
   }
 };
 
-export const unfollow = async (req: Request, res: Response, next: NextFunction) => {
-      if (!req.user) {
-  return res.status(401).json({ error: "Unauthorized!" });
-}
+export const unfollow = async (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthorized!" });
+  }
   const currentUserId = req.user._id;
   const currentUser = await User.findById(currentUserId);
   const userIdToUnfollow = req.params.id as unknown as Types.ObjectId;
   // Avoid duplicates
-  if (currentUser == null)
-  {return res.status(401).json({ error: "Unauthorized!" })}
+  if (currentUser == null) {
+    return res.status(401).json({ error: "Unauthorized!" });
+  }
 
   if (
     currentUser.following.includes(userIdToUnfollow) &&
@@ -116,8 +152,10 @@ export const unfollow = async (req: Request, res: Response, next: NextFunction) 
   ) {
     currentUser.following.pull(userIdToUnfollow);
     await currentUser.save();
-    return res.status(200).json({ message: "Producer unfollowed!"});
+    return res.status(200).json({ message: "Producer unfollowed!" });
   } else {
-    return res.status(400).json({ error: "You're already following this user!" });
+    return res
+      .status(400)
+      .json({ error: "You're already following this user!" });
   }
 };

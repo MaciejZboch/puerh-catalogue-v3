@@ -1,5 +1,5 @@
 import BaseJoi from "joi";
-import sanitizeHtml from 'sanitize-html';
+import sanitizeHtml from "sanitize-html";
 
 const extension = (joi: typeof BaseJoi) => ({
   type: "string",
@@ -52,5 +52,5 @@ export const teaSchema = Joi.object({
   ageing_conditions: Joi.string().allow(""),
   shape: Joi.string().allow(""),
   price: Joi.number(),
-  sizeInGrams: Joi.number()
+  sizeInGrams: Joi.number(),
 });

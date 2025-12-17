@@ -19,5 +19,5 @@ const fileContent = `module.exports = ${JSON.stringify(updated, null, 2)};\n`;
 
 fs.writeFileSync(outputPath, fileContent, "utf-8");
 console.log(
-  `✅ Updated ${updated.length} products with ageing info for KingTeaMall.`
+  `✅ Updated ${updated.length} products with ageing info for KingTeaMall.`,
 );

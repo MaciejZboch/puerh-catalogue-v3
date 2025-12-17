@@ -15,11 +15,11 @@ const ktmFiltered = ktm.filter((p) => !ysTitles.has(p.title));
 // Write filtered arrays back to their files
 fs.writeFileSync(
   "outputYS.js",
-  `module.exports = ${JSON.stringify(ysFiltered, null, 2)};\n`
+  `module.exports = ${JSON.stringify(ysFiltered, null, 2)};\n`,
 );
 fs.writeFileSync(
   "outputKTM.js",
-  `module.exports = ${JSON.stringify(ktmFiltered, null, 2)};\n`
+  `module.exports = ${JSON.stringify(ktmFiltered, null, 2)};\n`,
 );
 
 console.log(`✅ Filtered YS: ${ys.length} → ${ysFiltered.length}`);

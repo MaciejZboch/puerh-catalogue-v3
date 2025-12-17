@@ -21,7 +21,7 @@ const outputPath = path.join(__dirname, "mergedOutput.js");
 const fileContent = `module.exports = ${JSON.stringify(
   mergedProducts,
   null,
-  2
+  2,
 )};\n`;
 
 fs.writeFileSync(outputPath, fileContent, "utf-8");

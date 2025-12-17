@@ -9,9 +9,7 @@ import { getCurrentUser } from "@/lib/api";
 import CollectButton from "@/components/CollectButton";
 import { IUser } from "@/types/user";
 
-
 export default function Search() {
-
   const searchParams = useSearchParams();
   const query = searchParams.get("query") || "";
   const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -32,15 +30,13 @@ export default function Search() {
       } catch (err) {
         console.error(err);
       }
-  }
+    }
     fetchCurrentUser();
     async function fetchResults() {
       try {
         const res = await fetch(
-          `${API_URL}/api/teas/browse?search=${encodeURIComponent(
-            query
-          )}`,
-          { credentials: "include" }
+          `${API_URL}/api/teas/browse?search=${encodeURIComponent(query)}`,
+          { credentials: "include" },
         );
         if (!res.ok) throw new Error("Search failed");
         const data = await res.json();
@@ -123,71 +119,80 @@ export default function Search() {
               </tr>
             </thead>
             <tbody>
-  {results.map((tea) => {
-    const teaState = results.find(t => t._id === tea._id); // ensure we use latest state
-    const isCollected = currentUser && teaState?.owners?.includes(currentUser._id);
+              {results.map((tea) => {
+                const teaState = results.find((t) => t._id === tea._id); // ensure we use latest state
+                const isCollected =
+                  currentUser && teaState?.owners?.includes(currentUser._id);
 
-    return (
-      <tr
-        key={tea._id}
-        className="border-b border-gray-700 hover:bg-charcoal/50"
-      >
-        <td className="p-2 flex items-center gap-2">
-          {currentUser && !isCollected && (
-<CollectButton
-  tea={tea}
-  onCollected={() => {
-    if (!currentUser?._id) return;
+                return (
+                  <tr
+                    key={tea._id}
+                    className="border-b border-gray-700 hover:bg-charcoal/50"
+                  >
+                    <td className="p-2 flex items-center gap-2">
+                      {currentUser && !isCollected && (
+                        <CollectButton
+                          tea={tea}
+                          onCollected={() => {
+                            if (!currentUser?._id) return;
 
-    setResults(prev =>
-      prev.map(t =>
-        t._id === tea._id
-          ? {
-              ...t,
-              owners: Array.isArray(t.owners)
-                ? [...t.owners, currentUser._id]
-                : [currentUser._id],
-            }
-          : t
-      )
-    );
-  }}
-/>
+                            setResults((prev) =>
+                              prev.map((t) =>
+                                t._id === tea._id
+                                  ? {
+                                      ...t,
+                                      owners: Array.isArray(t.owners)
+                                        ? [...t.owners, currentUser._id]
+                                        : [currentUser._id],
+                                    }
+                                  : t,
+                              ),
+                            );
+                          }}
+                        />
+                      )}
 
-          )}
+                      {currentUser && isCollected && (
+                        <UncollectButton
+                          text={"Remove"}
+                          tea={tea}
+                          onRemoved={(teaId) => {
+                            setResults((prev) =>
+                              prev.map((t) =>
+                                t._id === teaId
+                                  ? {
+                                      ...t,
+                                      owners:
+                                        t.owners?.filter(
+                                          (id) => id !== currentUser._id,
+                                        ) || [],
+                                    }
+                                  : t,
+                              ),
+                            );
+                          }}
+                        />
+                      )}
 
-          {currentUser && isCollected && (
-            <UncollectButton
-              text={"Remove"}
-              tea={tea}
-              onRemoved={(teaId) => {
-                setResults(prev =>
-                  prev.map(t =>
-                    t._id === teaId
-                      ? { ...t, owners: t.owners?.filter(id => id !== currentUser._id) || [] }
-                      : t
-                  )
+                      <Link
+                        href={`/tea/${tea._id}`}
+                        className="text-green-accent hover:underline"
+                      >
+                        {tea.name}
+                      </Link>
+                    </td>
+
+                    <td className="p-2 text-center">{tea.year || "-"}</td>
+                    <td className="p-2 text-center">
+                      {tea.vendor?.name || "-"}
+                    </td>
+                    <td className="p-2 text-center">
+                      {tea.producer?.name || "-"}
+                    </td>
+                  </tr>
                 );
-              }}
-            />
-          )}
-
-          <Link
-            href={`/tea/${tea._id}`}
-            className="text-green-accent hover:underline"
-          >
-            {tea.name}
-          </Link>
-        </td>
-
-        <td className="p-2 text-center">{tea.year || "-"}</td>
-        <td className="p-2 text-center">{tea.vendor?.name || "-"}</td>
-        <td className="p-2 text-center">{tea.producer?.name || "-"}</td>
-      </tr>
-    );
-  })}
-</tbody>
-
+              })}
+            </tbody>
           </table>
         </div>
       )}

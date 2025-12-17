@@ -1,22 +1,36 @@
-import {Schema, Types, model, Model} from "mongoose";
-import { Document } from 'mongoose';
-import Review from './review';
+import { Schema, Types, model, Model } from "mongoose";
+import { Document } from "mongoose";
+import Review from "./review";
 
 interface IImage extends Document {
-  url: string,
-  filename: String
+  url: string;
+  filename: String;
 }
 export interface ITea extends Document {
   name: string;
   description: string;
   images: Types.Array<IImage>;
-  type: 'Raw / Sheng' | 'Ripe / Shu' | 'blend';
+  type: "Raw / Sheng" | "Ripe / Shu" | "blend";
   year: number | null;
   region: string;
   village: string;
   ageing_location: string;
-  ageing_conditions: 'Dry' | 'Natural' | 'Wet' | 'Hong-Kong Traditional' | 'Unknown';
-  shape: 'Loose' | 'Cake' | 'Tuo' | 'Brick' | 'Mushroom' | 'Dragon ball' | 'Tube' | 'Melon' | 'Other';
+  ageing_conditions:
+    | "Dry"
+    | "Natural"
+    | "Wet"
+    | "Hong-Kong Traditional"
+    | "Unknown";
+  shape:
+    | "Loose"
+    | "Cake"
+    | "Tuo"
+    | "Brick"
+    | "Mushroom"
+    | "Dragon ball"
+    | "Tube"
+    | "Melon"
+    | "Other";
   producer: Types.ObjectId | null;
   vendor: Types.ObjectId | null;
   author: Types.ObjectId;
@@ -30,14 +44,15 @@ export interface ITea extends Document {
 
 interface ITeaModel extends Model<ITea> {}
 
-
 const TeaSchema = new Schema({
   name: String,
   description: String,
-  images: [{
-    url: String,
-    filename: String
-  }],
+  images: [
+    {
+      url: String,
+      filename: String,
+    },
+  ],
   type: { type: String, enum: ["Raw / Sheng", "Ripe / Shu", "blend"] },
   year: Number,
   region: String,
@@ -73,7 +88,7 @@ const TeaSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  owners: [{ type: Schema.Types.ObjectId, ref: "User"}],
+  owners: [{ type: Schema.Types.ObjectId, ref: "User" }],
   sizeInGrams: Number,
   price: Number,
 });
@@ -82,7 +97,6 @@ const TeaSchema = new Schema({
 TeaSchema.virtual("pricePerGram").get(function (this: ITea) {
   return this.price / this.sizeInGrams;
 });
-
 
 //get average rating method - enable if needed outside of show page
 /*
@@ -110,7 +124,6 @@ TeaSchema.index({
 
 TeaSchema.set("toObject", { virtuals: true });
 TeaSchema.set("toJSON", { virtuals: true });
-
 
 const Tea: ITeaModel = model<ITea, ITeaModel>("Tea", TeaSchema);
 export default Tea;

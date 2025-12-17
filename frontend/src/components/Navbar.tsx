@@ -25,7 +25,13 @@ export default function Navbar() {
     <nav className="z-50 relative flex items-center justify-between p-4 bg-charcoal">
       {/* Logo */}
       <Link href="/" className="flex items-center gap-1 font-bold text-light">
-        <Image alt="Pu-erh Catalogue Logo" src="/images/puerh-orange.png" height="50" width="50"/>The Pu-Erh Catalogue
+        <Image
+          alt="Pu-erh Catalogue Logo"
+          src="/images/puerh-orange.png"
+          height="50"
+          width="50"
+        />
+        The Pu-Erh Catalogue
       </Link>
 
       {/* Desktop search */}
@@ -51,7 +57,7 @@ export default function Navbar() {
       {/* Desktop links */}
       <div className="hidden md:flex gap-4 text-light min-w-[238px] justify-end items-center">
         {loading ? (
-          <NavbarLoader/>
+          <NavbarLoader />
         ) : !user ? (
           <>
             <Link href="/login">Login</Link>
@@ -61,7 +67,9 @@ export default function Navbar() {
           <>
             <Link href="/new">New tea</Link>
             <Link href={`/profile/${user._id}`}>My Profile</Link>
-            <a className="rounded-md" onClick={logout}>Logout</a>
+            <a className="rounded-md" onClick={logout}>
+              Logout
+            </a>
           </>
         )}
       </div>
@@ -96,7 +104,7 @@ export default function Navbar() {
 
           {/* Mobile links */}
           {loading ? (
-            <NavbarLoader/>
+            <NavbarLoader />
           ) : !user ? (
             <>
               <Link href="/login" onClick={() => setMenuOpen(false)}>

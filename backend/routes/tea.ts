@@ -1,11 +1,27 @@
-import express from 'express';
+import express from "express";
 const router = express.Router();
-import catchAsync from '../utilities/catchAsync';
-import { isLoggedIn, isAuthor, validateTea } from '../expressmiddleware';
-import multer from 'multer';
-import { storage }  from '../cloudinary';
+import catchAsync from "../utilities/catchAsync";
+import { isLoggedIn, isAuthor, validateTea } from "../expressmiddleware";
+import multer from "multer";
+import { storage } from "../cloudinary";
 const upload = multer({ storage });
-import {collection, browse, index, newForm, remove, create, newProducer, newVendor, postProducer, postVendor, update, show, addToCollection, removeFromCollection, editForm } from '../controllers/tea';
+import {
+  collection,
+  browse,
+  index,
+  newForm,
+  remove,
+  create,
+  newProducer,
+  newVendor,
+  postProducer,
+  postVendor,
+  update,
+  show,
+  addToCollection,
+  removeFromCollection,
+  editForm,
+} from "../controllers/tea";
 const { hasNoSpecialSymbols } = require("../expressmiddleware");
 
 router
@@ -25,12 +41,18 @@ router
     hasNoSpecialSymbols,
     upload.array("image"),
     validateTea,
-    catchAsync(create)
+    catchAsync(create),
   );
 
 router.get("/new", isLoggedIn, catchAsync(newForm));
 
-router.get("/:id/edit", isLoggedIn, isAuthor, validateTea, catchAsync(editForm));
+router.get(
+  "/:id/edit",
+  isLoggedIn,
+  isAuthor,
+  validateTea,
+  catchAsync(editForm),
+);
 
 router
   .route("/newVendor")
@@ -51,7 +73,7 @@ router
     isAuthor,
     upload.array("image"),
     validateTea,
-    catchAsync(update)
+    catchAsync(update),
   )
   .delete(isLoggedIn, isAuthor, catchAsync(remove));
 

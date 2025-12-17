@@ -30,9 +30,7 @@ export default function LoadingLarge({
       </div>
 
       {/* Loading message */}
-      <p className="mt-8 text-light/90 text-lg tracking-wide">
-        {message}
-      </p>
+      <p className="mt-8 text-light/90 text-lg tracking-wide">{message}</p>
     </div>
   );
 }

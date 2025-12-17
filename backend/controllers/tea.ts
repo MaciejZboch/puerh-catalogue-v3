@@ -1,9 +1,9 @@
-import Tea from '../models/tea';
+import Tea from "../models/tea";
 import Vendor from "../models/vendor";
 import Producer from "../models/producer";
 import User from "../models/user";
 import Review from "../models/review";
-import {cloudinary} from "../cloudinary/index";
+import { cloudinary } from "../cloudinary/index";
 import checkTeaLength from "../utilities/checkTeaLength";
 import { Request, Response } from "express";
 const currentYear = new Date().getFullYear();
@@ -14,18 +14,16 @@ export const index = async (req: Request, res: Response) => {
     const vendors = await Vendor.find();
     const producers = await Producer.find();
 
-    const unfilteredReviews = await Review
-      .find({})
-      .sort({ _id: -1 })   // sort newest first
+    const unfilteredReviews = await Review.find({})
+      .sort({ _id: -1 }) // sort newest first
       .limit(8)
       .populate("author")
       .populate("tea");
-    
-    const reviews = unfilteredReviews.filter(r => r.tea);
 
-    const teas = await Tea
-      .find({})
-      .sort({_id: -1})
+    const reviews = unfilteredReviews.filter((r) => r.tea);
+
+    const teas = await Tea.find({})
+      .sort({ _id: -1 })
       .limit(10)
       .populate("vendor")
       .populate("producer");
@@ -46,14 +44,14 @@ export const index = async (req: Request, res: Response) => {
 export const newForm = async (req: Request, res: Response) => {
   const vendors = await Vendor.find();
   const producers = await Producer.find();
-  res.json({ currentYear, vendors, producers});
+  res.json({ currentYear, vendors, producers });
 };
 
 //create tea
 export const create = async (req: Request, res: Response) => {
-      if (!req.user) {
-  return res.status(401).json({ error: "Unauthorized!" });
-}
+  if (!req.user) {
+    return res.status(401).json({ error: "Unauthorized!" });
+  }
   const tea = req.body;
   const lengthError = checkTeaLength(req, res, tea); //returns null if the tea length is fine
   if (lengthError) {
@@ -65,9 +63,9 @@ export const create = async (req: Request, res: Response) => {
   newTea.producer = await Producer.findById(req.body.producer);
 
   if (!newTea.vendor) {
-    throw new Error('Vendor not found!');
+    throw new Error("Vendor not found!");
   }
-  
+
   //search db to check if there is something with the same exact name, vendor and year in the DB
   const sameTea = await Tea.find({
     name: newTea.name,
@@ -75,19 +73,21 @@ export const create = async (req: Request, res: Response) => {
     year: newTea.year,
   });
   if (sameTea.length > 0) {
-   return res.status(400).json({ error: "This tea has already been added!" });
+    return res.status(400).json({ error: "This tea has already been added!" });
   }
 
   if (req.files) {
     if (Array.isArray(req.files)) {
-    newTea.images = req.files.map((f: Express.Multer.File) => ({
-    url: f.path,
-    filename: f.filename,
-  })) as any;
-}
+      newTea.images = req.files.map((f: Express.Multer.File) => ({
+        url: f.path,
+        filename: f.filename,
+      })) as any;
+    }
   }
   await newTea.save();
-  return res.status(201).json({ message: "Tea created successfully!", tea: newTea });
+  return res
+    .status(201)
+    .json({ message: "Tea created successfully!", tea: newTea });
 };
 
 //:id
@@ -115,9 +115,7 @@ export const show = async (req: Request, res: Response) => {
   if (req.user) {
     const userId = req.user._id.toString();
     myRatings = reviews
-      .filter(
-        (review) => review.author._id.toString() === userId
-      )
+      .filter((review) => review.author._id.toString() === userId)
       .map((review) => review.rating);
   } else {
     myRatings = false;
@@ -134,7 +132,7 @@ export const editForm = async (req: Request, res: Response) => {
   }
   const vendors = await Vendor.find();
   const producers = await Producer.find();
-  res.json({ t, currentYear, vendors, producers});
+  res.json({ t, currentYear, vendors, producers });
 };
 
 export const update = async (req: Request, res: Response) => {
@@ -142,78 +140,84 @@ export const update = async (req: Request, res: Response) => {
   const lengthError = checkTeaLength(req, res, tea); //returns null if the tea length is fine
 
   if (lengthError) {
-  return res.status(500).json({ error: "Invalid length!" });
+    return res.status(500).json({ error: "Invalid length!" });
   }
 
   //if empty number field, set to null
   if (!req.body.year) {
-   tea.year = null
+    tea.year = null;
   }
 
   if (!req.body.price) {
-    tea.price = null
+    tea.price = null;
   }
 
   if (!req.body.sizeInGrams) {
-    tea.sizeInGrams = null
+    tea.sizeInGrams = null;
   }
-  
+
   const foundTea = await Tea.findByIdAndUpdate(req.params.id, {
     ...tea,
   });
 
-  if (!foundTea) {return res.status(401).json({ error: "Tea not found!" })};
+  if (!foundTea) {
+    return res.status(401).json({ error: "Tea not found!" });
+  }
   foundTea.vendor = await Vendor.findById(req.body.vendor);
   foundTea.producer = await Producer.findById(req.body.producer);
 
   if (req.files) {
     if (Array.isArray(req.files)) {
-    const imgs = req.files.map((f) => ({ url: f.path, filename: f.filename }));
+      const imgs = req.files.map((f) => ({
+        url: f.path,
+        filename: f.filename,
+      }));
 
-    if (req.body.deleteImages) {
-      for (let filename of req.body.deleteImages) {
-        await cloudinary.uploader.destroy(filename);
+      if (req.body.deleteImages) {
+        for (let filename of req.body.deleteImages) {
+          await cloudinary.uploader.destroy(filename);
+        }
       }
+      foundTea.images.push(...imgs);
+      await foundTea.updateOne({
+        $pull: { images: { filename: { $in: req.body.deleteImages } } },
+      });
+      await foundTea.save();
     }
-    foundTea.images.push(...imgs);
-    await foundTea.updateOne({
-      $pull: { images: { filename: { $in: req.body.deleteImages } } },
-    });
-    await foundTea.save();
+    return res.status(201).json({ message: "Tea updated!", tea: foundTea });
   }
-return res.status(201).json({ message: "Tea updated!", tea: foundTea });
-}};
+};
 
 export const remove = async (req: Request, res: Response) => {
   await Tea.findByIdAndDelete(req.params.id);
-  await Review.deleteMany({tea: req.params.id});
-  
-  return res.status(201).json({ message: "Tea removed!"});
+  await Review.deleteMany({ tea: req.params.id });
+
+  return res.status(201).json({ message: "Tea removed!" });
 };
 
 // vendor/producer controllers
 export const newVendor = async (req: Request, res: Response) => {
   const vendors = await Vendor.find();
-  res.json({ vendors});
+  res.json({ vendors });
 };
 
 export const postVendor = async (req: Request, res: Response) => {
   const v = new Vendor({ name: req.body.name });
 
   await v.save();
-return res.status(201).json({ message: "Vendor submitted for approval!"});
+  return res.status(201).json({ message: "Vendor submitted for approval!" });
 };
 
 export const newProducer = async (req: Request, res: Response) => {
   const producers = await Producer.find();
-  res.json({ producers});
+  res.json({ producers });
 };
 
 export const postProducer = async (req: Request, res: Response) => {
   const p = await new Producer({ name: req.body.name });
 
   await p.save();
-return res.status(201).json({ message: "Producer submitted for approval!"});
+  return res.status(201).json({ message: "Producer submitted for approval!" });
 };
 
 //add or remove from collection
@@ -230,7 +234,9 @@ export const addToCollection = async (req: Request, res: Response) => {
 
       return res.json(t); // send the updated tea with owners
     } else {
-      return res.status(400).json({ error: "This tea is already in your collection!" });
+      return res
+        .status(400)
+        .json({ error: "This tea is already in your collection!" });
     }
   } catch (err) {
     console.error(err);
@@ -238,17 +244,18 @@ export const addToCollection = async (req: Request, res: Response) => {
   }
 };
 
-
 export const removeFromCollection = async (req: Request, res: Response) => {
   try {
     if (!req.user) {
-      return res.status(401).json({ error: "Unauthorized, user not logged in" });
+      return res
+        .status(401)
+        .json({ error: "Unauthorized, user not logged in" });
     }
 
     const updatedTea = await Tea.findByIdAndUpdate(
       req.params.id,
       { $pull: { owners: req.user._id } },
-      { new: true } // returns the updated tea
+      { new: true }, // returns the updated tea
     );
 
     if (!updatedTea) {
@@ -262,7 +269,6 @@ export const removeFromCollection = async (req: Request, res: Response) => {
   }
 };
 
-
 //get collection and browse tables
 export const collection = async (req: Request, res: Response) => {
   const teas = await Tea.find({ owners: req.params.id })
@@ -271,8 +277,8 @@ export const collection = async (req: Request, res: Response) => {
   const collector = await User.findById(req.params.id).populate("following");
 
   if (!collector) {
-  return res.status(404).json({ error: "User not found!" });
-}
+    return res.status(404).json({ error: "User not found!" });
+  }
   const followedUsers = collector.following;
   res.json({ teas, collector, followedUsers });
 };
@@ -358,21 +364,21 @@ export const browse = async (req: Request, res: Response) => {
             ],
           },
         },
-          {
-    $group: {
-      _id: "$_id",
-      name: { $first: "$name" },
-      type: { $first: "$type" },
-      year: { $first: "$year" },
-      region: { $first: "$region" },
-      ageing_location: { $first: "$ageing_location" },
-      ageing_conditions: { $first: "$ageing_conditions" },
-      vendor: { $first: "$vendor" },
-      producer: { $first: "$producer" },
-      owners: { $first: "$owners" },
-      firstImage: { $first: "$images" },
-    },
-  },
+        {
+          $group: {
+            _id: "$_id",
+            name: { $first: "$name" },
+            type: { $first: "$type" },
+            year: { $first: "$year" },
+            region: { $first: "$region" },
+            ageing_location: { $first: "$ageing_location" },
+            ageing_conditions: { $first: "$ageing_conditions" },
+            vendor: { $first: "$vendor" },
+            producer: { $first: "$producer" },
+            owners: { $first: "$owners" },
+            firstImage: { $first: "$images" },
+          },
+        },
       ]);
 
       return results;

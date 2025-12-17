@@ -86,7 +86,7 @@ const mergedArray = Object.values(mergedMap);
 console.log(`✅ Total combined products: ${mergedArray.length}`);
 fs.writeFileSync(
   outputFile,
-  "module.exports = " + JSON.stringify(mergedArray, null, 2) + ";\n"
+  "module.exports = " + JSON.stringify(mergedArray, null, 2) + ";\n",
 );
 console.log("Appended and saved to outputKTM.js ✅");
 

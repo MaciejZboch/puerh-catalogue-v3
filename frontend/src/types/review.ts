@@ -1,7 +1,7 @@
-import {ITea} from "./tea";
+import { ITea } from "./tea";
 
 export interface IReview {
-    _id: string; //Mongo id
+  _id: string; //Mongo id
   body: string;
   rating: number;
   author: string; //Mongo id

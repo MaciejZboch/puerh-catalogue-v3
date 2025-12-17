@@ -8,32 +8,32 @@
 @theme {
   /* Grays */
   --color-graphite: #121417;
-  --color-dark: #1D2529;
-  --color-charcoal: #2A3439;
-  --color-slate: #36454D;
-  --color-steel: #4F6571;
-  --color-ash: #5F737E;
-  --color-mist: #8CA2AF;
-  --color-cloud: #B0BFC8;
-  --color-frost: #D4DCE1;
-  --color-light: #F8F9FA;
+  --color-dark: #1d2529;
+  --color-charcoal: #2a3439;
+  --color-slate: #36454d;
+  --color-steel: #4f6571;
+  --color-ash: #5f737e;
+  --color-mist: #8ca2af;
+  --color-cloud: #b0bfc8;
+  --color-frost: #d4dce1;
+  --color-light: #f8f9fa;
 
   /* Greens */
-  --color-green-deep: #1F3A29;   /* very dark green*/
-  --color-green-dark: #2E5B3C;   /* darker shade for contrast */
-  --color-green-accent: #68AB7C;   /* accent */
-  --color-green-bright: #88C799; /* slightly lighter */
-  --color-green-soft: #A8D9B7;   /* pastel-like */
-  --color-green-mist: #D4EDE0;   /* very light */
+  --color-green-deep: #1f3a29; /* very dark green*/
+  --color-green-dark: #2e5b3c; /* darker shade for contrast */
+  --color-green-accent: #68ab7c; /* accent */
+  --color-green-bright: #88c799; /* slightly lighter */
+  --color-green-soft: #a8d9b7; /* pastel-like */
+  --color-green-mist: #d4ede0; /* very light */
 
   /* Blue */
-  --color-navy: rgba(32,34,65,1);
+  --color-navy: rgba(32, 34, 65, 1);
 
   /* Reds */
-  --color-red-pale: #D98282;
+  --color-red-pale: #d98282;
 
   /* Oranges */
-  --color-orange-muted: #FF8A3D;
+  --color-orange-muted: #ff8a3d;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -54,18 +54,23 @@
 /*Large tea leaf spin loader*/
 @layer utilities {
   @keyframes leaf-rotate {
-    to { transform: rotate(360deg); }
+    to {
+      transform: rotate(360deg);
+    }
   }
-  .animate-leaf-rotate { animation: leaf-rotate 2.8s linear infinite; }
+  .animate-leaf-rotate {
+    animation: leaf-rotate 2.8s linear infinite;
+  }
 }
-
-
-
 
 @layer utilities {
   @keyframes orbit {
-    0%   { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
   .animate-orbit {
     animation: orbit 1.2s linear infinite;
@@ -74,8 +79,12 @@
 
 @layer utilities {
   @keyframes shimmer {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(200%); }
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(200%);
+    }
   }
 
   .animate-shimmer {
@@ -86,8 +95,15 @@
 @layer utilities {
   /* Fade + scale pulse */
   @keyframes pulse-scale {
-    0%, 100% { transform: scale(1); opacity: 0.4; }
-    50% { transform: scale(1.15); opacity: 1; }
+    0%,
+    100% {
+      transform: scale(1);
+      opacity: 0.4;
+    }
+    50% {
+      transform: scale(1.15);
+      opacity: 1;
+    }
   }
   .animate-pulse-scale {
     animation: pulse-scale 1.4s ease-in-out infinite;
@@ -95,8 +111,12 @@
 
   /* Smooth rotating ring */
   @keyframes spin-smooth {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
   }
   .animate-spin-smooth {
     animation: spin-smooth 1.2s linear infinite;
@@ -104,9 +124,15 @@
 
   /* Professional bar loader */
   @keyframes bar-loader {
-    0% { transform: translateX(-100%); }
-    50% { transform: translateX(0%); }
-    100% { transform: translateX(100%); }
+    0% {
+      transform: translateX(-100%);
+    }
+    50% {
+      transform: translateX(0%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
   }
   .animate-bar-loader {
     animation: bar-loader 1.6s ease-in-out infinite;
@@ -114,8 +140,14 @@
 
   /* Dot bounce */
   @keyframes dot-bounce {
-    0%, 80%, 100% { transform: scale(0); }
-    40% { transform: scale(1); }
+    0%,
+    80%,
+    100% {
+      transform: scale(0);
+    }
+    40% {
+      transform: scale(1);
+    }
   }
   .animate-dot-bounce {
     animation: dot-bounce 1.4s infinite;
@@ -129,12 +161,11 @@ button {
   @apply active:scale-95;
 }
 
-
 /*hover effects*/
 
 button:hover:not(.nohover) {
-    @apply bg-green-soft text-dark;
-  }
+  @apply bg-green-soft text-dark;
+}
 
 a:hover:not(.nohover) {
   @apply text-green-soft;

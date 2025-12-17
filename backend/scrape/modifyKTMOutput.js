@@ -11,11 +11,11 @@ const updatedKTMShou = ktmShou.map((p) => ({ ...p, type: "Ripe Pu-erh Tea" }));
 // Save back to the same files
 fs.writeFileSync(
   "outputKTM.js",
-  `module.exports = ${JSON.stringify(updatedKTM, null, 2)};\n`
+  `module.exports = ${JSON.stringify(updatedKTM, null, 2)};\n`,
 );
 fs.writeFileSync(
   "outputKTMshou.js",
-  `module.exports = ${JSON.stringify(updatedKTMShou, null, 2)};\n`
+  `module.exports = ${JSON.stringify(updatedKTMShou, null, 2)};\n`,
 );
 
 console.log("✅ Types added to outputKTM.js and outputKTMshou.js");

@@ -21,7 +21,7 @@ export default function LoginPage() {
       alert("Login failed!");
     } finally {
       setLoading(false);
-      router.back()
+      router.back();
     }
   };
 
@@ -33,12 +33,12 @@ export default function LoginPage() {
       >
         <h1 className="text-2xl font-semibold mb-4">Login</h1>
         <div className="relative max-w-[340p] aspect-video mb-4">
-        <Image
-        src="/images/teapot_rectangular.png"
-        alt="Pu-erh Illustration"
-        fill
-        className="drop-shadow-2xl rounded-2xl object-cover"
-        />
+          <Image
+            src="/images/teapot_rectangular.png"
+            alt="Pu-erh Illustration"
+            fill
+            className="drop-shadow-2xl rounded-2xl object-cover"
+          />
         </div>
         <input
           className="w-full mb-3 p-2 border-b border-green-accent rounded-md bg-dark"
