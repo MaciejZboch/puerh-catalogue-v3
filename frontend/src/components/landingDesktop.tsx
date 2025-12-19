@@ -4,17 +4,11 @@ import Link from "next/link";
 
 export default function LandingHero() {
   return (
-    <section className="pb-40 relative w-full min-h-[calc(100vh-73.3333px)] bg-[linear-gradient(90deg,rgba(2,0,36,1)_0%,rgba(104,171,124,1)_0%,rgba(32,34,65,1)_82%,rgba(29,37,41,1)_100%,rgba(0,212,255,1)_100%)] text-white ">
-      <div className="flex items-center justify-center px-8 h-full">
-        {/* Decorative shapes (optional, simplified) */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-pink-500/10 rounded-full blur-3xl" />
-          <div className="absolute bottom-10 right-10 w-40 h-40 bg-purple-500/10 rounded-full blur-3xl" />
-        </div>
+    <section className="relative flex items-center w-full min-h-[calc(100vh-73.3333px)] bg-[linear-gradient(90deg,rgba(2,0,36,1)_0%,rgba(104,171,124,1)_0%,rgba(32,34,65,1)_82%,rgba(29,37,41,1)_100%,rgba(0,212,255,1)_100%)] text-white ">
+      <div className="w-full flex items-center justify-center px-8 h-full">
 
         <div
-          className="relative max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center
-translate-y-32"
+          className=" max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center -translate-y-10 lg:-translate-y-16"
         >
           {/* Left Content */}
           <div className="space-y-6">
