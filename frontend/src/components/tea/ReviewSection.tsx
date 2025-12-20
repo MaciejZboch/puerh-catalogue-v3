@@ -34,7 +34,7 @@ export default function ReviewSection({
   return (
     <>
       {
-        /*currentUser &&*/ <ReviewForm
+        currentUser && <ReviewForm
           onNewReview={handleAddReview}
           teaId={teaId}
         />
