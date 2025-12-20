@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ITea } from "../types/tea";
+import { ITea } from "../../types/tea";
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export default async function LatestTeas() {

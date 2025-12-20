@@ -2,7 +2,7 @@
 
 import ReviewForm from "./ReviewForm";
 import { IPopulatedReview } from "@/types/review";
-import DeleteReviewButton from "./DeleteReviewButton";
+import DeleteReviewButton from "../buttons/DeleteReviewButton";
 import { useState } from "react";
 import Link from "next/link";
 

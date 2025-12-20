@@ -1,10 +1,10 @@
 import { Suspense } from "react";
-import LatestTeas from "../components/LatestTeas";
-import LatestReviews from "@/components/LatestReviews";
+import LatestTeas from "../components/index/LatestTeas";
+import LatestReviews from "@/components/index/LatestReviews";
 import LatestTeasSkeleton from "@/components/LatestTeasSkeleton";
 import LatestReviewsSkeleton from "@/components/LatestReviewSkeleton";
-import LandingHero from "@/components/landingDesktop";
-import LandingMobile from "@/components/landingMobile";
+import LandingHero from "@/components/index/landingDesktop";
+import LandingMobile from "@/components/index/landingMobile";
 
 export default function HomePage() {
   return (

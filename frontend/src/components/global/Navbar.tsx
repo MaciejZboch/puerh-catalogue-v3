@@ -3,8 +3,8 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAuth } from "../app/hooks/useAuth";
-import { NavbarLoader } from "./NavbarLoader";
+import { useAuth } from "../../app/hooks/useAuth";
+import { NavbarLoader } from "../animations/NavbarLoader";
 import Image from "next/image";
 
 export default function Navbar() {

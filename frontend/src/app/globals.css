@@ -122,22 +122,6 @@
     animation: spin-smooth 1.2s linear infinite;
   }
 
-  /* Professional bar loader */
-  @keyframes bar-loader {
-    0% {
-      transform: translateX(-100%);
-    }
-    50% {
-      transform: translateX(0%);
-    }
-    100% {
-      transform: translateX(100%);
-    }
-  }
-  .animate-bar-loader {
-    animation: bar-loader 1.6s ease-in-out infinite;
-  }
-
   /* Dot bounce */
   @keyframes dot-bounce {
     0%,

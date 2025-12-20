@@ -7,8 +7,8 @@ import { ITea } from "@/types/tea";
 import { IPopulatedReview } from "@/types/review";
 import { IUser } from "@/types/user";
 import ReviewSection from "./ReviewSection";
-import EditTeaButton from "./EditTeaButton";
-import DeleteTeaButton from "./DeleteTeaButton";
+import EditTeaButton from "../buttons/EditTeaButton";
+import DeleteTeaButton from "../buttons/DeleteTeaButton";
 
 export default function TeaPageClient({
   tea,

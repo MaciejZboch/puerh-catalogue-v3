@@ -4,9 +4,9 @@ import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import ISearchTea from "@/types/searchtea";
-import UncollectButton from "@/components/UncollectButton";
+import UncollectButton from "@/components/buttons/UncollectButton";
 import { getCurrentUser } from "@/lib/api";
-import CollectButton from "@/components/CollectButton";
+import CollectButton from "@/components/buttons/CollectButton";
 import { IUser } from "@/types/user";
 
 export default function Search() {

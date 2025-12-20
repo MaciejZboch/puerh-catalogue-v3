@@ -5,7 +5,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { IUser } from "@/types/user";
 import { getCurrentUser } from "@/lib/api";
-import UncollectButton from "@/components/UncollectButton";
+import UncollectButton from "@/components/buttons/UncollectButton";
 import ISearchTea from "@/types/searchtea";
 import LoadingLarge from "@/components/LoadingLarge";
 

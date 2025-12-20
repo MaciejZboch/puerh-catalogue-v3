@@ -1,4 +1,4 @@
-import TeaPageClient from "@/components/TeaPageClient";
+import TeaPageClient from "@/components/tea/TeaPageClient";
 import { getTea } from "@/lib/api";
 
 export default async function TeaPage({ params }: { params: any }) {
