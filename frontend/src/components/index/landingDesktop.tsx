@@ -1,4 +1,4 @@
-import ScrollIndicator from "@/components/ScrollIndicator";
+import ScrollIndicator from "@/components/index/ScrollIndicator";
 import Image from "next/image";
 import Link from "next/link";
 

@@ -7,7 +7,7 @@ import { IUser } from "@/types/user";
 import { getCurrentUser } from "@/lib/api";
 import UncollectButton from "@/components/buttons/UncollectButton";
 import ISearchTea from "@/types/searchtea";
-import LoadingLarge from "@/components/LoadingLarge";
+import LoadingLarge from "@/components/animations/LoadingLarge";
 
 export default function ProfilePage() {
   const params = useParams();
