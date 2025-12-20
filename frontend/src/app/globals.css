@@ -92,57 +92,14 @@
   }
 }
 
-@layer utilities {
-  /* Fade + scale pulse */
-  @keyframes pulse-scale {
-    0%,
-    100% {
-      transform: scale(1);
-      opacity: 0.4;
-    }
-    50% {
-      transform: scale(1.15);
-      opacity: 1;
-    }
-  }
-  .animate-pulse-scale {
-    animation: pulse-scale 1.4s ease-in-out infinite;
-  }
 
-  /* Smooth rotating ring */
-  @keyframes spin-smooth {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
-  .animate-spin-smooth {
-    animation: spin-smooth 1.2s linear infinite;
-  }
-
-  /* Dot bounce */
-  @keyframes dot-bounce {
-    0%,
-    80%,
-    100% {
-      transform: scale(0);
-    }
-    40% {
-      transform: scale(1);
-    }
-  }
-  .animate-dot-bounce {
-    animation: dot-bounce 1.4s infinite;
-  }
-}
 
 /*button animations*/
 
 button {
   @apply transition-transform duration-150;
   @apply active:scale-95;
+  cursor: pointer;
 }
 
 /*hover effects*/
