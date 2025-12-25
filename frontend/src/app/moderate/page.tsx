@@ -7,8 +7,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import LoginButton from "@/components/buttons/LoginButton";
 
-<LoginButton />;
-
 export default function Moderate() {
   const [vendors, setVendors] = useState<IVendor[]>();
   const [producers, setProducers] = useState<IProducer[]>([]);
@@ -71,7 +69,7 @@ export default function Moderate() {
 
   return (
     <>
-      <h2>Vendors</h2>
+      <LoginButton />;<h2>Vendors</h2>
       <ul>
         {vendors?.map((vendor) => (
           <li key={vendor._id || vendor.name} style={{ marginBottom: "10px" }}>
@@ -91,7 +89,6 @@ export default function Moderate() {
           </li>
         ))}
       </ul>
-
       <h2>Producers</h2>
       <ul>
         {producers?.map((producer) => (
