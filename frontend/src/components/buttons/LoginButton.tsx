@@ -1,12 +1,14 @@
 "use client";
 import { useAuthModal } from "../global/AuthModalProvider";
 
-export default function RegisterButton() {
+export default function RegisterButton({ className }: { className?: string }) {
   const { openLogin } = useAuthModal();
 
   return (
     <>
-      <button onClick={openLogin}>Login</button>
+      <button className={className} onClick={openLogin}>
+        Login
+      </button>
     </>
   );
 }

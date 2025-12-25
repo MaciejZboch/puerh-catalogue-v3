@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation";
 import { useAuth } from "../../app/hooks/useAuth";
 import { NavbarLoader } from "../animations/NavbarLoader";
 import Image from "next/image";
+import LoginButton from "../buttons/LoginButton";
+import RegisterButton from "../buttons/RegisterButton";
 
 export default function Navbar() {
   const { user, logout, loading } = useAuth();
@@ -60,8 +62,11 @@ export default function Navbar() {
           <NavbarLoader />
         ) : !user ? (
           <>
-            <Link href="/login">Login</Link>
-            <Link href="/register">Register</Link>
+            <LoginButton className="nohover hover:text-green-soft" />
+            <RegisterButton
+              className="nohover hover:text-green-soft"
+              text="Register"
+            />
           </>
         ) : (
           <>
