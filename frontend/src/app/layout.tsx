@@ -5,6 +5,7 @@ import Navbar from "@/components/global/Navbar";
 import { AuthProvider } from "./hooks/useAuth";
 import AuthFlashMessage from "@/components/global/AuthFlashMessage";
 import Footer from "@/components/global/Footer";
+import { AuthModalProvider } from "@/components/global/AuthModalProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,9 +37,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col bg-dark min-h-screen`}
       >
         <AuthProvider>
-          <Navbar />
-          <AuthFlashMessage />
-          {children}
+          <AuthModalProvider>
+            <Navbar />
+            <AuthFlashMessage />
+            {children}
+          </AuthModalProvider>
           {/* Footer */}
           <Footer />
         </AuthProvider>

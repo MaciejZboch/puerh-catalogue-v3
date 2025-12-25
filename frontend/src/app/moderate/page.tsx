@@ -5,6 +5,9 @@ import { IProducer } from "@/types/producer";
 import { IVendor } from "@/types/vendor";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import LoginButton from "@/components/buttons/LoginButton";
+
+<LoginButton />;
 
 export default function Moderate() {
   const [vendors, setVendors] = useState<IVendor[]>();
@@ -14,11 +17,11 @@ export default function Moderate() {
 
   async function changeVendorStatus(
     vendorId: string,
-    status: "approved" | "rejected",
+    status: "approved" | "rejected"
   ) {
     const res = await fetch(
       `${API_URL}/api/moderate/vendor/${vendorId}?status=${status}`,
-      { method: "PUT", credentials: "include" },
+      { method: "PUT", credentials: "include" }
     );
     if (!res.ok) {
       throw new Error("No tea with that id!");
@@ -28,11 +31,11 @@ export default function Moderate() {
 
   async function changeProducerStatus(
     producerId: string,
-    status: "approved" | "rejected",
+    status: "approved" | "rejected"
   ) {
     const res = await fetch(
       `${API_URL}/api/moderate/producer/${producerId}?status=${status}`,
-      { method: "PUT", credentials: "include" },
+      { method: "PUT", credentials: "include" }
     );
     if (!res.ok) {
       throw new Error("No tea with that id!");

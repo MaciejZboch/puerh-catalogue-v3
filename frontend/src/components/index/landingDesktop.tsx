@@ -1,15 +1,13 @@
 import ScrollIndicator from "@/components/index/ScrollIndicator";
 import Image from "next/image";
 import Link from "next/link";
+import RegisterButton from "../buttons/RegisterButton";
 
 export default function LandingHero() {
   return (
     <section className="relative flex items-center w-full min-h-[calc(100vh-73.3333px)] bg-[linear-gradient(90deg,rgba(2,0,36,1)_0%,rgba(104,171,124,1)_0%,rgba(32,34,65,1)_82%,rgba(29,37,41,1)_100%,rgba(0,212,255,1)_100%)] text-white ">
       <div className="w-full flex items-center justify-center px-8 h-full">
-
-        <div
-          className=" max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center -translate-y-10 lg:-translate-y-16"
-        >
+        <div className=" max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center -translate-y-10 lg:-translate-y-16">
           {/* Left Content */}
           <div className="space-y-6">
             <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
@@ -21,12 +19,7 @@ export default function LandingHero() {
               of Pu-Erh tea.
             </p>
 
-            <Link
-              href="/register"
-              className="nohover bg-orange-500 hover:bg-orange-muted transition-all text-white font-semibold px-6 py-3 rounded-full shadow-lg"
-            >
-              Start steeping!
-            </Link>
+            <RegisterButton />
           </div>
 
           {/* Right Illustration */}
