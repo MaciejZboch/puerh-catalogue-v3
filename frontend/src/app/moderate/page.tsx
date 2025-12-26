@@ -69,7 +69,7 @@ export default function Moderate() {
 
   return (
     <>
-      <LoginButton />;<h2>Vendors</h2>
+      <h2>Vendors</h2>
       <ul>
         {vendors?.map((vendor) => (
           <li key={vendor._id || vendor.name} style={{ marginBottom: "10px" }}>
