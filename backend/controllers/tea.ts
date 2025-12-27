@@ -255,7 +255,7 @@ export const removeFromCollection = async (req: Request, res: Response) => {
     const updatedTea = await Tea.findByIdAndUpdate(
       req.params.id,
       { $pull: { owners: req.user._id } },
-      { new: true }, // returns the updated tea
+      { new: true } // returns the updated tea
     );
 
     if (!updatedTea) {
@@ -394,4 +394,35 @@ export const browse = async (req: Request, res: Response) => {
   const vendors = await Vendor.find();
   const producers = await Producer.find();
   res.json({ teas, search, vendors, producers });
+};
+
+export const searchSuggestions = async (req: Request, res: Response) => {
+  const q = (req.query.q as string)?.trim();
+
+  if (!q || q.length < 2) {
+    return res.json([]);
+  }
+
+  const regex = new RegExp("^" + q, "i");
+
+  const [teas, vendors, producers, regionsRaw] = await Promise.all([
+    Tea.find({ name: regex }).select("name").limit(5),
+
+    Vendor.find({ name: regex, status: "approved" }).select("name").limit(5),
+
+    Producer.find({ name: regex, status: "approved" }).select("name").limit(5),
+
+    Tea.distinct("region", { region: regex }),
+  ]);
+
+  const regions = regionsRaw.slice(0, 5);
+
+  const suggestions = [
+    ...teas.map((t) => ({ type: "tea", label: t.name, id: t._id })),
+    ...vendors.map((v) => ({ type: "vendor", label: v.name })),
+    ...producers.map((p) => ({ type: "producer", label: p.name })),
+    ...regions.map((r) => ({ type: "region", label: r })),
+  ];
+
+  res.json(suggestions.slice(0, 10));
 };

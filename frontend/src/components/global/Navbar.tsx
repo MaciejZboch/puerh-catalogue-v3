@@ -8,6 +8,7 @@ import { NavbarLoader } from "../animations/NavbarLoader";
 import Image from "next/image";
 import LoginButton from "../buttons/LoginButton";
 import RegisterButton from "../buttons/RegisterButton";
+import SearchBar from "./SearchBar";
 
 export default function Navbar() {
   const { user, logout, loading } = useAuth();
@@ -30,8 +31,9 @@ export default function Navbar() {
         <Image
           alt="Pu-erh Catalogue Logo"
           src="/images/puerh-orange.png"
-          height="50"
-          width="50"
+          height={50}
+          width={50}
+          className="h-auto w-auto"
         />
         The Pu-Erh Catalogue
       </Link>
@@ -41,13 +43,7 @@ export default function Navbar() {
         onSubmit={handleSearch}
         className="relative hidden md:block w-full max-w-xs lg:max-w-sm"
       >
-        <input
-          type="text"
-          placeholder="Search teas..."
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="w-full p-2 rounded-md bg-dark border border-green-accent text-light"
-        />
+        <SearchBar />
         <button
           type="submit"
           className="nohover hover:text-green-soft absolute right-2 top-1/2 -translate-y-1/2 text-green-accent rounded-md"

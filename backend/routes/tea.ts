@@ -21,8 +21,12 @@ import {
   addToCollection,
   removeFromCollection,
   editForm,
+  searchSuggestions,
 } from "../controllers/tea";
 const { hasNoSpecialSymbols } = require("../expressmiddleware");
+
+//search bar suggestions
+router.route("/suggestions").get(catchAsync(searchSuggestions));
 
 router
   .route("/newVendor")
@@ -41,7 +45,7 @@ router
     hasNoSpecialSymbols,
     upload.array("image"),
     validateTea,
-    catchAsync(create),
+    catchAsync(create)
   );
 
 router.get("/new", isLoggedIn, catchAsync(newForm));
@@ -51,7 +55,7 @@ router.get(
   isLoggedIn,
   isAuthor,
   validateTea,
-  catchAsync(editForm),
+  catchAsync(editForm)
 );
 
 router
@@ -73,7 +77,7 @@ router
     isAuthor,
     upload.array("image"),
     validateTea,
-    catchAsync(update),
+    catchAsync(update)
   )
   .delete(isLoggedIn, isAuthor, catchAsync(remove));
 
