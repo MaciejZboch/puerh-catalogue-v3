@@ -31,7 +31,7 @@ export default function LandingHero() {
               alt="Pu-erh Illustration"
               width={380}
               height={380}
-              className="drop-shadow-2xl"
+              className="drop-shadow-2xl opacity-0 animate-fade-up"
             />
           </div>
         </div>

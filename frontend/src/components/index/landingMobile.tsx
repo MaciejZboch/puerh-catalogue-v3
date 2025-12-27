@@ -1,4 +1,4 @@
-import Link from "next/link";
+import RegisterButton from "../buttons/RegisterButton";
 
 export default function LandingMobile() {
   return (
@@ -10,12 +10,10 @@ export default function LandingMobile() {
         Discover, rate, and catalog teas from around the world. Join the
         community and keep track of your favorite teas.
       </p>
-      <Link
-        href="/register"
+      <RegisterButton
+        text="Start steeping!"
         className="nohover bg-orange-500 hover:bg-orange-muted transition-all text-white font-semibold px-6 py-3 rounded-full shadow-lg"
-      >
-        Start steeping!
-      </Link>
+      />
     </header>
   );
 }
