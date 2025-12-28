@@ -3,19 +3,21 @@
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 
+import { usePathname } from "next/navigation";
+
 export default function SearchBar({ setMenuOpen }: { setMenuOpen?: Function }) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
   const router = useRouter();
   const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+  const pathname = usePathname();
 
   useEffect(() => {
     if (query.length < 2) {
       setSuggestions([]);
       return;
     }
-
     const timeout = setTimeout(async () => {
       const res = await fetch(`${API_URL}/api/teas/suggestions?q=${query}`);
       const data = await res.json();
@@ -26,10 +28,29 @@ export default function SearchBar({ setMenuOpen }: { setMenuOpen?: Function }) {
     return () => clearTimeout(timeout);
   }, [query]);
 
-  function submitSearch(value = query) {
-    setMenuOpen && setMenuOpen(false); // if on mobile, close the dropdown menu
+  //close suggestions dropdown on navigation
+  useEffect(() => {
     setOpen(false);
-    router.push(`/search?query=${encodeURIComponent(value)}`);
+  }, [pathname]);
+
+  /*//close suggestions on clicking outside
+  useEffect(() => {
+  function handleClick(e: MouseEvent) {
+    if (!(e.target as HTMLElement).closest(".search-wrapper")) {
+      setOpen(false);
+    }
+  }
+  document.addEventListener("mousedown", handleClick);
+  return () => document.removeEventListener("mousedown", handleClick);
+}, []);*/
+
+  //close suggestions and navigate to link
+  function navigateTo(path: string) {
+    setQuery("");
+    setOpen(false);
+    setSuggestions([]);
+    setMenuOpen && setMenuOpen(false);
+    router.push(path);
   }
 
   return (
@@ -50,8 +71,8 @@ export default function SearchBar({ setMenuOpen }: { setMenuOpen?: Function }) {
               className="px-4 py-2 hover:text-green-accent cursor-pointer"
               onClick={() =>
                 s.type === "tea"
-                  ? router.push(`/tea/${s.id}`)
-                  : submitSearch(s.label)
+                  ? navigateTo(`/tea/${s.id}`)
+                  : navigateTo(`/search?query=${encodeURIComponent(s.label)}`)
               }
             >
               <span className="text-xs opacity-60 mr-2">{s.type}</span>
@@ -63,54 +84,3 @@ export default function SearchBar({ setMenuOpen }: { setMenuOpen?: Function }) {
     </div>
   );
 }
-
-/*export default function SearchBar({ setMenuOpen }: { setMenuOpen?: Function }) {
-  const [query, setQuery] = useState("");
-  const router = useRouter();
-
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault();
-    if (!query.trim()) return;
-    router.push(`/search?query=${encodeURIComponent(query)}`);
-    setQuery("");
-    setMenuOpen && setMenuOpen(false); // if on mobile, close the dropdown menu
-  }
-
-  return (
-    <form onSubmit={handleSearch} className="relative w-full">
-      <input
-        type="text"
-        placeholder="Search teas..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        className="w-full p-2 rounded-md bg-dark border border-green-accent text-light"
-      />
-      <button
-        type="submit"
-        className="absolute right-2 top-1/2 -translate-y-1/2 text-green-accent"
-      >
-        Search
-      </button>
-    </form>
-  );
-}
-
-/*<form
-        onSubmit={handleSearch}
-        className="relative hidden md:block w-full max-w-xs lg:max-w-sm"
-      >
-        <input
-          type="text"
-          placeholder="e.g. Menghai"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          className="w-full p-2 rounded-md bg-dark border border-green-accent text-light"
-        />
-        <button
-          type="submit"
-          className="nohover hover:text-green-soft absolute right-2 top-1/2 -translate-y-1/2 text-green-accent rounded-md"
-        >
-          Search
-        </button>
-      </form>
-*/
