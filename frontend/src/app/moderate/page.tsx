@@ -62,7 +62,7 @@ export default function Moderate() {
     } catch {
       console.error("failed to fetch admin page");
     }
-  }, []);
+  }, [API_URL, router]);
 
   return (
     <>

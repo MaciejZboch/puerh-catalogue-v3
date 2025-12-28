@@ -83,7 +83,7 @@ export default function ProfilePage() {
       }
     }
     if (userId) fetchProfile();
-  }, [userId]);
+  }, [userId, API_URL]);
   function handleSort(key: keyof ISearchTea) {
     if (sortKey === key) {
       setSortAsc(!sortAsc);

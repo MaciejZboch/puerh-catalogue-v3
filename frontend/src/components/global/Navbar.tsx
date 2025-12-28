@@ -57,7 +57,7 @@ export default function Navbar() {
           <>
             <Link href="/new">New tea</Link>
             <Link href={`/profile/${user._id}`}>My Profile</Link>
-            <a className="rounded-md" onClick={logout}>
+            <a className="rounded-md cursor-pointer" onClick={logout}>
               Logout
             </a>
           </>

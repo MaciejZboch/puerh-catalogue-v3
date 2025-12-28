@@ -40,7 +40,7 @@ export default function SearchBar({
     }, 250);
 
     return () => clearTimeout(timeout);
-  }, [query]);
+  }, [query, API_URL]);
 
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();

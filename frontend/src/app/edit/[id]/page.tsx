@@ -7,7 +7,6 @@ import * as yup from "yup";
 import { getEditTeaForm } from "@/lib/api";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
-import { ITea } from "@/types/tea";
 import { IVendor } from "@/types/vendor";
 import { IProducer } from "@/types/producer";
 
@@ -19,27 +18,6 @@ export default function Edit() {
   const [vendors, setVendors] = useState<IVendor[]>([]);
   const [producers, setProducers] = useState<IProducer[]>([]);
   const router = useRouter();
-
-  const emptyTea: ITea = {
-    _id: "",
-    name: "",
-    description: "",
-    images: [],
-    type: "Raw / Sheng",
-    year: new Date().getFullYear(),
-    region: "",
-    village: "",
-    ageing_location: "",
-    ageing_conditions: "Dry",
-    shape: "Cake",
-    producer: null,
-    vendor: null,
-    author: "unknown",
-    owners: [],
-    sizeInGrams: 0,
-    price: 0,
-    pricePerGram: 0,
-  };
 
   useEffect(() => {
     async function fetchFormData() {
@@ -57,7 +35,7 @@ export default function Edit() {
       }
     }
     fetchFormData();
-  }, []);
+  }, [teaId, userId]);
 
   const currentYear = new Date().getFullYear();
 
