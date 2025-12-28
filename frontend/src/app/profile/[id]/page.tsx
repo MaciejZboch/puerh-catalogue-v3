@@ -8,6 +8,7 @@ import { getCurrentUser } from "@/lib/api";
 import UncollectButton from "@/components/buttons/UncollectButton";
 import ISearchTea from "@/types/searchtea";
 import LoadingLarge from "@/components/animations/LoadingLarge";
+import Image from "next/image";
 
 export default function ProfilePage() {
   const params = useParams();
@@ -30,7 +31,7 @@ export default function ProfilePage() {
     });
     if (res.ok && currentUser) {
       setCurrentUser((prev) =>
-        prev ? { ...prev, following: [...prev.following, userId] } : prev,
+        prev ? { ...prev, following: [...prev.following, userId] } : prev
       );
     }
   }
@@ -43,34 +44,11 @@ export default function ProfilePage() {
       setCurrentUser((prev) =>
         prev
           ? { ...prev, following: prev.following.filter((id) => id !== userId) }
-          : prev,
+          : prev
       );
     }
   }
 
-  async function uncollect(tea: ISearchTea) {
-    try {
-      if (user == null) {
-        throw new Error("No user - failed to collect");
-      }
-
-      const res = await fetch(`${API_URL}/api/teas/${tea._id}/add`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include",
-      });
-
-      if (!res.ok) {
-        const err = await res.json();
-        console.error(err.error);
-        return;
-      }
-
-      setTeas((prev) => prev.filter((t) => t._id !== tea._id));
-    } catch (err) {
-      console.error("Error updating collection:", err);
-    }
-  }
   useEffect(() => {
     async function fetchCurrentUser() {
       try {
@@ -91,7 +69,7 @@ export default function ProfilePage() {
         setLoading(true);
         const res = await fetch(
           `${API_URL}/api/teas/collection/${encodeURIComponent(userId)}`,
-          { credentials: "include" },
+          { credentials: "include" }
         );
         if (!res.ok) throw new Error("Failed to fetch profile");
         const data = await res.json();
@@ -140,13 +118,15 @@ export default function ProfilePage() {
       <div className="w-full max-w-full sm:max-w-2xl mx-auto p-6 bg-charcoal rounded-2xl shadow-xl border border-green-accent/40 overflow-hidden">
         {/* Profile header */}
         <div className="flex items-center gap-4 mb-6">
-          <img
+          <Image
             src={
               user.image?.url ||
               "https://cdn-icons-png.flaticon.com/512/847/847969.png"
             }
             alt={user.username}
-            className="h-20 w-20 rounded-full object-cover"
+            width={80}
+            height={80}
+            className="rounded-full object-cover"
           />
           <div>
             <h1 className="text-3xl font-bold">{user.username}</h1>
@@ -263,7 +243,7 @@ export default function ProfilePage() {
                           text="X"
                           onRemoved={(teaId) =>
                             setTeas((prev) =>
-                              prev.filter((t) => t._id !== teaId),
+                              prev.filter((t) => t._id !== teaId)
                             )
                           }
                         />

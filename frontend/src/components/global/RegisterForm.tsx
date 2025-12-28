@@ -3,7 +3,6 @@ import { useState } from "react";
 import { postJson } from "@/lib/http";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/app/hooks/useAuth";
-import Image from "next/image";
 
 type RegisterFormProps = {
   onSuccess?: () => void;

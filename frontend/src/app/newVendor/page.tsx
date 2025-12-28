@@ -56,8 +56,6 @@ export default function Vendor() {
 
       if (!res.ok) throw new Error("Failed to add new tea!");
 
-      const data = await res.json();
-
       //redirect to the main page
       router.push(`/`);
     } catch (err) {

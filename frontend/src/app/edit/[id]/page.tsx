@@ -41,8 +41,6 @@ export default function Edit() {
     pricePerGram: 0,
   };
 
-  const [t, setT] = useState<ITea>(emptyTea);
-
   useEffect(() => {
     async function fetchFormData() {
       try {
@@ -120,7 +118,7 @@ export default function Edit() {
       .test("fileType", "Only image files are allowed", (files) => {
         if (!files || files.length === 0) return true;
         return Array.from(files).every((file) =>
-          ["image/jpeg", "image/png", "image/jpg"].includes(file.type),
+          ["image/jpeg", "image/png", "image/jpg"].includes(file.type)
         );
       })
       .notRequired(),

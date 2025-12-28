@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import { useAuth } from "@/app/hooks/useAuth";
-import { useRouter } from "next/navigation";
-import Image from "next/image";
 
 type RegisterFormProps = {
   onSuccess?: () => void;
@@ -14,7 +12,6 @@ export default function LoginForm({ onSuccess }: RegisterFormProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

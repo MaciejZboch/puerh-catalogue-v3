@@ -5,7 +5,6 @@ import { IProducer } from "@/types/producer";
 import { IVendor } from "@/types/vendor";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import LoginButton from "@/components/buttons/LoginButton";
 
 export default function Moderate() {
   const [vendors, setVendors] = useState<IVendor[]>();
@@ -24,7 +23,6 @@ export default function Moderate() {
     if (!res.ok) {
       throw new Error("No tea with that id!");
     }
-    const data = await res.json();
   }
 
   async function changeProducerStatus(
@@ -38,7 +36,6 @@ export default function Moderate() {
     if (!res.ok) {
       throw new Error("No tea with that id!");
     }
-    const data = await res.json();
   }
 
   useEffect(() => {
