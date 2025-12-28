@@ -39,18 +39,7 @@ export default function Navbar() {
       </Link>
 
       {/* Desktop search */}
-      <form
-        onSubmit={handleSearch}
-        className="relative hidden md:block w-full max-w-xs lg:max-w-sm"
-      >
-        <SearchBar />
-        <button
-          type="submit"
-          className="nohover hover:text-green-soft absolute right-2 top-1/2 -translate-y-1/2 text-green-accent rounded-md"
-        >
-          Search
-        </button>
-      </form>
+      <SearchBar />
 
       {/* Desktop links */}
       <div className="hidden md:flex gap-4 text-light min-w-[238px] justify-end items-center">

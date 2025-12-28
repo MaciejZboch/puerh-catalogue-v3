@@ -13,6 +13,16 @@ export default function SearchBar({ setMenuOpen }: { setMenuOpen?: Function }) {
   const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
   const pathname = usePathname();
 
+  const PLACEHOLDERS = [
+    "e.g. Mengku",
+    "e.g. Xiaguan",
+    "e.g. Bulang",
+    "e.g. Menghai",
+    "e.g. Simao",
+    "e.g. 2005 sheng",
+    "e.g. CNNP",
+  ];
+
   useEffect(() => {
     if (query.length < 2) {
       setSuggestions([]);
@@ -27,6 +37,12 @@ export default function SearchBar({ setMenuOpen }: { setMenuOpen?: Function }) {
 
     return () => clearTimeout(timeout);
   }, [query]);
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!query.trim()) return;
+    navigateTo(`/search?query=${encodeURIComponent(query)}`);
+  }
 
   //close suggestions dropdown on navigation
   useEffect(() => {
@@ -55,14 +71,21 @@ export default function SearchBar({ setMenuOpen }: { setMenuOpen?: Function }) {
 
   return (
     <div className="relative w-full max-w-sm">
-      <input
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        onFocus={() => query.length >= 2 && setOpen(true)}
-        placeholder="Search teas, regions, vendors…"
-        className="w-full rounded-md px-4 py-2 border-1 border-green-accent text-light"
-      />
-
+      <form onSubmit={handleSubmit}>
+        <input
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          onFocus={() => query.length >= 2 && setOpen(true)}
+          placeholder="e.g. Mengku"
+          className="w-full rounded-md px-4 py-2 border-1 border-green-accent text-light"
+        />
+        <button
+          type="submit"
+          className="nohover hover:text-green-soft absolute right-2 top-1/2 -translate-y-1/2 text-green-accent rounded-md"
+        >
+          Search
+        </button>
+      </form>
       {open && suggestions.length > 0 && (
         <ul className="absolute z-50 mt-1 w-full bg-dark text-light rounded-md shadow-lg">
           {suggestions.map((s, i) => (
