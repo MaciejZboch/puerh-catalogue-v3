@@ -5,7 +5,11 @@ import { useState, useEffect } from "react";
 
 import { usePathname } from "next/navigation";
 
-export default function SearchBar({ setMenuOpen }: { setMenuOpen?: Function }) {
+export default function SearchBar({
+  setMenuOpen,
+}: {
+  setMenuOpen?: (open: boolean) => void;
+}) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [open, setOpen] = useState(false);
