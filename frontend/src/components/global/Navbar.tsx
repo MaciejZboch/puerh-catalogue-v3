@@ -12,17 +12,7 @@ import SearchBar from "./SearchBar";
 
 export default function Navbar() {
   const { user, logout, loading } = useAuth();
-  const [query, setQuery] = useState("");
   const [menuOpen, setMenuOpen] = useState(false);
-  const router = useRouter();
-
-  function handleSearch(e: React.FormEvent) {
-    e.preventDefault();
-    if (!query.trim()) return;
-    router.push(`/search?query=${encodeURIComponent(query)}`);
-    setQuery(""); // optional
-    setMenuOpen(false); // also close dropdown after searching on mobile
-  }
 
   return (
     <nav className="z-50 relative flex items-center justify-between p-4 bg-charcoal overflow-y-visible">
@@ -78,26 +68,10 @@ export default function Navbar() {
           className="absolute top-full left-0 w-screen bg-charcoal flex flex-col gap-2 p-4
         md:hidden text-light shadow-md z-50 overflow-x-hidden overflow-y-visible"
         >
-          {/* Mobile search */}
-          {/*<form onSubmit={handleSearch} className="relative w-full">
-            <input
-              type="text"
-              placeholder="Search teas..."
-              value={query}
-              onChange={(e) => setQuery(e.target.value)}
-              className="w-full p-2 rounded-md bg-dark border border-green-accent text-light"
-            />
-            <button
-              type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-green-accent"
-            >
-              Search
-            </button>
-          </form>*/}
           <div className="px-4">
             <SearchBar
               setMenuOpen={setMenuOpen}
-              className="relative overflow-y-visible w-full rounded-md border-1 border-green-accent text-light"
+              className="right-2 relative overflow-y-visible w-full rounded-md border-1 border-green-accent text-light"
             />
           </div>
           {/* Mobile links */}
