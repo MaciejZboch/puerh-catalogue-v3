@@ -39,7 +39,7 @@ export default function Navbar() {
       </Link>
 
       {/* Desktop search */}
-      <SearchBar />
+      <SearchBar className="hidden md:inline relative md:w-1xl lg:w-full max-w-sm" />
 
       {/* Desktop links */}
       <div className="hidden md:flex gap-4 text-light min-w-[238px] justify-end items-center">

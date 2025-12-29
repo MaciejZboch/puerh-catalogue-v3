@@ -7,8 +7,10 @@ import { usePathname } from "next/navigation";
 
 export default function SearchBar({
   setMenuOpen,
+  className,
 }: {
   setMenuOpen?: (open: boolean) => void;
+  className: string;
 }) {
   const [query, setQuery] = useState("");
   const [suggestions, setSuggestions] = useState<any[]>([]);
@@ -74,7 +76,7 @@ export default function SearchBar({
   }
 
   return (
-    <div className="relative w-full max-w-sm">
+    <div className={className}>
       <form onSubmit={handleSubmit}>
         <input
           value={query}
