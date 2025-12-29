@@ -25,7 +25,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="z-50 relative flex items-center justify-between p-4 bg-charcoal">
+    <nav className="z-50 relative flex items-center justify-between p-4 bg-charcoal overflow-y-visible">
       {/* Logo */}
       <Link href="/" className="flex items-center gap-1 font-bold text-light">
         <Image
@@ -39,7 +39,7 @@ export default function Navbar() {
       </Link>
 
       {/* Desktop search */}
-      <SearchBar className="hidden md:inline relative md:w-1xl lg:w-full max-w-sm" />
+      <SearchBar className="hidden md:inline relative md:w-1xl lg:w-full max-w-sm border-1 border-green-accent rounded-md" />
 
       {/* Desktop links */}
       <div className="hidden md:flex gap-4 text-light min-w-[238px] justify-end items-center">
@@ -74,9 +74,12 @@ export default function Navbar() {
 
       {/* Mobile dropdown */}
       {menuOpen && (
-        <div className="absolute top-full left-0 w-screen bg-charcoal flex flex-col gap-2 p-4 md:hidden text-light shadow-md z-10 overflow-x-hidden">
+        <div
+          className="absolute top-full left-0 w-screen bg-charcoal flex flex-col gap-2 p-4
+        md:hidden text-light shadow-md z-50 overflow-x-hidden overflow-y-visible"
+        >
           {/* Mobile search */}
-          <form onSubmit={handleSearch} className="relative w-full">
+          {/*<form onSubmit={handleSearch} className="relative w-full">
             <input
               type="text"
               placeholder="Search teas..."
@@ -90,8 +93,13 @@ export default function Navbar() {
             >
               Search
             </button>
-          </form>
-
+          </form>*/}
+          <div className="px-4">
+            <SearchBar
+              setMenuOpen={setMenuOpen}
+              className="relative overflow-y-visible w-full rounded-md border-1 border-green-accent text-light"
+            />
+          </div>
           {/* Mobile links */}
           {loading ? (
             <NavbarLoader />

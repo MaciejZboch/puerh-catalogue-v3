@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 
 import { usePathname } from "next/navigation";
 
@@ -19,6 +20,10 @@ export default function SearchBar({
   const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
   const pathname = usePathname();
 
+  //portal setup
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [coords, setCoords] = useState<DOMRect | null>(null);
+
   const PLACEHOLDERS = [
     "e.g. Mengku",
     "e.g. Xiaguan",
@@ -28,6 +33,13 @@ export default function SearchBar({
     "e.g. 2005 sheng",
     "e.g. CNNP",
   ];
+
+  //portal
+  useEffect(() => {
+    if (open && inputRef.current) {
+      setCoords(inputRef.current.getBoundingClientRect());
+    }
+  }, [open, suggestions]);
 
   useEffect(() => {
     if (query.length < 2) {
@@ -79,11 +91,12 @@ export default function SearchBar({
     <div className={className}>
       <form onSubmit={handleSubmit}>
         <input
+          ref={inputRef}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => query.length >= 2 && setOpen(true)}
           placeholder="e.g. Mengku"
-          className="w-full rounded-md px-4 py-2 border-1 border-green-accent text-light"
+          className="w-full rounded-md px-4 py-2  text-light"
         />
         <button
           type="submit"
@@ -92,24 +105,41 @@ export default function SearchBar({
           Search
         </button>
       </form>
-      {open && suggestions.length > 0 && (
-        <ul className="absolute z-50 mt-1 w-full bg-dark text-light rounded-md shadow-lg">
-          {suggestions.map((s, i) => (
-            <li
-              key={i}
-              className="px-4 py-2 hover:text-green-accent cursor-pointer"
-              onClick={() =>
-                s.type === "tea"
-                  ? navigateTo(`/tea/${s.id}`)
-                  : navigateTo(`/search?query=${encodeURIComponent(s.label)}`)
-              }
-            >
-              <span className="text-xs opacity-60 mr-2">{s.type}</span>
-              {s.label}
-            </li>
-          ))}
-        </ul>
-      )}
+      {open &&
+        suggestions.length > 0 &&
+        coords &&
+        createPortal(
+          <ul
+            className="fixed z-[9999] bg-dark text-light rounded-md shadow-lg"
+            style={{
+              top: coords.bottom + 4,
+              left: coords.left,
+              width: coords.width,
+            }}
+          >
+            {suggestions.map((s, i) => (
+              <li
+                key={i}
+                className="px-4 py-2 hover:text-green-accent cursor-pointer"
+                onClick={() => {
+                  setOpen(false);
+                  setQuery("");
+                  setMenuOpen?.(false);
+
+                  s.type === "tea"
+                    ? router.push(`/tea/${s.id}`)
+                    : router.push(
+                        `/search?query=${encodeURIComponent(s.label)}`
+                      );
+                }}
+              >
+                <span className="text-xs opacity-60 mr-2">{s.type}</span>
+                {s.label}
+              </li>
+            ))}
+          </ul>,
+          document.body
+        )}
     </div>
   );
 }
