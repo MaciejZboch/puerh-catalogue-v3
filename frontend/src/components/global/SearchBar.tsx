@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { createPortal } from "react-dom";
 
 import { usePathname } from "next/navigation";
@@ -20,21 +20,31 @@ export default function SearchBar({
   const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
   const pathname = usePathname();
 
+  //placeholder setup
+  const PLACEHOLDERS = [
+    "Mengku",
+    "Xiaguan",
+    "Bulang",
+    "Menghai",
+    "Simao",
+    "CNNP",
+  ];
+
+  const [placeholder, setPlaceholder] = useState(
+    () => PLACEHOLDERS[Math.floor(Math.random() * PLACEHOLDERS.length)]
+  );
+
+  //randomize placeholder on navigation
+  useEffect(() => {
+    setPlaceholder(
+      PLACEHOLDERS[Math.floor(Math.random() * PLACEHOLDERS.length)]
+    );
+  }, [pathname]);
+
   //portal setup
   const inputRef = useRef<HTMLInputElement>(null);
   const [coords, setCoords] = useState<DOMRect | null>(null);
 
-  const PLACEHOLDERS = [
-    "e.g. Mengku",
-    "e.g. Xiaguan",
-    "e.g. Bulang",
-    "e.g. Menghai",
-    "e.g. Simao",
-    "e.g. 2005 sheng",
-    "e.g. CNNP",
-  ];
-
-  //portal
   useEffect(() => {
     if (open && inputRef.current) {
       setCoords(inputRef.current.getBoundingClientRect());
@@ -59,6 +69,9 @@ export default function SearchBar({
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     if (!query.trim()) return;
+    setPlaceholder(
+      PLACEHOLDERS[Math.floor(Math.random() * PLACEHOLDERS.length)]
+    );
     navigateTo(`/search?query=${encodeURIComponent(query)}`);
   }
 
@@ -95,7 +108,7 @@ export default function SearchBar({
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => query.length >= 2 && setOpen(true)}
-          placeholder="e.g. Mengku"
+          placeholder={`e.g. ${placeholder}`}
           className="w-full rounded-md px-4 py-2  text-light"
         />
         <button
