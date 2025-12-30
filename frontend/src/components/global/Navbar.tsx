@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useAuth } from "../../app/hooks/useAuth";
 import { NavbarLoader } from "../animations/NavbarLoader";
 import Image from "next/image";
@@ -15,15 +14,19 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   return (
-    <nav className="z-50 relative flex items-center justify-between p-4 bg-charcoal overflow-y-visible">
+    <nav className="z-50 relative flex items-center justify-between p-4 bg-charcoal overflow-y-visible h-[74.5px]">
       {/* Logo */}
-      <Link href="/" className="flex items-center gap-1 font-bold text-light">
+      <Link
+        href="/"
+        className="flex items-center gap-1 font-bold text-light leading-tight"
+      >
         <Image
           alt="Pu-erh Catalogue Logo"
-          src="/images/puerh-orange.png"
-          height={50}
-          width={50}
-          className="h-auto w-auto"
+          src="/images/icon.png"
+          height={25}
+          width={25}
+          priority
+          className="block h-[25px] w-[25px]"
         />
         The Pu-Erh Catalogue
       </Link>
