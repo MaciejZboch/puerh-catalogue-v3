@@ -27,20 +27,6 @@ export async function getCurrentUser() {
   return res.json();
 }
 
-export async function getCurrentUserForServerComponents() {
-  const cookieStore = cookies();
-
-  const res = await fetch(`${API_URL}/api/me`, {
-    headers: {
-      cookie: cookieStore.toString(),
-    },
-    cache: "no-store",
-  });
-
-  if (!res.ok) return null;
-  return res.json();
-}
-
 export async function getIndex() {
   const res = await fetch(`${API_URL}/api/`);
   if (!res.ok) {
