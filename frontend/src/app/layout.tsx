@@ -7,6 +7,7 @@ import AuthFlashMessage from "@/components/global/AuthFlashMessage";
 import Footer from "@/components/global/Footer";
 import { AuthModalProvider } from "@/components/global/AuthModalProvider";
 import { AuthRedirectListener } from "@/components/global/AuthRedirectListener";
+import { Suspense } from "react";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -41,7 +42,9 @@ export default function RootLayout({
           <AuthModalProvider>
             <Navbar />
             <AuthFlashMessage />
-            <AuthRedirectListener />
+            <Suspense fallback={null}>
+              <AuthRedirectListener />
+            </Suspense>
             {children}
           </AuthModalProvider>
           {/* Footer */}
