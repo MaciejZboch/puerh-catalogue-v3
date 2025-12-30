@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { getCurrentUserForServerComponents } from "@/lib/api";
+import { getCurrentUserForServerComponents } from "@/lib/serverSideAuth";
 import New from "@/components/new/New";
 
 export default async function NewTeaPage() {
