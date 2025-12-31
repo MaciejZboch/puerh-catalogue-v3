@@ -16,9 +16,6 @@ import teaRoutes from "./routes/tea";
 import reviewRoutes from "./routes/review";
 import moderateRoutes from "./routes/moderate";
 
-// Passport local strategy
-const LocalStrategy = require("passport-local");
-
 dotenv.config();
 
 const app = express();
@@ -71,16 +68,6 @@ app
     })
   )
   .on("error", (e) => console.log("Session store error!", e));
-
-//Save session on GET requests
-app.use((req: Request, res: Response, next: NextFunction) => {
-  if (req.method === "GET") {
-    req.session.save((err) => {
-      if (err) console.log("Session save error:", err);
-    });
-  }
-  next();
-});
 
 //Passport
 app.use(passport.initialize());

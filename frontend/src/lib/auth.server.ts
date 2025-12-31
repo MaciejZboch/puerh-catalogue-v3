@@ -2,7 +2,7 @@ import { cookies } from "next/headers";
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export async function getCurrentUserForServerComponents() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
 
   const res = await fetch(`${API_URL}/api/me`, {
     headers: {
