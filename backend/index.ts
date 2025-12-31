@@ -51,6 +51,7 @@ app.use(
 app
   .use(
     session({
+      proxy: true, //backend on render requires this to work with vercel frontend
       secret: Buffer.from(SECRET_KEY) as crypto.CipherKey,
       store: MongoStore.create({
         mongoUrl: DB_URL,
