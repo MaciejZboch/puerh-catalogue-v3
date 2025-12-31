@@ -4,7 +4,7 @@ import New from "@/components/new/New";
 
 export default async function NewTeaPage() {
   const user = await getCurrentUserForServerComponents();
-  if (!user) redirect("/?login=1");
+  if (!user) redirect("/");
 
   return <New />;
 }

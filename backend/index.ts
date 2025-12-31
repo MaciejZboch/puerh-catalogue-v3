@@ -7,6 +7,7 @@ import passport from "passport";
 import cors from "cors";
 import dotenv from "dotenv";
 import crypto from "crypto";
+import cookieParser = require("cookie-parser");
 
 // Routes and models
 import User from "./models/user";
@@ -22,7 +23,6 @@ dotenv.config();
 
 const app = express();
 app.set("trust proxy", 1);
-
 //Environment variables
 const PORT = process.env.PORT || 4000;
 const DB_URL = process.env.DB_URL;
@@ -37,6 +37,7 @@ if (!SECRET_KEY) throw new Error("Missing SECRET_KEY in environment variables");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(helmet());
+app.use(cookieParser());
 
 app.use(
   cors({
@@ -46,7 +47,7 @@ app.use(
       return callback(new Error(`Not allowed by CORS: ${origin}`));
     },
     credentials: true,
-  }),
+  })
 );
 
 //Session
@@ -62,12 +63,12 @@ app
       resave: false,
       saveUninitialized: false,
       cookie: {
-        sameSite: "none",
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", //lax in dev to account for lack of HTTPS
         httpOnly: true,
         secure: process.env.NODE_ENV === "production", // only send cookie over HTTPS in prod
         maxAge: 1000 * 60 * 60 * 24 * 7, // 1 week
       },
-    }),
+    })
   )
   .on("error", (e) => console.log("Session store error!", e));
 

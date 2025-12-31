@@ -42,9 +42,9 @@ export default function RootLayout({
           <AuthModalProvider>
             <Navbar />
             <AuthFlashMessage />
-            <Suspense fallback={null}>
+            {/*<Suspense fallback={null}>
               <AuthRedirectListener />
-            </Suspense>
+            </Suspense>*/}
             {children}
           </AuthModalProvider>
           {/* Footer */}
