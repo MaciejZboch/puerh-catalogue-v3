@@ -27,7 +27,12 @@ router.get("/logout", isLoggedIn, logout);
 router.put("/users/:id", typeguardUser, isLoggedIn, follow);
 router.delete("/users/:id", typeguardUser, isLoggedIn, unfollow);
 router.get("/me", (req, res) => {
-  // If user is logged in, return user, otherwise return null
+  res.set({
+    "Cache-Control": "no-store, no-cache, must-revalidate, private",
+    Pragma: "no-cache",
+    Expires: "0",
+  });
+
   res.status(200).json(req.user || null);
 });
 
