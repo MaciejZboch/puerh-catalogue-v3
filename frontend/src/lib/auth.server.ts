@@ -17,6 +17,8 @@ export async function getCurrentUserForServerComponents() {
     cache: "no-store",
   });
 
+  console.log("AUTH CHECK:", res.status);
+
   if (!res.ok) return null;
   return res.json();
 }
