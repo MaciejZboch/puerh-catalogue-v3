@@ -1,12 +1,18 @@
 import { cookies } from "next/headers";
+
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export async function getCurrentUserForServerComponents() {
   const cookieStore = await cookies();
 
+  const cookieHeader = cookieStore
+    .getAll()
+    .map((c) => `${c.name}=${c.value}`)
+    .join("; ");
+
   const res = await fetch(`${API_URL}/api/me`, {
     headers: {
-      cookie: cookieStore.toString(),
+      Cookie: cookieHeader,
     },
     cache: "no-store",
   });
