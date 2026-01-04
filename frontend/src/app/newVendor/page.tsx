@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useEffect, useState } from "react";
 import { IVendor } from "@/types/vendor";
-import { getNewVendorForm } from "@/lib/api";
+import { getCurrentUser, getNewVendorForm } from "@/lib/api";
 
 export default function Vendor() {
   const [vendors, setVendors] = useState<IVendor[]>([]);
@@ -15,8 +15,13 @@ export default function Vendor() {
   useEffect(() => {
     async function fetchFormData() {
       try {
-        const data = await getNewVendorForm();
-        setVendors(data.vendors || []);
+        const currentUser = await getCurrentUser();
+        if (currentUser) {
+          const data = await getNewVendorForm();
+          setVendors(data.vendors || []);
+        } else {
+          router.push("/?login=1");
+        }
       } catch {
         console.error("failed to fetch tea form data");
       }

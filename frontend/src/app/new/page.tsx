@@ -23,7 +23,7 @@ export default function New() {
           setVendors(data.vendors || []);
           setProducers(data.producers || []);
         } else {
-          router.push("/login");
+          router.push("/?login=1");
         }
       } catch {
         console.error("Failed to fetch tea form data");
@@ -58,7 +58,7 @@ export default function New() {
       .test("fileType", "Only image files are allowed", (files) => {
         if (!files || files.length === 0) return true;
         return Array.from(files).every((file) =>
-          ["image/jpeg", "image/png", "image/jpg"].includes(file.type),
+          ["image/jpeg", "image/png", "image/jpg"].includes(file.type)
         );
       }),
     price: yup

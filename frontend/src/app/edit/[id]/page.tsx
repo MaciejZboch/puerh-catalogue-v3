@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { getEditTeaForm } from "@/lib/api";
+import { getCurrentUser, getEditTeaForm } from "@/lib/api";
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { IVendor } from "@/types/vendor";
@@ -22,14 +22,19 @@ export default function Edit() {
   useEffect(() => {
     async function fetchFormData() {
       try {
-        const data = await getEditTeaForm(teaId, userId);
-        setVendors(data.vendors || []);
-        setProducers(data.producers || []);
-        reset({
-          ...data.t,
-          vendor: data.t.vendor?._id || "", // use id as key and value
-          producer: data.t.producer?._id || "",
-        });
+        const currentUser = await getCurrentUser();
+        if (currentUser) {
+          const data = await getEditTeaForm(teaId, userId);
+          setVendors(data.vendors || []);
+          setProducers(data.producers || []);
+          reset({
+            ...data.t,
+            vendor: data.t.vendor?._id || "", // use id as key and value
+            producer: data.t.producer?._id || "",
+          });
+        } else {
+          router.push("/?login=1");
+        }
       } catch (err) {
         console.error("failed to fetch tea form data", err);
       }

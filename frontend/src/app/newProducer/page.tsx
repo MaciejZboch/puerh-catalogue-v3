@@ -5,7 +5,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
 import { useEffect, useState } from "react";
-import { getNewProducerForm } from "@/lib/api";
+import { getCurrentUser, getNewProducerForm } from "@/lib/api";
 import { IProducer } from "@/types/producer";
 
 export default function Vendor() {
@@ -15,8 +15,13 @@ export default function Vendor() {
   useEffect(() => {
     async function fetchFormData() {
       try {
-        const data = await getNewProducerForm();
-        setProducers(data.producers || []);
+        const currentUser = await getCurrentUser();
+        if (currentUser) {
+          const data = await getNewProducerForm();
+          setProducers(data.producers || []);
+        } else {
+          router.push("/?login=1");
+        }
       } catch {
         console.error("failed to fetch tea form data");
       }
