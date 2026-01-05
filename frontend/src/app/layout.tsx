@@ -8,6 +8,7 @@ import Footer from "@/components/global/Footer";
 import { AuthModalProvider } from "@/components/global/AuthModalProvider";
 import { Suspense } from "react";
 import { AuthRedirectListener } from "@/components/global/AuthModalRedirect";
+import CookieBanner from "@/components/global/CookieBanner";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -46,8 +47,8 @@ export default function RootLayout({
               <AuthRedirectListener />
             </Suspense>
             {children}
+            <CookieBanner />
           </AuthModalProvider>
-          {/* Footer */}
           <Footer />
         </AuthProvider>
       </body>
