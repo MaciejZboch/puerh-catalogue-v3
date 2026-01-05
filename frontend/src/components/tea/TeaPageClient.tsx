@@ -47,7 +47,7 @@ export default function TeaPageClient({
         <div className="w-full aspect-square relative">
           <Image
             src={tea.images?.[1]?.url || "/images/cake_square.jpeg"}
-            alt={`${tea.name} cake`}
+            alt={`${tea.name} pu-erh tea cake`}
             fill
             className="rounded-2xl object-cover shadow-lg"
             sizes="(max-width: 768px) 90vw, 340px"

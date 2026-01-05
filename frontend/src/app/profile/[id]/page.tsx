@@ -123,7 +123,7 @@ export default function ProfilePage() {
               user.image?.url ||
               "https://cdn-icons-png.flaticon.com/512/847/847969.png"
             }
-            alt={user.username}
+            alt={`${user.username}'s avatar`}
             width={80}
             height={80}
             className="rounded-full object-cover"

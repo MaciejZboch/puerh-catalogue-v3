@@ -28,7 +28,7 @@ export default function LandingHero() {
           <div className="flex justify-center">
             <Image
               src="/images/teapot_transparent.png"
-              alt="Pu-erh Illustration"
+              alt="Pu-erh illustration with Gong Fu Cha Yixing Teapot"
               width={380}
               height={380}
               className="drop-shadow-2xl opacity-0 animate-fade-up h-auto w-auto"
