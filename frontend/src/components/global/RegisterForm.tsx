@@ -24,7 +24,7 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
     setMessage("");
 
     try {
-      const data = await postJson("api/register", {
+      await postJson("api/register", {
         email,
         username,
         password,

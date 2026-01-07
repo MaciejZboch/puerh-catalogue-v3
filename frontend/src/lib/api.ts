@@ -79,7 +79,7 @@ export async function getNewProducerForm() {
   return res.json();
 }
 
-export async function getEditTeaForm(teaId: string, userId: string | null) {
+export async function getEditTeaForm(teaId: string) {
   const res = await fetch(`${API_URL}/api/teas/${teaId}/edit`, {
     method: "GET",
     credentials: "include",
