@@ -27,7 +27,7 @@ export default function Vendor() {
       }
     }
     fetchFormData();
-  }, []);
+  }, [router]);
 
   const schema = yup.object({
     name: yup.string().required("Name is required").min(3).max(20),

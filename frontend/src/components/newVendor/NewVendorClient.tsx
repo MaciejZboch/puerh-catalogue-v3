@@ -8,13 +8,6 @@ import { useEffect, useState } from "react";
 import { IVendor } from "@/types/vendor";
 import { getCurrentUser, getNewVendorForm } from "@/lib/api";
 
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "New vendor",
-  description: "Add a new tea vendor or seller",
-};
-
 export default function Vendor() {
   const [vendors, setVendors] = useState<IVendor[]>([]);
   const router = useRouter();
@@ -34,7 +27,7 @@ export default function Vendor() {
       }
     }
     fetchFormData();
-  }, []);
+  }, [router]);
 
   const schema = yup.object({
     name: yup.string().required("Name is required").min(3).max(20),

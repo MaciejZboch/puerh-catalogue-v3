@@ -39,7 +39,7 @@ export default function SearchBar({
     setPlaceholder(
       PLACEHOLDERS[Math.floor(Math.random() * PLACEHOLDERS.length)]
     );
-  }, [pathname]);
+  }, [pathname, PLACEHOLDERS]);
 
   //portal setup
   const inputRef = useRef<HTMLInputElement>(null);

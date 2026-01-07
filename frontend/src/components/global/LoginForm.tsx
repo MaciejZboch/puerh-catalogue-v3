@@ -8,7 +8,7 @@ type RegisterFormProps = {
 };
 
 export default function LoginForm({ onSuccess }: RegisterFormProps) {
-  const { login, user } = useAuth();
+  const { login } = useAuth();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);

@@ -20,7 +20,7 @@ export function AuthRedirectListener() {
 
       router.replace(`?${newParams.toString()}`, { scroll: false });
     }
-  }, [params, openLogin]);
+  }, [params, openLogin, router]);
 
   return null;
 }

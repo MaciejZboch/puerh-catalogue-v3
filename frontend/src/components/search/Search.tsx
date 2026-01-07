@@ -36,7 +36,7 @@ export default function Search() {
       try {
         const res = await fetch(
           `${API_URL}/api/teas/browse?search=${encodeURIComponent(query)}`,
-          { credentials: "include" },
+          { credentials: "include" }
         );
         if (!res.ok) throw new Error("Search failed");
         const data = await res.json();
@@ -49,7 +49,7 @@ export default function Search() {
     }
 
     fetchResults();
-  }, [query]);
+  }, [query, API_URL]);
 
   function handleSort(key: keyof ISearchTea) {
     if (sortKey === key) {
@@ -76,10 +76,9 @@ export default function Search() {
       : String(strB).localeCompare(String(strA));
   });
 
-  if (searching) return <LoadingLarge/>
+  if (searching) return <LoadingLarge />;
 
   return (
-
     <div className="p-4 bg-dark text-light min-h-screen">
       <h2 className="text-lg font-semibold mb-2">
         Results for "{query}" ({results.length})
@@ -87,7 +86,6 @@ export default function Search() {
       <Link href="/new">
         <p>Don&apos;t see your tea? Click here to add it!</p>
       </Link>
-
 
       {results.length > 0 && (
         <div className="overflow-x-auto mt-4">
@@ -147,8 +145,8 @@ export default function Search() {
                                         ? [...t.owners, currentUser._id]
                                         : [currentUser._id],
                                     }
-                                  : t,
-                              ),
+                                  : t
+                              )
                             );
                           }}
                         />
@@ -166,11 +164,11 @@ export default function Search() {
                                       ...t,
                                       owners:
                                         t.owners?.filter(
-                                          (id) => id !== currentUser._id,
+                                          (id) => id !== currentUser._id
                                         ) || [],
                                     }
-                                  : t,
-                              ),
+                                  : t
+                              )
                             );
                           }}
                         />
@@ -185,18 +183,19 @@ export default function Search() {
                     </td>
 
                     <td className="p-2 text-center">{tea.year || "-"}</td>
-                    
+
                     <td className="p-2 text-center">
-                      <Link href={`/search?query=tea.${tea.vendor?.name}`} className="text-green-accent">
-                      {tea.vendor?.name || "-"}
+                      <Link
+                        href={`/search?query=tea.${tea.vendor?.name}`}
+                        className="text-green-accent"
+                      >
+                        {tea.vendor?.name || "-"}
                       </Link>
                     </td>
-                    
-                    
+
                     <td className="p-2 text-center">
                       {tea.producer?.name || "-"}
                     </td>
-                    
                   </tr>
                 );
               })}
