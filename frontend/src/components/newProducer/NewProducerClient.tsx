@@ -7,7 +7,6 @@ import * as yup from "yup";
 import { useEffect, useState } from "react";
 import { getCurrentUser, getNewProducerForm } from "@/lib/api";
 import { IProducer } from "@/types/producer";
-import { Metadata } from "next";
 
 export default function Vendor() {
   const [producers, setProducers] = useState<IProducer[]>([]);
