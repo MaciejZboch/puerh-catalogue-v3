@@ -7,12 +7,12 @@ import { cache } from "react";
 const getTeaCached = cache(getTea);
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 //dynamic metadata
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const data = await getTeaCached(params.id);
+  const data = await getTeaCached((await params).id);
 
   if (!data?.tea) {
     return {
@@ -32,14 +32,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function TeaPage({ params }: Props) {
-  const data = await getTeaCached(params.id);
+  const id = (await params).id;
+  const data = await getTeaCached(id);
   const { tea, reviews, numberOfRatings, average } = data;
 
   return (
     <TeaPageClient
       tea={tea}
       reviews={reviews}
-      id={params.id}
+      id={id}
       average={average}
       numberOfRatings={numberOfRatings}
     />
