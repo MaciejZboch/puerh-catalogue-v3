@@ -166,13 +166,15 @@ export default function ProfilePage() {
                     href={`/profile/${fu._id}`}
                     className="flex items-center gap-1 sm-gap-2 text-green-accent hover:underline"
                   >
-                    <img
+                    <Image
                       src={
                         fu.image?.url ||
                         "https://cdn-icons-png.flaticon.com/512/847/847969.png"
                       }
-                      className="h-8 w-8 rounded-full object-cover"
-                      alt={fu.username}
+                      alt={`${fu.username}'s avatar`}
+                      width={32}
+                      height={32}
+                      className="rounded-full object-cover"
                     />
                     {fu.username}
                   </Link>
@@ -253,15 +255,16 @@ export default function ProfilePage() {
                     {/* Column 2: image + tea name */}
                     <td className="p-1 sm-p-2 min-w-0">
                       <div className="flex items-center gap-1 sm-gap-2 min-w-0 w-full">
-                        <img
+                        <Image
                           src={
                             tea.image?.url ||
                             "https://cdn-icons-png.flaticon.com/256/712/712255.png"
                           }
                           alt={tea.name}
-                          className="h-5 w-5 sm-h-6 sm-w-6 rounded object-cover shrink-0"
+                          width={24}
+                          height={24}
+                          className="rounded object-cover shrink-0 h-5 w-5 sm:h-6 sm:w-6"
                         />
-
                         <Link
                           href={`/tea/${tea._id}`}
                           className="text-green-accent hover:underline truncate min-w-0 block max-w-[140px] sm:max-w-none"

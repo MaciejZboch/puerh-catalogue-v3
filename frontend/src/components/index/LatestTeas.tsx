@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ITea } from "../../types/tea";
 const API_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
+import Image from "next/image";
 
 export default async function LatestTeas() {
   const res = await fetch(`${API_URL}/api/teas`, {
@@ -24,11 +25,15 @@ export default async function LatestTeas() {
           >
             <div className="flex items-center gap-4">
               {/* Placeholder Image */}
-              <img
-                src={`https://cdn-icons-png.flaticon.com/256/712/712255.png`}
-                alt={`Tea ${tea._id}`}
-                className="w-12 h-12 rounded object-cover"
+
+              <Image
+                src="https://cdn-icons-png.flaticon.com/256/712/712255.png"
+                alt={`Picture of ${tea._id} pu-erh tea`}
+                width={48}
+                height={48}
+                className="rounded object-cover"
               />
+
               <div>
                 <Link href={`/tea/${tea._id}`} className="font-bold text-light">
                   <h3>
