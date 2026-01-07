@@ -22,7 +22,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "The Pu-erh Catalogue",
-  description: "A website for pu-erh tea",
+  description:
+    "Explore a comprehensive pu-erh tea database. Search teas, read and write reviews, rate entries, and see last known tea prices.",
 };
 export const viewport: Viewport = {
   width: "device-width",
