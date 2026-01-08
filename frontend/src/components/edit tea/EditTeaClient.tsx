@@ -40,7 +40,7 @@ export default function Edit() {
       }
     }
     fetchFormData();
-  }, [teaId, router]);
+  }, [teaId, router, userId]);
 
   const currentYear = new Date().getFullYear();
 
