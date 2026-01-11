@@ -15,8 +15,10 @@ export default async function LatestTeas() {
   const data = await res.json();
   const teas: ITea[] = data.teas;
   return (
-    <section className="col-span-2">
-      <h2 className="text-2xl font-semibold mb-6 text-light">Latest Teas</h2>
+    <section aria-labelledby="teas-heading" className="col-span-2">
+      <h2 id="teas-heading" className="text-2xl font-semibold mb-6 text-light">
+        Latest Teas
+      </h2>
       <div className="grid gap-4">
         {teas.map((tea) => (
           <div

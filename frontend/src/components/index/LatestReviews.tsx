@@ -15,8 +15,16 @@ export default async function LatestReviews() {
   const reviews: IPopulatedReview[] = data.reviews;
 
   return (
-    <aside className="col-span-2 md:col-span-1 w-full px-4 md:px-0">
-      <h2 className="text-2xl font-semibold mb-6 text-light">Latest Reviews</h2>
+    <aside
+      aria-labelledby="reviews-heading"
+      className="col-span-2 md:col-span-1 w-full px-4 md:px-0"
+    >
+      <h2
+        id="reviews-heading"
+        className="text-2xl font-semibold mb-6 text-light"
+      >
+        Latest Reviews
+      </h2>
       <ul className="space-y-3">
         {reviews.map((review) => (
           <li

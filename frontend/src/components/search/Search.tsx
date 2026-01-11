@@ -79,7 +79,7 @@ export default function Search() {
   if (searching) return <LoadingLarge />;
 
   return (
-    <div className="p-4 bg-dark text-light min-h-screen">
+    <section className="p-4 bg-dark text-light min-h-screen">
       <h2 className="text-lg font-semibold mb-2">
         Results for "{query}" ({results.length})
       </h2>
@@ -203,6 +203,6 @@ export default function Search() {
           </table>
         </div>
       )}
-    </div>
+    </section>
   );
 }

@@ -42,7 +42,7 @@ export default function TeaPageClient({
   return (
     <main className="flex-1 w-full mx-auto p-6 grid grid-cols-1 sm:grid-cols-[400px_1fr] gap-8 bg-dark text-light items-start">
       {/* Left column – tea card */}
-      <div className="min-w-[340px] bg-charcoal rounded-xl border border-green-accent/40 p-6 flex flex-col items-center shadow-md h-auto">
+      <section className="min-w-[340px] bg-charcoal rounded-xl border border-green-accent/40 p-6 flex flex-col items-center shadow-md h-auto">
         {/* Tea Image */}
         <div className="w-full aspect-square relative">
           <Image
@@ -83,10 +83,10 @@ export default function TeaPageClient({
             from {numberOfRatings ? numberOfRatings : 0} ratings
           </p>
         </div>
-      </div>
+      </section>
 
       {/* Right column */}
-      <div className="space-y-8">
+      <section className="space-y-8">
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-semibold">Tea info</h3>
 
@@ -148,7 +148,7 @@ export default function TeaPageClient({
         </section>
 
         <ReviewSection teaId={id} reviews={reviews} currentUser={currentUser} />
-      </div>
+      </section>
     </main>
   );
 }

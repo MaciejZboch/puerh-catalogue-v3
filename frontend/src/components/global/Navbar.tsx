@@ -21,7 +21,7 @@ export default function Navbar() {
         className="flex items-center gap-1 font-bold text-light leading-tight"
       >
         <Image
-          alt="Pu-erh Catalogue Logo"
+          alt="Pu-erh Catalogue Orange Teapot Logo"
           src="/images/icon.png"
           height={25}
           width={25}

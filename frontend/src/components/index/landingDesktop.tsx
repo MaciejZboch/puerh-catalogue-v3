@@ -4,13 +4,19 @@ import RegisterButton from "../buttons/RegisterButton";
 
 export default function LandingHero() {
   return (
-    <section className="relative flex items-center w-full min-h-[calc(100vh-73.3333px)] bg-[linear-gradient(90deg,rgba(2,0,36,1)_0%,rgba(104,171,124,1)_0%,rgba(32,34,65,1)_82%,rgba(29,37,41,1)_100%,rgba(0,212,255,1)_100%)] text-white ">
+    <section
+      aria-labelledby="hero-heading"
+      className="relative flex items-center w-full min-h-[calc(100vh-73.3333px)] bg-[linear-gradient(90deg,rgba(2,0,36,1)_0%,rgba(104,171,124,1)_0%,rgba(32,34,65,1)_82%,rgba(29,37,41,1)_100%,rgba(0,212,255,1)_100%)] text-white "
+    >
       <div className="w-full flex items-center justify-center px-8 h-full">
         <div className=" max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 gap-10 items-center -translate-y-10 lg:-translate-y-16">
           {/* Left Content */}
           <div className="space-y-6">
-            <h1 className="text-4xl md:text-5xl font-extrabold leading-tight">
-              The Pu-Erh <br /> Catalogue
+            <h1
+              id="hero-heading"
+              className="text-4xl md:text-5xl font-extrabold leading-tight"
+            >
+              The Pu-Erh Catalogue
             </h1>
 
             <p className="text-lg text-purple-200 max-w-md">
@@ -28,16 +34,20 @@ export default function LandingHero() {
           <div className="flex justify-center">
             <Image
               src="/images/teapot_transparent.png"
-              alt="Pu-erh illustration with Gong Fu Cha Yixing Teapot"
+              alt="Pu-erh illustration with orange Gong Fu Cha Yixing teapot"
               width={380}
               height={380}
               className="drop-shadow-2xl opacity-0 animate-fade-up h-auto w-auto"
+              priority
             />
           </div>
         </div>
 
         {/* Scroll indicator */}
-        <div className="absolute bottom-[8px] left-1/2 -translate-x-1/2 z-30">
+        <div
+          aria-hidden="true"
+          className="absolute bottom-[8px] left-1/2 -translate-x-1/2 z-30"
+        >
           <ScrollIndicator />
         </div>
 

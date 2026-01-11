@@ -76,7 +76,7 @@ export default function Vendor() {
 
   return (
     <div className="min-h-screen flex flex-col bg-dark text-light">
-      <div className="max-w-3xl mx-auto px-6 py-10 bg-dark">
+      <section className="max-w-3xl mx-auto px-6 py-10 bg-dark">
         <h1 className="text-3xl font-bold text-light">Add a New Producer</h1>
 
         <form
@@ -103,7 +103,7 @@ export default function Vendor() {
             </button>
           </div>
         </form>
-      </div>
+      </section>
     </div>
   );
 }

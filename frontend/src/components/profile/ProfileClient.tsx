@@ -117,7 +117,10 @@ export default function ProfilePage() {
     <div className="p-6 bg-dark text-light min-h-screen">
       <div className="w-full max-w-full sm:max-w-2xl mx-auto p-6 bg-charcoal rounded-2xl shadow-xl border border-green-accent/40 overflow-hidden">
         {/* Profile header */}
-        <div className="flex items-center gap-4 mb-6">
+        <section
+          className="flex items-center gap-4 mb-6"
+          aria-labelledby="user-heading"
+        >
           <Image
             src={
               user.image?.url ||
@@ -129,7 +132,9 @@ export default function ProfilePage() {
             className="rounded-full object-cover"
           />
           <div>
-            <h1 className="text-3xl font-bold">{user.username}</h1>
+            <h1 id="user-heading" className="text-3xl font-bold">
+              {user.username}
+            </h1>
             {user.email && <p className="text-mist">{user.email}</p>}
 
             {currentUser && currentUser._id !== user._id && (
@@ -147,7 +152,7 @@ export default function ProfilePage() {
               </button>
             )}
           </div>
-        </div>
+        </section>
 
         {/* Followed users */}
         <div className="mt-4">

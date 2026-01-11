@@ -19,8 +19,8 @@ export default function ReviewSection({
     [...reviews].sort(
       (a, b) =>
         new Date(parseInt(b._id.substring(0, 8), 16)).getTime() -
-        new Date(parseInt(a._id.substring(0, 8), 16)).getTime(),
-    ),
+        new Date(parseInt(a._id.substring(0, 8), 16)).getTime()
+    )
   );
 
   const handleAddReview = (newReview: IPopulatedReview) => {
@@ -33,20 +33,19 @@ export default function ReviewSection({
 
   return (
     <>
-      {
-        currentUser && <ReviewForm
-          onNewReview={handleAddReview}
-          teaId={teaId}
-        />
-      }
+      {currentUser && (
+        <ReviewForm onNewReview={handleAddReview} teaId={teaId} />
+      )}
 
-      <section>
+      <section aria-labelledby="reviews-heading">
         {reviewsArray.length > 0 && (
-          <h3 className="text-xl font-semibold mb-4">Reviews</h3>
+          <h3 id="reviews-heading" className="text-xl font-semibold mb-4">
+            Reviews
+          </h3>
         )}
         <div className="space-y-4">
           {reviewsArray.map((review: IPopulatedReview, i: any) => (
-            <div
+            <article
               key={i}
               className="bg-charcoal border-b border-green-accent rounded-xl shadow p-4"
             >
@@ -67,7 +66,7 @@ export default function ReviewSection({
                   reviewId={review._id}
                 />
               )}
-            </div>
+            </article>
           ))}
         </div>
       </section>

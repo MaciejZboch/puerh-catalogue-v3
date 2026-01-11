@@ -211,7 +211,7 @@ export default function Edit() {
 
   return (
     <div className="min-h-screen flex flex-col bg-dark text-light">
-      <div className="max-w-5xl mx-auto px-6 py-10 bg-dark">
+      <section className="max-w-5xl mx-auto px-6 py-10 bg-dark">
         <h1 className="text-center text-3xl font-bold text-light mb-8">
           Add a New Tea
         </h1>
@@ -220,7 +220,7 @@ export default function Edit() {
           onSubmit={handleSubmit(onSubmit)}
           className="space-y-10 bg-charcoal shadow-md rounded-lg p-8"
         >
-          {/* ===== BASIC INFO ===== */}
+          {/* Basic info */}
           <div>
             <h2 className="text-xl font-semibold mb-4 text-green-accent">
               Basic Info
@@ -481,7 +481,7 @@ export default function Edit() {
             Add Tea
           </button>
         </form>
-      </div>
+      </section>
     </div>
   );
 }
