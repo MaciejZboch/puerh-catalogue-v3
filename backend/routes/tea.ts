@@ -22,6 +22,7 @@ import {
   removeFromCollection,
   editForm,
   searchSuggestions,
+  getAllTeasForSitemap,
 } from "../controllers/tea";
 const { hasNoSpecialSymbols } = require("../expressmiddleware");
 
@@ -57,6 +58,8 @@ router.get(
   validateTea,
   catchAsync(editForm)
 );
+
+router.get("/getAllTeasForSitemap", catchAsync(getAllTeasForSitemap));
 
 router
   .route("/newVendor")

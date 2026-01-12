@@ -122,3 +122,13 @@ export async function deleteTea(teaId: string) {
   }
   return res.json();
 }
+
+export async function getAllTeasForSitemap() {
+  const res = await fetch(`${API_URL}/api/teas/getAllTeasForSitemap`, {
+    method: "GET",
+  });
+  if (!res.ok) {
+    throw new Error("Couldn't get teas for sitemap!");
+  }
+  return res.json();
+}

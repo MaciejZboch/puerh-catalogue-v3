@@ -426,3 +426,39 @@ export const searchSuggestions = async (req: Request, res: Response) => {
 
   res.json(suggestions.slice(0, 10));
 };
+
+export const getAllTeasForSitemap = async (req: Request, res: Response) => {
+  try {
+    const teas = await Tea.find(
+      {
+        // replace with isPublic?
+        name: { $exists: true },
+      },
+      {
+        _id: 1,
+        updatedAt: 1,
+      }
+    ).lean();
+
+    // Compute latest updatedAt
+    const latestUpdate = teas.reduce((max, t) => {
+      const updated = t.updatedAt ? new Date(t.updatedAt).getTime() : 0;
+      return updated > max ? updated : max;
+    }, 0);
+
+    const etag = `"${latestUpdate}"`;
+
+    // Check If-None-Match header
+    if (req.headers["if-none-match"] === etag) {
+      return res.status(304).end(); // Not Modified
+    }
+
+    res.set("Cache-Control", "public, max-age=86400");
+    res.set("ETag", etag);
+
+    res.json(teas);
+  } catch (err) {
+    console.error("Sitemap tea fetch failed!", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+};
