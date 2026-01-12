@@ -128,7 +128,9 @@ export async function getAllTeasForSitemap() {
     method: "GET",
   });
   if (!res.ok) {
-    throw new Error("Couldn't get teas for sitemap!");
+    const text = await res.text();
+    console.error("Sitemap fetch failed:", res.status, text);
+    throw new Error(`Sitemap fetch failed: ${res.status}`);
   }
   return res.json();
 }

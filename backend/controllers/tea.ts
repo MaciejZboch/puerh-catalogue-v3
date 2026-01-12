@@ -429,6 +429,7 @@ export const searchSuggestions = async (req: Request, res: Response) => {
 
 export const getAllTeasForSitemap = async (req: Request, res: Response) => {
   try {
+    console.log("API_URL:", process.env.API_URL);
     const teas = await Tea.find(
       {
         // replace with isPublic?
