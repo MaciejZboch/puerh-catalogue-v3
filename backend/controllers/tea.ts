@@ -441,13 +441,14 @@ export const getAllTeasForSitemap = async (req: Request, res: Response) => {
       }
     ).lean();
 
-    // Compute latest updatedAt
-    const latestUpdate = teas.reduce((max, t) => {
-      const updated = t.updatedAt ? new Date(t.updatedAt).getTime() : 0;
-      return updated > max ? updated : max;
-    }, 0);
+    const latest = await Tea.findOne(
+      { name: { $exists: true } },
+      { updatedAt: 1 }
+    )
+      .sort({ updatedAt: -1 })
+      .lean();
 
-    const etag = `"${latestUpdate}"`;
+    const etag = `"${latest?.updatedAt?.getTime() ?? Date.now()}"`;
 
     // Check If-None-Match header
     if (req.headers["if-none-match"] === etag) {
