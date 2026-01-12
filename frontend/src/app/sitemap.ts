@@ -1,6 +1,8 @@
 import { getAllTeasForSitemap } from "@/lib/api";
 import { MetadataRoute } from "next";
 
+export const dynamic = "force-dynamic";
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const FRONTEND_URL = process.env.NEXT_PUBLIC_FRONTEND_URL;
 
