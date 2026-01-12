@@ -448,7 +448,8 @@ export const getAllTeasForSitemap = async (req: Request, res: Response) => {
       .sort({ updatedAt: -1 })
       .lean();
 
-    const etag = `"${latest?.updatedAt?.getTime() ?? Date.now()}"`;
+    //if there's an updatedAt tag, set it to that, if not set it to current date
+    const etag = `"${latest?.updatedAt ? new Date(latest.updatedAt).getTime() : Date.now()}"`;
 
     // Check If-None-Match header
     if (req.headers["if-none-match"] === etag) {
