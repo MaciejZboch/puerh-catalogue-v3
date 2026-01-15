@@ -30,6 +30,8 @@ const DB_URL = process.env.DB_URL;
 const SECRET_KEY = process.env.SECRET_KEY;
 const OPTIONAL_SECRET = process.env.OPTIONAL_SECRET || "";
 const FRONTEND_URL = process.env.FRONTEND_URL || "http://localhost:3000";
+const DEV_FRONTEND_URL =
+  process.env.DEV_FRONTEND_URL || "http://localhost:3000";
 
 if (!DB_URL) throw new Error("Missing DB_URL in environment variables");
 if (!SECRET_KEY) throw new Error("Missing SECRET_KEY in environment variables");
@@ -44,7 +46,8 @@ app.use(
   cors({
     origin: (origin, callback) => {
       if (!origin) return callback(null, true); // allow server-to-server requests or curl
-      if (origin === FRONTEND_URL) return callback(null, true);
+      if (origin === FRONTEND_URL || origin === DEV_FRONTEND_URL)
+        return callback(null, true);
       return callback(new Error(`Not allowed by CORS: ${origin}`));
     },
     credentials: true,
