@@ -82,12 +82,11 @@ export default function Navbar() {
             <NavbarLoader />
           ) : !user ? (
             <>
-              <Link href="/login" onClick={() => setMenuOpen(false)}>
-                Login
-              </Link>
-              <Link href="/register" onClick={() => setMenuOpen(false)}>
-                Register
-              </Link>
+              <LoginButton className="nohover hover:text-green-soft" />
+              <RegisterButton
+                className="nohover hover:text-green-soft"
+                text="Register"
+              />
             </>
           ) : (
             <>
