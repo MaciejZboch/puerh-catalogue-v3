@@ -36,7 +36,7 @@ export default function Search() {
       try {
         const res = await fetch(
           `${API_URL}/api/teas/browse?search=${encodeURIComponent(query)}`,
-          { credentials: "include" }
+          { credentials: "include" },
         );
         if (!res.ok) throw new Error("Search failed");
         const data = await res.json();
@@ -145,8 +145,8 @@ export default function Search() {
                                         ? [...t.owners, currentUser._id]
                                         : [currentUser._id],
                                     }
-                                  : t
-                              )
+                                  : t,
+                              ),
                             );
                           }}
                         />
@@ -164,11 +164,11 @@ export default function Search() {
                                       ...t,
                                       owners:
                                         t.owners?.filter(
-                                          (id) => id !== currentUser._id
+                                          (id) => id !== currentUser._id,
                                         ) || [],
                                     }
-                                  : t
-                              )
+                                  : t,
+                              ),
                             );
                           }}
                         />
@@ -186,7 +186,7 @@ export default function Search() {
 
                     <td className="p-2 text-center">
                       <Link
-                        href={`/search?query=tea.${tea.vendor?.name}`}
+                        href={`/search?query=${tea.vendor?.name}`}
                         className="text-green-accent"
                       >
                         {tea.vendor?.name || "-"}
