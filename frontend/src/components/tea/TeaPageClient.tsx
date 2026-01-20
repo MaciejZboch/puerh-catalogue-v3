@@ -36,7 +36,7 @@ export default function TeaPageClient({
     })();
   }, []);
 
-  const isOwner = currentUser && tea.owners.includes(currentUser._id);
+  const isAuthor = currentUser && tea.author === currentUser._id;
   const isMod = currentUser?.moderator === true;
 
   return (
@@ -90,7 +90,7 @@ export default function TeaPageClient({
         <div className="flex items-center justify-between">
           <h3 className="text-xl font-semibold">Tea info</h3>
 
-          {currentUser && (isOwner || isMod) && (
+          {currentUser && (isAuthor || isMod) && (
             <div className="flex gap-2">
               <EditTeaButton teaId={id} userId={currentUser._id} />
               <DeleteTeaButton teaId={id} />
