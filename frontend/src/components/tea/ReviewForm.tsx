@@ -20,7 +20,7 @@ export default function ReviewForm({
 
   //validations
 
-  const isTooShort = body.trim().length > 0 && body.trim().length < MIN_LENGTH;
+  const isTooShort = body.length < MIN_LENGTH;
   const isTooLong = body.length > MAX_LENGTH;
   const isInvalid = isTooShort || isTooLong;
 
@@ -61,7 +61,7 @@ export default function ReviewForm({
       setBody("");
       setRating(5);
     } catch (err: any) {
-      setError(err.message);
+      setError("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
