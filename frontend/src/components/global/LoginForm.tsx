@@ -12,19 +12,44 @@ export default function LoginForm({ onSuccess }: RegisterFormProps) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  //validations
+  const MIN_LENGTH = 6;
+  const MAX_LENGTH = 30;
 
   const handleSubmit = async (e: React.FormEvent) => {
+    let isInvalid = false;
+    function checkLengthValidity(x: string) {
+      if (x.length < MIN_LENGTH) {
+        setMessage(
+          `Username and password must be at least ${MIN_LENGTH} characters.`,
+        );
+        isInvalid = true;
+      } else if (x.length > MAX_LENGTH) {
+        setMessage(
+          `Username and password can't be longer than ${MIN_LENGTH} characters.`,
+        );
+        isInvalid = true;
+      }
+    }
+    if (isInvalid) {
+      return;
+    }
     e.preventDefault();
+    checkLengthValidity(password);
+    checkLengthValidity(username);
     setLoading(true);
     try {
       await login(username, password); // updates global state
-    } catch {
-      alert("Login failed!");
+    } catch (err) {
+      console.log(err);
+      !isInvalid && setMessage("Login failed");
+      isInvalid = true;
     } finally {
       setLoading(false);
-
-      //close pop-up
-      onSuccess?.();
+      //close pop-up if login successful
+      !isInvalid && onSuccess?.();
     }
   };
 
@@ -59,6 +84,9 @@ export default function LoginForm({ onSuccess }: RegisterFormProps) {
         type="submit"
       >
         {loading ? "Logging in..." : "Login"}
+        {message && (
+          <p className="mt-3 text-sm text-center text-light">{message}</p>
+        )}
       </button>
     </form>
   );
