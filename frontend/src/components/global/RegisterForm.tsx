@@ -36,8 +36,12 @@ export default function RegisterForm({ onSuccess }: RegisterFormProps) {
       onSuccess?.();
 
       router.push(`/`);
-    } catch (err: any) {
-      setMessage(err.message || "Registration failed");
+    } catch (err) {
+      if (err instanceof Error) {
+        setMessage(err.message);
+      } else {
+        setMessage("Registration failed!");
+      }
     }
   };
 

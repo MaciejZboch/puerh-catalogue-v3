@@ -44,7 +44,7 @@ export default function LoginForm({ onSuccess }: RegisterFormProps) {
       await login(username, password); // updates global state
     } catch (err) {
       console.log(err);
-      !isInvalid && setMessage("Login failed");
+      !isInvalid && setMessage("Login failed - check username and password.");
       isInvalid = true;
     } finally {
       setLoading(false);
@@ -84,10 +84,10 @@ export default function LoginForm({ onSuccess }: RegisterFormProps) {
         type="submit"
       >
         {loading ? "Logging in..." : "Login"}
-        {message && (
-          <p className="mt-3 text-sm text-center text-light">{message}</p>
-        )}
       </button>
+      {message && (
+        <p className="mt-3 text-sm text-center text-light">{message}</p>
+      )}
     </form>
   );
 }
