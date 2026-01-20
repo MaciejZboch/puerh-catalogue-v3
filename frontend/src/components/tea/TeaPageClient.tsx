@@ -9,6 +9,7 @@ import { IUser } from "@/types/user";
 import ReviewSection from "./ReviewSection";
 import EditTeaButton from "../buttons/EditTeaButton";
 import DeleteTeaButton from "../buttons/DeleteTeaButton";
+import Link from "next/link";
 
 export default function TeaPageClient({
   tea,
@@ -62,13 +63,27 @@ export default function TeaPageClient({
           </h1>
 
           <p className="text-lg text-mist">
-            {tea.producer
-              ? tea.producer.name
-              : (tea.vendor && tea.vendor.name) || "Unknown vendor"}
+            {tea.producer ? (
+              <Link
+                href={`/search?query=${tea.producer?.name}`}
+                className="text-green-accent"
+              >
+                {tea.producer.name}
+              </Link>
+            ) : (
+              "Unknown producer"
+            )}
           </p>
 
           <p className="text-sm text-gray-400">
-            Vendor: {tea.vendor && tea.vendor.name}
+            {tea.vendor && (
+              <Link
+                href={`/search?query=${tea.vendor?.name}`}
+                className="text-green-accent"
+              >
+                Vendor: {tea.vendor.name}
+              </Link>
+            )}
           </p>
         </div>
 

@@ -19,8 +19,8 @@ export default function ReviewSection({
     [...reviews].sort(
       (a, b) =>
         new Date(parseInt(b._id.substring(0, 8), 16)).getTime() -
-        new Date(parseInt(a._id.substring(0, 8), 16)).getTime()
-    )
+        new Date(parseInt(a._id.substring(0, 8), 16)).getTime(),
+    ),
   );
 
   const handleAddReview = (newReview: IPopulatedReview) => {
@@ -55,9 +55,7 @@ export default function ReviewSection({
                     {review.author.username}
                   </Link>
                 </span>
-                <span className="text-sm text-light">
-                  {review.rating.toFixed(1)} ★
-                </span>
+                <span className="text-sm text-light">{review.rating} ★</span>
               </div>
               <p className="text-mist">{review.body}</p>
               {currentUser && review.author._id === currentUser._id && (
