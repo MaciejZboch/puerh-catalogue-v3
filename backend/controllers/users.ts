@@ -21,14 +21,14 @@ export const register = async (
     username.length < 6 ||
     password.length < 6 ||
     hasWhiteSpace(password) ||
-    hasWhiteSpace(username)
+    hasWhiteSpace(username) ||
+    username.length > 30 ||
+    password.length > 30
   ) {
-    return res
-      .status(400)
-      .json({
-        error:
-          "Please make sure your username and password are at least 6 letter long and contain no spaces!",
-      });
+    return res.status(400).json({
+      error:
+        "Please make sure your username and password are at least 6 letter long and contain no spaces!",
+    });
   } else {
     //actual user creation
     try {
